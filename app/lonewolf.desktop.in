@@ -1,0 +1,11 @@
+[Desktop Entry]
+_Name=Lone Wolf
+Comment=A role-playing choose-your-own-adventure game
+Exec=@EXEC@
+Icon=@ICON@
+Terminal=false
+Type=Application
+X-Ubuntu-Touch=true
+
+
+

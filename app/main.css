@@ -1,0 +1,25 @@
+* { font-family: Ubuntu }
+
+dt {
+ font-weight: bold;
+}
+
+.dedication {
+ font-style: italic;
+ font-weight: bold;
+ text-align: center;
+ margin-left: auto;
+ margin-right: auto;
+}
+
+.pagelink {
+ text-decoration: underline;
+}
+
+.attribute {
+ font-size: 14px;
+ font: small-caps; // TODO: doesn't appear correctly
+}
+
+// TODO: quote -> character
+// TODO: fix stage3 link

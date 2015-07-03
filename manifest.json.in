@@ -1,0 +1,15 @@
+{
+    "name": "@APP_ID@",
+    "description": "A role-playing choose-your-own-adventure game",
+    "architecture": "@CLICK_ARCH@",
+    "title": "@APP_NAME@",
+    "hooks": {
+        "lonewolf": {
+            "apparmor": "lonewolf.apparmor",
+            "desktop": "lonewolf.desktop"
+        }
+    },
+    "version": "1",
+    "maintainer": "Michael Terry <mterry@ubuntu.com>",
+    "framework": "ubuntu-sdk-15.04"
+}
