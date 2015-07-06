@@ -14,17 +14,16 @@ class Book : public QObject
     Q_PROPERTY(QString pageContent READ pageContent NOTIFY pageIdChanged)
     Q_PROPERTY(QString nextPageId READ nextPageId NOTIFY pageIdChanged)
     Q_PROPERTY(QString prevPageId READ prevPageId NOTIFY pageIdChanged)
+    Q_PROPERTY(bool downloaded READ downloaded NOTIFY downloadedChanged)
 
 public:
     explicit Book(QObject *parent = 0);
     ~Book();
 
-    Q_INVOKABLE int getDamageToEnemy(int delta, int rand);
-    Q_INVOKABLE int getDamageToYou(int delta, int rand);
-
 Q_SIGNALS:
     void filenameChanged();
     void pageIdChanged();
+    void downloadedChanged();
 
 protected:
     QString filename() { return m_filename; }
@@ -38,6 +37,7 @@ protected:
     QString prevPageId();
     QString pageTitle();
     QString pageContent();
+    bool downloaded() {return m_downloaded;}
 
     ////
 
@@ -46,6 +46,7 @@ protected:
     xmlNodePtr getElementByClass(const QString &tag, const QString &klass = QString::null, xmlNodePtr parent = NULL);
 
     QString xmlToHtml(const QString &xml);
+    QString getTitleContent();
     QString getSectionContent(xmlNodePtr section);
     QString getChildContent(xmlNodePtr section);
 
@@ -54,6 +55,7 @@ protected:
     QString m_filename;
     QString m_pageId;
     xmlDocPtr m_dom;
+    bool m_downloaded;
 };
 
 #endif // BOOK_H

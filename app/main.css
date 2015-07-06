@@ -12,8 +12,20 @@ dt {
  margin-right: auto;
 }
 
+quote:before {
+    content: '“';
+}
+
+quote:after {
+    content: '”';
+}
+
+.actionlink {
+ border-bottom: 1px dashed #999;
+}
+
 .pagelink {
- text-decoration: underline;
+ border-bottom: 1px solid #999;
 }
 
 .attribute {

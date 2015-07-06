@@ -65,6 +65,17 @@
  <xsl:apply-templates/>
 </xsl:template>
 
+<xsl:template match="body">
+ <body>
+  <xsl:if test=".//deadend">
+   <xsl:attribute name="onload">
+    <xsl:text>alert('dead')</xsl:text>
+   </xsl:attribute>
+  </xsl:if>
+  <xsl:apply-templates/>
+ </body>
+</xsl:template>
+
 <xsl:template match="line">
  <xsl:apply-templates/>
  <xsl:if test="position() != last()"><br/></xsl:if>
@@ -75,35 +86,34 @@
 </xsl:template>
 
 <xsl:template match="combat">
- <p class="combat">
-  <xsl:apply-templates select="enemy" />
-  <xsl:text>: &#160;&#160;</xsl:text><span class="pagelink">
+ <p class="combat"><span class="actionlink">
   <xsl:attribute name="onclick">
-   <xsl:text>alert('combat enemy="</xsl:text>
+   <xsl:text>alert('combat,enemy=</xsl:text>
    <xsl:value-of select="enemy" />
-   <xsl:text>"</xsl:text>
     <xsl:if test="enemy-attribute[@class='combatskill']">
-     <xsl:text> combatskill=</xsl:text>
+     <xsl:text>,combatskill=</xsl:text>
      <xsl:value-of select="enemy-attribute[@class='combatskill']" />
     </xsl:if>
     <xsl:if test="enemy-attribute[@class='closecombatskill']">
-     <xsl:text> closecombatskill=</xsl:text>
+     <xsl:text>,closecombatskill=</xsl:text>
      <xsl:value-of select="enemy-attribute[@class='closecombatskill']" />
     </xsl:if>
     <xsl:if test="enemy-attribute[@class='target']">
-     <xsl:text> target=</xsl:text>
+     <xsl:text>,target=</xsl:text>
      <xsl:value-of select="enemy-attribute[@class='target']" />
     </xsl:if>
     <xsl:if test="enemy-attribute[@class='resistance']">
-     <xsl:text> resistance=</xsl:text>
+     <xsl:text>,resistance=</xsl:text>
      <xsl:value-of select="enemy-attribute[@class='resistance']" />
     </xsl:if>
     <xsl:if test="enemy-attribute[@class='endurance']">
-     <xsl:text> endurance=</xsl:text>
+     <xsl:text>,endurance=</xsl:text>
      <xsl:value-of select="enemy-attribute[@class='endurance']" />
     </xsl:if>
    <xsl:text>')</xsl:text>
   </xsl:attribute>
+  <xsl:apply-templates select="enemy" />
+  <xsl:text>: &#160;&#160;</xsl:text>
   <xsl:choose>
    <xsl:when test="enemy-attribute[@class='combatskill']">
     <span class="attribute"><xsl:text>COMBAT&#160;SKILL</xsl:text></span>
@@ -166,7 +176,13 @@
      <xsl:attribute name="href"><xsl:text>#</xsl:text><xsl:value-of select="$my-idref"/></xsl:attribute>
     </xsl:when>
     <xsl:otherwise>
-     <xsl:attribute name="class"><xsl:text>pagelink</xsl:text></xsl:attribute>
+     <xsl:attribute name="class">
+      <xsl:choose>
+       <xsl:when test="@idref='random'"><xsl:text>actionlink</xsl:text></xsl:when>
+       <xsl:when test="@idref='action'"><xsl:text>actionlink</xsl:text></xsl:when>
+       <xsl:otherwise><xsl:text>pagelink</xsl:text></xsl:otherwise>
+      </xsl:choose>
+     </xsl:attribute>
      <xsl:attribute name="onclick"><xsl:text>alert('</xsl:text><xsl:value-of select="@idref"/><xsl:text>')</xsl:text></xsl:attribute>
     </xsl:otherwise>
    </xsl:choose>

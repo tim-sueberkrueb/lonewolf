@@ -6,7 +6,8 @@ include_directories(
 set(
     Lonewolfbackend_SRCS
     modules/Lonewolf/backend.cpp
-    modules/Lonewolf/mytype.cpp
+    modules/Lonewolf/book.cpp
+    modules/Lonewolf/util.cpp
 )
 
 # Make the unit test files visible on qtcreator
