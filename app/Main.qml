@@ -21,6 +21,11 @@ MainView {
     }
 
     GameState {
+        category: "quicksave"
+        id: quickSaveState
+    }
+
+    GameState {
         category: "current"
         id: gameState
     }

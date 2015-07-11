@@ -10,7 +10,31 @@ Page {
 
     property var you
 
+    Component {
+        id: saveDialog
+        Dialog {
+            id: dialog
+            title: "Quick Save"
+            text: "This will save your current game state in case you want to load it later.  You can only load from the most recent time you saved."
+            Button {
+                text: "Got it"
+                onClicked: PopupUtils.close(dialog)
+            }
+        }
+    }
+
     head.actions: [
+        Action {
+            id: quickSave
+            iconName: "save"
+            text: i18n.tr("Quick Save")
+            onTriggered: {
+                if (quickSaveState.pageId == "") {
+                    PopupUtils.open(saveDialog);
+                }
+                you.copyTo(quickSaveState);
+            }
+        },
         Action {
             id: actionChart
             iconName: "note"

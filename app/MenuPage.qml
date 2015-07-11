@@ -37,6 +37,15 @@ Page {
                 anchors.horizontalCenter: parent.horizontalCenter
             }
             Button {
+                text: "Load Quick Save"
+                enabled: quickSaveState.pageId != ""
+                onClicked: {
+                    quickSaveState.copyTo(gameState);
+                    startBook(gameState.book, gameState.pageId);
+                }
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+            Button {
                 text: "Start Flight From the Dark (Book 1)"
                 onClicked: startBook("01fftd", "")
                 anchors.horizontalCenter: parent.horizontalCenter
