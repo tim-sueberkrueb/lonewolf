@@ -10,6 +10,7 @@
 <xsl:template match="/">
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link type="text/css" href="main.css" rel="stylesheet"/>
 </head>
 <xsl:apply-templates/>
@@ -147,7 +148,15 @@
  </span></p>
 </xsl:template>
 
+<xsl:template match="footnotes"/>
+<xsl:template match="footnote">
+ <div class="footnote"><xsl:apply-templates/></div>
+</xsl:template>
+
 <xsl:template match="choice">
+ <xsl:if test="//choice[1] = .">
+  <xsl:apply-templates select="/body/footnotes/footnote"/>
+ </xsl:if>
  <ul class="choice"><li>
   <xsl:for-each select="* | text()">
    <xsl:choose>

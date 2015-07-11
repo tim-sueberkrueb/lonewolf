@@ -2,6 +2,8 @@ import QtQuick 2.4
 import Ubuntu.Components 1.2
 import Lonewolf 1.0
 
+// TODO: food is in backpack
+
 MainView {
     id: mainView
     objectName: "mainView"

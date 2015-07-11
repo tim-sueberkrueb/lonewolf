@@ -4,6 +4,10 @@ dt {
  font-weight: bold;
 }
 
+.footnote {
+ font-style: italic;
+}
+
 .dedication {
  font-style: italic;
  font-weight: bold;

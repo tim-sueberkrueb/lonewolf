@@ -21,6 +21,7 @@ Page {
 
     Book {
         id: book
+        dir: Qt.resolvedUrl(".")
         filename: you.book
         pageId: you.pageId == "" ? firstPageId : you.pageId
         onPageIdChanged: {
@@ -106,7 +107,7 @@ Page {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        height: (previous.visible || next.visible) ? units.gu(4) : 0
+        height: (previous.visible || next.visible) ? units.gu(6) : 0
 
         Button {
             id: previous

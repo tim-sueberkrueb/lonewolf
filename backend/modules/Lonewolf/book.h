@@ -15,6 +15,7 @@ class Book : public QObject
     Q_PROPERTY(QString nextPageId READ nextPageId NOTIFY pageIdChanged)
     Q_PROPERTY(QString prevPageId READ prevPageId NOTIFY pageIdChanged)
     Q_PROPERTY(bool downloaded READ downloaded NOTIFY downloadedChanged)
+    Q_PROPERTY(QString dir READ dir WRITE setDir NOTIFY dirChanged)
 
 public:
     explicit Book(QObject *parent = 0);
@@ -24,6 +25,7 @@ Q_SIGNALS:
     void filenameChanged();
     void pageIdChanged();
     void downloadedChanged();
+    void dirChanged();
 
 protected:
     QString filename() { return m_filename; }
@@ -31,6 +33,9 @@ protected:
 
     QString pageId() { return m_pageId; }
     void setPageId(const QString &id);
+
+    QString dir() { return m_dir; }
+    void setDir(const QString &dir);
 
     QString firstPageId();
     QString nextPageId();
@@ -49,12 +54,14 @@ protected:
     QString getTitleContent();
     QString getSectionContent(xmlNodePtr section);
     QString getChildContent(xmlNodePtr section);
+    QString getCacheDir();
 
     ////
 
     QString m_filename;
     QString m_pageId;
     xmlDocPtr m_dom;
+    QString m_dir;
     bool m_downloaded;
 };
 

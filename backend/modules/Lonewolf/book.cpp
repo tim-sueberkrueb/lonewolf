@@ -2,9 +2,10 @@
 
 #include <QDebug>
 #include <QFile>
-#include <QXmlQuery>
+#include <QStandardPaths>
 #include <QTextStream>
 #include <QUrl>
+#include <QXmlQuery>
 #include <libxml/tree.h>
 
 Book::Book(QObject *parent) :
@@ -19,20 +20,28 @@ Book::~Book()
     xmlFreeDoc(m_dom);
 }
 
-/*QString Book::getCacheDir()
+QString Book::getCacheDir()
 {
     return QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
-}*/
+}
 
 void Book::setFilename(const QString &filename)
 {
     m_filename = filename;
 
-    //QString filePath = getCacheDir() + "/" + filename + ".xml";
-    QString filePath = "http://www.projectaon.org/en/xml/" + filename + ".xml";
+    QString cachePath = getCacheDir() + "/" + filename + ".xml";
+    QString filePath = cachePath;
+    if (!QFile::exists(filePath)) {
+        filePath = "http://www.projectaon.org/en/xml/" + filename + ".xml";
+    }
+
     m_dom = xmlReadFile(filePath.toUtf8(), NULL, XML_PARSE_NOENT);
     if (m_dom == NULL)
         return;
+
+    if (!QFile::exists(cachePath)) {
+        xmlSaveFile(cachePath.toUtf8(), m_dom);
+    }
 
     Q_EMIT filenameChanged();
 }
@@ -151,6 +160,14 @@ QString Book::getSectionContent(xmlNodePtr section)
 {
     QString text;
 
+    xmlNodePtr footnotes = getElement("footnotes", section);
+    if (footnotes != NULL) {
+        xmlBufferPtr buf = xmlBufferCreate();
+        xmlNodeDump(buf, m_dom, footnotes, 0, 1);
+        text += (const char *)buf->content;
+        xmlBufferFree(buf);
+    }
+
     xmlNodePtr data = getElement("data", section);
 
     xmlNodePtr cur;
@@ -196,7 +213,7 @@ QString Book::xmlToHtml(const QString &xml)
 {
     QXmlQuery query(QXmlQuery::XSLT20);
     query.setFocus("<body>" + xml + "</body>");
-    query.setQuery(QUrl("/home/mike/Work/lonewolf/app/html.xsl"));
+    query.setQuery(QUrl(m_dir + "/html.xsl"));
 
     qDebug() << "input:";
     qDebug() << xml;
@@ -204,6 +221,12 @@ QString Book::xmlToHtml(const QString &xml)
     query.evaluateTo(&transformed);
 
     return transformed;
+}
+
+void Book::setDir(const QString &dir)
+{
+    m_dir = dir;
+    Q_EMIT dirChanged();
 }
 
 void Book::setPageId(const QString &id)
