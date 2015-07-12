@@ -25,10 +25,18 @@ Page {
 
     head.actions: [
         Action {
+            id: actionChart
+            iconName: "note"
+            text: i18n.tr("Action Chart")
+            visible: book.progress == 100
+            onTriggered: pageStack.push(Qt.resolvedUrl("ChartPage.qml"), {you: root.you})
+        },
+        Action {
             id: quickSave
             iconName: "save"
             text: i18n.tr("Quick Save")
             visible: book.progress == 100
+            enabled: !book.inBackMatter && you.endurance > 0
             onTriggered: {
                 if (quickSaveState.pageId == "") {
                     PopupUtils.open(saveDialog);
@@ -37,11 +45,11 @@ Page {
             }
         },
         Action {
-            id: actionChart
-            iconName: "note"
-            text: i18n.tr("Action Chart")
+            id: mapAction
+            iconName: "webbrowser-app-symbolic"
+            text: i18n.tr("Map")
             visible: book.progress == 100
-            onTriggered: pageStack.push(Qt.resolvedUrl("ChartPage.qml"), {you: root.you})
+            onTriggered: pageView.pageId = "map"
         }
     ]
 
@@ -49,16 +57,23 @@ Page {
         id: book
         dir: Qt.resolvedUrl(".")
         filename: you.book
-        pageId: you.pageId == "" ? firstPageId : you.pageId
+        pageId: pageView.pageId
         onPageIdChanged: {
             var content = pageContent;
             console.log(filename, pageId, content);
+            if (pageType == "backmatter") {
+                inBackMatter = true;
+            } else if (!inBackMatter) {
+                you.pageId = pageId; // save place
+            }
             pageView.loadHtml(content, Qt.resolvedUrl(book.cacheDir) + "/");
         }
+        property bool inBackMatter: false
     }
 
     WebView {
         id: pageView
+        property string pageId: ""
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
@@ -77,8 +92,11 @@ Page {
                 } else if (model.message.indexOf("combat,") == 0) {
                     combat.props = model.message;
                     combat.visible = true;
+                } else if (model.message.indexOf("external,") == 0) {
+                    Qt.openUrlExternally(model.message.split(',')[1]);
+                    model.accept();
                 } else {
-                    you.pageId = model.message;
+                    pageView.pageId = model.message;
                     model.accept();
                 }
             }
@@ -143,8 +161,15 @@ Page {
             height: parent.height - units.gu(1)
             width: height
             iconName: "go-previous"
-            visible: book.prevPageId != ""
-            onClicked: you.pageId = book.prevPageId
+            visible: book.prevPageId != "" || book.inBackMatter
+            onClicked: {
+                if (book.inBackMatter) {
+                    pageView.pageId = you.pageId; // go back to saved place
+                    book.inBackMatter = false;
+                } else {
+                    pageView.pageId = book.prevPageId;
+                }
+            }
         }
         Button {
             id: next
@@ -155,7 +180,7 @@ Page {
             width: height
             iconName: "go-next"
             visible: book.nextPageId != ""
-            onClicked: you.pageId = book.nextPageId
+            onClicked: pageView.pageId = book.nextPageId
         }
     }
 

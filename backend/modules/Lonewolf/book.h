@@ -13,6 +13,7 @@ class Book : public QObject
     Q_PROPERTY(QString pageId READ pageId WRITE setPageId NOTIFY pageIdChanged)
     Q_PROPERTY(QString pageTitle READ pageTitle NOTIFY pageIdChanged)
     Q_PROPERTY(QString pageContent READ pageContent NOTIFY pageIdChanged)
+    Q_PROPERTY(QString pageType READ pageType NOTIFY pageIdChanged)
     Q_PROPERTY(QString nextPageId READ nextPageId NOTIFY pageIdChanged)
     Q_PROPERTY(QString prevPageId READ prevPageId NOTIFY pageIdChanged)
     Q_PROPERTY(int progress READ progress NOTIFY progressChanged)
@@ -51,6 +52,7 @@ protected:
     QString prevPageId();
     QString pageTitle();
     QString pageContent();
+    QString pageType();
     void downloadExternalEntities(xmlNodePtr parent);
     void downloadIllustration(xmlNodePtr illustration);
     int progress() {return m_downloader.progress();}

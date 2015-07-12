@@ -301,7 +301,7 @@ void Book::setDir(const QString &dir)
 
 void Book::setPageId(const QString &id)
 {
-    m_pageId = id;
+    m_pageId = id.isEmpty() ? firstPageId() : id;
     Q_EMIT pageIdChanged();
 }
 
@@ -347,7 +347,6 @@ QString Book::prevPageId()
 
 QString Book::pageContent()
 {
-    qDebug() << "MIKE dom is" << (void*)m_dom;
     if (m_dom == NULL)
         return "";
     xmlNodePtr section = getElementById("section", m_pageId);
@@ -358,4 +357,15 @@ QString Book::pageContent()
         content = getSectionContent(section);
     }
     return xmlToHtml(content);
+}
+
+QString Book::pageType()
+{
+    if (m_dom == NULL)
+        return "";
+    xmlNodePtr section = getElementById("section", m_pageId);
+    xmlChar *klass= xmlGetProp(section, (const xmlChar *)"class");
+    QString type((const char *)klass);
+    xmlFree(klass);
+    return type;
 }

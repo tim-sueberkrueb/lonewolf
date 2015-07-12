@@ -181,9 +181,22 @@
  </li></ul>
 </xsl:template>
 
+<xsl:template match="onomatopoeia">
+ <span class="sound"><xsl:apply-templates /></span>
+</xsl:template>
+
 <xsl:template match="a">
  <a>
-  <xsl:if test="@href"><xsl:attribute name="href"><xsl:value-of select="@href" /></xsl:attribute></xsl:if>
+  <xsl:if test="@href">
+   <xsl:attribute name="class">
+    <xsl:text>external</xsl:text>
+   </xsl:attribute>
+   <xsl:attribute name="onclick">
+    <xsl:text>alert('external,</xsl:text>
+     <xsl:value-of select="@href" />
+    <xsl:text>')</xsl:text>
+   </xsl:attribute>
+  </xsl:if>
   <xsl:if test="@id"><xsl:attribute name="name"><xsl:value-of select="@id" /></xsl:attribute></xsl:if>
   <xsl:if test="@idref">
    <xsl:variable name="my-idref" select="@idref"/>
@@ -199,7 +212,9 @@
        <xsl:otherwise><xsl:text>pagelink</xsl:text></xsl:otherwise>
       </xsl:choose>
      </xsl:attribute>
-     <xsl:attribute name="onclick"><xsl:text>alert('</xsl:text><xsl:value-of select="@idref"/><xsl:text>')</xsl:text></xsl:attribute>
+     <xsl:attribute name="onclick"><xsl:text>alert('</xsl:text>
+      <xsl:value-of select="@idref"/>
+     <xsl:text>')</xsl:text></xsl:attribute>
     </xsl:otherwise>
    </xsl:choose>
   </xsl:if>

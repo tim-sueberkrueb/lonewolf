@@ -17,6 +17,15 @@ figcaption {
  font-style: italic;
 }
 
+a.external {
+ color: blue;
+ text-decoration: underline;
+}
+
+.sound {
+ font-style: italic;
+}
+
 .dedication {
  font-style: italic;
  font-weight: bold;
@@ -46,5 +55,4 @@ quote:after {
  font: small-caps; // TODO: doesn't appear correctly
 }
 
-// TODO: quote -> character
 // TODO: fix stage3 link
