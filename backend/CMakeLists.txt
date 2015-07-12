@@ -7,6 +7,7 @@ set(
     Lonewolfbackend_SRCS
     modules/Lonewolf/backend.cpp
     modules/Lonewolf/book.cpp
+    modules/Lonewolf/downloader.cpp
     modules/Lonewolf/util.cpp
 )
 

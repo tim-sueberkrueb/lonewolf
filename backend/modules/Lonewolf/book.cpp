@@ -1,7 +1,9 @@
 #include "book.h"
 
 #include <QDebug>
+#include <QDir>
 #include <QFile>
+#include <QNetworkAccessManager>
 #include <QStandardPaths>
 #include <QTextStream>
 #include <QUrl>
@@ -12,7 +14,7 @@ Book::Book(QObject *parent) :
     QObject(parent),
     m_dom(NULL)
 {
-
+    connect(&m_downloader, SIGNAL(progressChanged()), this, SLOT(downloadProgressChanged()));
 }
 
 Book::~Book()
@@ -20,30 +22,90 @@ Book::~Book()
     xmlFreeDoc(m_dom);
 }
 
-QString Book::getCacheDir()
+void Book::downloadProgressChanged()
 {
-    return QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+    // Only save book xml file if we have all assets, so it's easy to
+    // test that we have everything in the future.
+    if (m_downloader.progress() == 100) {
+        QString cachePath = cacheDir() + "/" + m_filename + ".xml";
+        xmlSaveFile(cachePath.toUtf8(), m_dom);
+        Q_EMIT pageIdChanged();
+    }
+    Q_EMIT progressChanged();
 }
 
 void Book::setFilename(const QString &filename)
 {
     m_filename = filename;
+    m_downloader.cancel();
+    if (isBookDownloaded()) {
+        QString cachePath = cacheDir() + "/" + m_filename + ".xml";
+        m_dom = xmlReadFile(cachePath.toUtf8(), NULL, XML_PARSE_NOENT);
+        m_downloader.setDone();
+    }
+    Q_EMIT filenameChanged();
+}
 
-    QString cachePath = getCacheDir() + "/" + filename + ".xml";
-    QString filePath = cachePath;
-    if (!QFile::exists(filePath)) {
-        filePath = "http://www.projectaon.org/en/xml/" + filename + ".xml";
+bool Book::isBookDownloaded()
+{
+    if (m_filename.isEmpty()) {
+        return false;
     }
 
-    m_dom = xmlReadFile(filePath.toUtf8(), NULL, XML_PARSE_NOENT);
-    if (m_dom == NULL)
+    QString cachePath = cacheDir() + "/" + m_filename + ".xml";
+    return QFile::exists(cachePath);
+}
+
+void Book::downloadBook()
+{
+    if (isBookDownloaded())
         return;
 
-    if (!QFile::exists(cachePath)) {
-        xmlSaveFile(cachePath.toUtf8(), m_dom);
+    if (!m_filename.isEmpty()) {
+        QString filePath = "http://www.projectaon.org/en/xml/" + m_filename + ".xml";
+
+        m_dom = xmlReadFile(filePath.toUtf8(), NULL, XML_PARSE_NOENT);
+        if (m_dom == NULL)
+            return;
+
+        QDir().mkpath(cacheDir());
+        m_downloader.setCacheDir(cacheDir());
+        downloadExternalEntities(NULL);
+    }
+}
+
+void Book::downloadExternalEntities(xmlNodePtr parent)
+{
+    if (parent == NULL)
+        parent = xmlDocGetRootElement(m_dom);
+
+    xmlNodePtr cur;
+    cur = parent->children;
+    while (cur != NULL) {
+        if (!xmlStrcmp(cur->name, (const xmlChar *)"illustration")) {
+            downloadIllustration(cur);
+        } else {
+            downloadExternalEntities(cur);
+        }
+        cur = cur->next;
+    }
+}
+
+void Book::downloadIllustration(xmlNodePtr illustration)
+{
+    xmlNodePtr html = getElementByClass("instance", "html", illustration);
+    xmlChar *xmlsrc = xmlGetProp(html, (const xmlChar *)"src");
+    QString src = (const char*)xmlsrc;
+
+    if (!src.isEmpty()) {
+        // Download directly from xhtml version of book, because they flatten the crazy
+        // hierarchy that is /en/gif/lw and /en/jpeg/lw, etc.
+        QUrl url("http://www.projectaon.org/en/xhtml/lw/" + m_filename + "/" + src);
+        qDebug() << "MIKE downloading" << url;
+        m_downloader.addFile(url);
     }
 
-    Q_EMIT filenameChanged();
+    xmlFree(xmlsrc);
 }
 
 xmlNodePtr Book::getElement(const QString &tag, xmlNodePtr parent)
@@ -220,12 +282,20 @@ QString Book::xmlToHtml(const QString &xml)
     QString transformed;
     query.evaluateTo(&transformed);
 
+    QString relData = QDir(cacheDir()).relativeFilePath(m_dir);
+    transformed.replace("$DATADIR", relData);
+
     return transformed;
+}
+
+QString Book::cacheDir()
+{
+    return QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/" + m_filename;
 }
 
 void Book::setDir(const QString &dir)
 {
-    m_dir = dir;
+    m_dir = QUrl(dir).toLocalFile();
     Q_EMIT dirChanged();
 }
 
@@ -277,6 +347,7 @@ QString Book::prevPageId()
 
 QString Book::pageContent()
 {
+    qDebug() << "MIKE dom is" << (void*)m_dom;
     if (m_dom == NULL)
         return "";
     xmlNodePtr section = getElementById("section", m_pageId);

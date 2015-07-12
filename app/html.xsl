@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link type="text/css" href="main.css" rel="stylesheet"/>
+<link type="text/css" href="$DATADIR/main.css" rel="stylesheet"/>
 </head>
 <xsl:apply-templates/>
 </html>
@@ -50,7 +50,14 @@
 <!-- ==================== text transforms ==================== -->
 
 <xsl:template match="illustration">
- <xsl:apply-templates select="instance[@class='text']"/>
+ <figure>
+  <img onerror="this.src=''">
+   <xsl:attribute name="src"><xsl:value-of select="instance[@class='html']/@src"/></xsl:attribute>
+  </img>
+  <figcaption>
+   <xsl:value-of select="meta/description" />
+  </figcaption>
+ </figure>
 </xsl:template>
 
 <xsl:template match="section">

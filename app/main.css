@@ -8,6 +8,15 @@ dt {
  font-style: italic;
 }
 
+figure {
+ margin-left: auto;
+ margin-right: auto;
+}
+
+figcaption {
+ font-style: italic;
+}
+
 .dedication {
  font-style: italic;
  font-weight: bold;

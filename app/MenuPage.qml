@@ -31,18 +31,19 @@ Page {
 
             Button {
                 text: "Continue"
-                enabled: gameState.pageId != ""
+                enabled: gameState.book != ""
                 onClicked: startBook(gameState.book, gameState.pageId)
                 color: UbuntuColors.green
                 anchors.horizontalCenter: parent.horizontalCenter
             }
             Button {
                 text: "Load Quick Save"
-                enabled: quickSaveState.pageId != ""
+                enabled: quickSaveState.book != ""
                 onClicked: {
                     quickSaveState.copyTo(gameState);
                     startBook(gameState.book, gameState.pageId);
                 }
+                color: UbuntuColors.green
                 anchors.horizontalCenter: parent.horizontalCenter
             }
             Button {

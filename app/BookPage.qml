@@ -28,6 +28,7 @@ Page {
             id: quickSave
             iconName: "save"
             text: i18n.tr("Quick Save")
+            visible: book.progress == 100
             onTriggered: {
                 if (quickSaveState.pageId == "") {
                     PopupUtils.open(saveDialog);
@@ -39,6 +40,7 @@ Page {
             id: actionChart
             iconName: "note"
             text: i18n.tr("Action Chart")
+            visible: book.progress == 100
             onTriggered: pageStack.push(Qt.resolvedUrl("ChartPage.qml"), {you: root.you})
         }
     ]
@@ -51,7 +53,7 @@ Page {
         onPageIdChanged: {
             var content = pageContent;
             console.log(filename, pageId, content);
-            pageView.loadHtml(content, Qt.resolvedUrl("."));
+            pageView.loadHtml(content, Qt.resolvedUrl(book.cacheDir) + "/");
         }
     }
 
@@ -155,5 +157,47 @@ Page {
             visible: book.nextPageId != ""
             onClicked: you.pageId = book.nextPageId
         }
+    }
+
+    Rectangle {
+        color: "white"
+        anchors.fill: parent
+        opacity: book.progress == 100 ? 0 : 1
+        Behavior on opacity { UbuntuNumberAnimation {} }
+        MouseArea {
+            anchors.fill: parent
+            enabled: parent.opacity == 1
+        }
+        Item {
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.leftMargin: units.gu(2)
+            anchors.rightMargin: units.gu(2)
+            height: childrenRect.height
+            Label {
+                id: downloadLabel
+                text: "Downloading..."
+                anchors.left: parent.left
+                anchors.right: parent.right
+                horizontalAlignment: Text.AlignHCenter
+            }
+            ProgressBar {
+                minimumValue: 0
+                maximumValue: 100
+                value: book.progress
+                anchors.top: downloadLabel.bottom
+                anchors.topMargin: units.gu(1)
+                anchors.left: parent.left
+                anchors.right: parent.right
+            }
+        }
+    }
+
+    // Download book once we're idle
+    Timer {
+        interval: 1000
+        running: true
+        onTriggered: book.downloadBook()
     }
 }
