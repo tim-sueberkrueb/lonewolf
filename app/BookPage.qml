@@ -222,7 +222,9 @@ Page {
                 anchors.right: parent.right
             }
             Button {
+                id: cancelDownloadButton
                 text: "Cancel"
+                visible: false
                 color: UbuntuColors.red
                 anchors.top: progressBar.bottom
                 anchors.topMargin: units.gu(1)
@@ -231,29 +233,37 @@ Page {
             }
         }
 
-        Flickable {
+        Item {
             id: licensePage
             anchors.fill: parent
-            clip: true
-            anchors.margins: units.gu(2)
             visible: false
-            contentHeight: licenseLabel.height + units.gu(1) + licenseButton.height
-            Label {
-                id: licenseLabel
-                wrapMode: Text.Wrap
-                width: parent.width
-                textFormat: Text.StyledText
+            anchors.margins: units.gu(1)
+            Flickable {
+                id: licenseFlickable
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: licenseButton.top
+                anchors.bottomMargin: units.gu(2)
+                clip: true
+                contentHeight: licenseLabel.height
+                Label {
+                    id: licenseLabel
+                    wrapMode: Text.Wrap
+                    width: parent.width
+                    textFormat: Text.StyledText
+                }
             }
             Button {
                 id: licenseButton
                 text: "Accept"
                 color: UbuntuColors.green
-                anchors.top: licenseLabel.bottom
-                anchors.topMargin: units.gu(1)
+                anchors.bottom: parent.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
                     pageView.pageId = "";
                     book.inBackMatter = false;
+                    cancelDownloadButton.visible = true; // can't actually cancel before this (we download xml synchronously)
                     downloadPage.visible = true;
                     licensePage.visible = false;
                     book.downloadImages();
