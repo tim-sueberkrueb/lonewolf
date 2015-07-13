@@ -170,6 +170,27 @@ Rectangle {
                 horizontalAlignment: Text.AlignHCenter
                 anchors.horizontalCenter: parent.horizontalCenter
             }
+            Item { height: units.gu(3); width: units.gu(1); }
+            Row {
+                CheckBox {
+                    id: doubleDamage
+                }
+                Label {
+                    text: "×2 damage"
+                    color: "white"
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+            Label {
+                text: "(only enable if instructed)"
+                color: "white"
+                font.italic: true
+                fontSize: "small"
+                width: root.width / 2
+                horizontalAlignment: Text.AlignHCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
         }
     }
 
@@ -239,6 +260,8 @@ Rectangle {
             if (damageToEnemy < 0) {
                 d.endurance = 0;
             } else {
+                if (doubleDamage.checked)
+                    damageToEnemy = damageToEnemy * 2;
                 d.endurance = Math.max(d.endurance - damageToEnemy, 0);
             }
         }

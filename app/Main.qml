@@ -9,6 +9,7 @@ MainView {
     objectName: "mainView"
     applicationName: "lonewolf.mterry"
     automaticOrientation: true
+    anchorToKeyboard: true
     focus: true
 
     width: units.gu(40)
