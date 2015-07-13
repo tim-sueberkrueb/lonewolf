@@ -7,6 +7,7 @@ import Lonewolf 1.0
 Page {
     id: root
     title: book.pageTitle
+    flickable: null
 
     property var you
 
@@ -196,6 +197,7 @@ Page {
             enabled: parent.opacity == 1
         }
         Item {
+            id: downloadPage
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
             anchors.right: parent.right
@@ -228,12 +230,50 @@ Page {
                 onClicked: pageStack.pop()
             }
         }
-    }
 
-    // Download book once we're idle
-    Timer {
-        interval: 1000
-        running: true
-        onTriggered: book.downloadBook()
+        Flickable {
+            id: licensePage
+            anchors.fill: parent
+            clip: true
+            anchors.margins: units.gu(2)
+            visible: false
+            contentHeight: licenseLabel.height + units.gu(1) + licenseButton.height
+            Label {
+                id: licenseLabel
+                wrapMode: Text.Wrap
+                width: parent.width
+                textFormat: Text.StyledText
+            }
+            Button {
+                id: licenseButton
+                text: "Accept"
+                color: UbuntuColors.green
+                anchors.top: licenseLabel.bottom
+                anchors.topMargin: units.gu(1)
+                anchors.horizontalCenter: parent.horizontalCenter
+                onClicked: {
+                    pageView.pageId = "";
+                    book.inBackMatter = false;
+                    downloadPage.visible = true;
+                    licensePage.visible = false;
+                    book.downloadImages();
+                }
+            }
+        }
+
+        // Download book once we're idle
+        Timer {
+            interval: 1000
+            running: true
+            onTriggered: {
+                if (book.progress < 100) {
+                    book.downloadBook();
+                    pageView.pageId = "license";
+                    licenseLabel.text = book.pageContent;
+                    downloadPage.visible = false;
+                    licensePage.visible = true;
+                }
+            }
+        }
     }
 }

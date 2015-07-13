@@ -61,17 +61,23 @@ void Book::downloadBook()
     if (isBookDownloaded())
         return;
 
+    QDir().mkpath(cacheDir());
+
     if (!m_filename.isEmpty()) {
         QString filePath = "http://www.projectaon.org/en/xml/" + m_filename + ".xml";
-
         m_dom = xmlReadFile(filePath.toUtf8(), NULL, XML_PARSE_NOENT);
         if (m_dom == NULL)
             return;
-
-        QDir().mkpath(cacheDir());
-        m_downloader.setCacheDir(cacheDir());
-        downloadExternalEntities(NULL);
     }
+}
+
+void Book::downloadImages()
+{
+    if (m_dom == NULL)
+        return;
+    QDir().mkpath(cacheDir());
+    m_downloader.setCacheDir(cacheDir());
+    downloadExternalEntities(NULL);
 }
 
 void Book::downloadExternalEntities(xmlNodePtr parent)

@@ -25,6 +25,7 @@ public:
     ~Book();
 
     Q_INVOKABLE void downloadBook();
+    Q_INVOKABLE void downloadImages();
 
 Q_SIGNALS:
     void filenameChanged();
