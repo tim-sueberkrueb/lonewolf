@@ -59,8 +59,9 @@ Page {
         filename: you.book
         pageId: pageView.pageId
         onPageIdChanged: {
+            if (pageId == "" && pageView.pageId != "")
+                return; // on startup we get this fake-out...
             var content = pageContent;
-            console.log(filename, pageId, content);
             if (pageType == "backmatter") {
                 inBackMatter = true;
             } else if (!inBackMatter) {
@@ -73,7 +74,7 @@ Page {
 
     WebView {
         id: pageView
-        property string pageId: ""
+        property string pageId: you.pageId
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
@@ -89,6 +90,7 @@ Page {
                     model.accept();
                 } else if (model.message == "dead") {
                     root.you.endurance = 0;
+                    model.accept();
                 } else if (model.message.indexOf("combat,") == 0) {
                     combat.props = model.message;
                     combat.visible = true;
@@ -208,6 +210,7 @@ Page {
                 horizontalAlignment: Text.AlignHCenter
             }
             ProgressBar {
+                id: progressBar
                 minimumValue: 0
                 maximumValue: 100
                 value: book.progress
@@ -215,6 +218,14 @@ Page {
                 anchors.topMargin: units.gu(1)
                 anchors.left: parent.left
                 anchors.right: parent.right
+            }
+            Button {
+                text: "Cancel"
+                color: UbuntuColors.red
+                anchors.top: progressBar.bottom
+                anchors.topMargin: units.gu(1)
+                anchors.horizontalCenter: parent.horizontalCenter
+                onClicked: pageStack.pop()
             }
         }
     }
