@@ -107,7 +107,6 @@ void Book::downloadIllustration(xmlNodePtr illustration)
         // Download directly from xhtml version of book, because they flatten the crazy
         // hierarchy that is /en/gif/lw and /en/jpeg/lw, etc.
         QUrl url("http://www.projectaon.org/en/xhtml/lw/" + m_filename + "/" + src);
-        qDebug() << "MIKE downloading" << url;
         m_downloader.addFile(url);
     }
 
@@ -283,8 +282,6 @@ QString Book::xmlToHtml(const QString &xml)
     query.setFocus("<body>" + xml + "</body>");
     query.setQuery(QUrl(m_dir + "/html.xsl"));
 
-    qDebug() << "input:";
-    qDebug() << xml;
     QString transformed;
     query.evaluateTo(&transformed);
 

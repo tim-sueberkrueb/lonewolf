@@ -68,6 +68,7 @@ Page {
             } else if (!inBackMatter) {
                 you.pageId = pageId; // save place
             }
+            //console.log("MIKE page:", content);
             pageView.loadHtml(content, Qt.resolvedUrl(book.cacheDir) + "/");
         }
         property bool inBackMatter: false
@@ -98,6 +99,9 @@ Page {
                 } else if (model.message.indexOf("external,") == 0) {
                     Qt.openUrlExternally(model.message.split(',')[1]);
                     model.accept();
+                } else if (model.message.indexOf("puzzle-page,") == 0) {
+                    puzzle.answer = model.message.split(',')[1];
+                    puzzle.visible = true;
                 } else {
                     pageView.pageId = model.message;
                     model.accept();
@@ -115,6 +119,18 @@ Page {
                 visible: false
                 you: root.you
                 onClose: model.accept()
+            }
+
+            Puzzle {
+                id: puzzle
+                anchors.fill: parent
+                visible: false
+                you: root.you
+                onClose: model.accept()
+                onGoTo: {
+                    pageView.pageId = page;
+                    model.accept();
+                }
             }
 
             Rectangle {

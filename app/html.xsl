@@ -181,6 +181,31 @@
  </li></ul>
 </xsl:template>
 
+<xsl:template match="otherwise">
+ <!-- used in puzzles -->
+ <xsl:apply-templates />
+</xsl:template>
+
+<xsl:template match="puzzle">
+ <ul class="choice"><li>
+  <xsl:for-each select="* | text()">
+   <xsl:choose>
+    <xsl:when test="self::choose[@test='has-numbered-section-list']">
+     <a class="actionlink">
+      <xsl:attribute name="onclick"><xsl:text>alert('puzzle-page,</xsl:text><xsl:value-of select="ancestor::puzzle/@idref"/><xsl:text>')</xsl:text></xsl:attribute>
+      <xsl:apply-templates select="otherwise" />
+     </a>
+    </xsl:when>
+    <xsl:otherwise>
+     <xsl:apply-templates select="." />
+    </xsl:otherwise>
+   </xsl:choose>
+  </xsl:for-each>
+ </li></ul>
+</xsl:template>
+
+<xsl:template match="footref"/>
+
 <xsl:template match="onomatopoeia">
  <span class="sound"><xsl:apply-templates /></span>
 </xsl:template>
