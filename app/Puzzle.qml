@@ -18,6 +18,12 @@ Rectangle {
         property bool wrong
     }
 
+    onVisibleChanged: {
+        if (visible) {
+            entry.forceActiveFocus();
+        }
+    }
+
     Column {
         anchors.top: parent.top
         anchors.topMargin: units.gu(4)
@@ -46,7 +52,6 @@ Rectangle {
                 hasClearButton: false
                 horizontalAlignment: TextInput.AlignHCenter
                 font.pixelSize: FontUtils.sizeToPixels("x-large")
-                Component.onCompleted: entry.forceActiveFocus()
                 onTextChanged: {
                     d.correct = false;
                     d.wrong = false;
