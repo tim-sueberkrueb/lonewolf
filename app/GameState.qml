@@ -12,6 +12,9 @@ Settings {
     property int combatskill
     property int gold
     property int meals
+    property int quiver
+
+    property string notes
 
     property string kaiskill1
     property string kaiskill2
@@ -23,6 +26,28 @@ Settings {
     property string kaiskill8
     property string kaiskill9
     property string kaiskill10
+
+    property string magnakaiskill1
+    property string magnakaiskill2
+    property string magnakaiskill3
+    property string magnakaiskill4
+    property string magnakaiskill5
+    property string magnakaiskill6
+    property string magnakaiskill7
+    property string magnakaiskill8
+    property string magnakaiskill9
+    property string magnakaiskill10
+
+    property bool weaponmastery_spear
+    property bool weaponmastery_dagger
+    property bool weaponmastery_mace
+    property bool weaponmastery_shortsword
+    property bool weaponmastery_warhammer
+    property bool weaponmastery_bow
+    property bool weaponmastery_axe
+    property bool weaponmastery_sword
+    property bool weaponmastery_quarterstaff
+    property bool weaponmastery_broadsword
 
     property string weapon1
     property string weapon2
@@ -57,6 +82,8 @@ Settings {
         other.combatskill = combatskill;
         other.gold = gold;
         other.meals = meals;
+        other.quiver = quiver;
+        other.notes = notes;
 
         other.kaiskill1 = kaiskill1;
         other.kaiskill2 = kaiskill2;
@@ -68,6 +95,28 @@ Settings {
         other.kaiskill8 = kaiskill8;
         other.kaiskill9 = kaiskill9;
         other.kaiskill10 = kaiskill10;
+
+        other.magnakaiskill1 = magnakaiskill1;
+        other.magnakaiskill2 = magnakaiskill2;
+        other.magnakaiskill3 = magnakaiskill3;
+        other.magnakaiskill4 = magnakaiskill4;
+        other.magnakaiskill5 = magnakaiskill5;
+        other.magnakaiskill6 = magnakaiskill6;
+        other.magnakaiskill7 = magnakaiskill7;
+        other.magnakaiskill8 = magnakaiskill8;
+        other.magnakaiskill9 = magnakaiskill9;
+        other.magnakaiskill10 = magnakaiskill10;
+
+        other.weaponmastery_spear = weaponmastery_spear;
+        other.weaponmastery_dagger = weaponmastery_dagger;
+        other.weaponmastery_mace = weaponmastery_mace;
+        other.weaponmastery_shortsword = weaponmastery_shortsword;
+        other.weaponmastery_warhammer = weaponmastery_warhammer;
+        other.weaponmastery_bow = weaponmastery_bow;
+        other.weaponmastery_axe = weaponmastery_axe;
+        other.weaponmastery_sword = weaponmastery_sword;
+        other.weaponmastery_quarterstaff = weaponmastery_quarterstaff;
+        other.weaponmastery_broadsword = weaponmastery_broadsword;
 
         other.weapon1 = weapon1;
         other.weapon2 = weapon2;

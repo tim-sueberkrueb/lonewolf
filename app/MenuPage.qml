@@ -71,6 +71,41 @@ Page {
                 onClicked: startBook("05sots", "")
                 anchors.horizontalCenter: parent.horizontalCenter
             }
+            Button {
+                text: "Start The Kingdoms of Terror (Book 6)"
+                onClicked: startBook("06tkot", "")
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+            Button {
+                text: "Start Castle Death (Book 7)"
+                onClicked: startBook("07cd", "")
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+            Button {
+                text: "Start The Jungle of Horrors (Book 8)"
+                onClicked: startBook("08tjoh", "")
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+            Button {
+                text: "Start The Cauldron of Fear (Book 9)"
+                onClicked: startBook("09tcof", "")
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+            Button {
+                text: "Start The Dungeons of Torgar (Book 10)"
+                onClicked: startBook("10tdot", "")
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+            Button {
+                text: "Start The Prisoners of Time (Book 11)"
+                onClicked: startBook("11tpot", "")
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+            Button {
+                text: "Start The Masters of Darkness (Book 12)"
+                onClicked: startBook("12tmod", "")
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
         }
     }
 }
