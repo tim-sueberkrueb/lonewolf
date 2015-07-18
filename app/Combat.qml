@@ -13,15 +13,21 @@ Rectangle {
 
     QtObject {
         id: d
+        property bool enduranceIsYours: false // true if we want to write endurance back to game state
         property int round: 1
         property string enemy
         property int combatskill
         property int endurance
         property int youcombatskill
-        property bool done: you.endurance <= 0 || endurance <= 0
+        property int youendurance
+        property bool done: youendurance <= 0 || endurance <= 0
     }
 
     Component.onCompleted: {
+        // Make copies
+        d.youendurance = root.you.endurance;
+        d.youcombatskill = root.you.combatskill;
+
         var elements = props.split(',');
         for (var i = 0; i < elements.length; i++) {
             var keyvalue = elements[i].split('=');
@@ -31,10 +37,25 @@ Rectangle {
                 d.combatskill = keyvalue[1];
             } else if (keyvalue[0] == 'endurance') {
                 d.endurance = keyvalue[1];
+                d.enduranceIsYours = true;
+            } else if (keyvalue[0] == 'resistance') {
+                enduranceTitle.text = "RESISTANCE";
+                d.endurance = keyvalue[1];
+                d.enduranceIsYours = true;
+            } else if (keyvalue[0] == 'target') {
+                enduranceTitle.text = "TARGET";
+                d.endurance = keyvalue[1];
+                youenduranceTitle.text = "TARGET";
+                d.youendurance = keyvalue[1];
             }
         }
+    }
 
-        d.youcombatskill = root.you.combatskill; // Make copy
+    Binding {
+        target: you
+        property: "endurance"
+        value: d.youendurance
+        when: d.enduranceIsYours
     }
 
     Label {
@@ -64,13 +85,35 @@ Rectangle {
             }
             Item { height: units.gu(3); width: units.gu(1); }
             Label {
-                text: you.endurance > 0 ? you.endurance : "DEAD"
-                color: you.endurance > 0 ? "white" : UbuntuColors.red
+                id: youenduranceLabel
+                text: d.youendurance > 0 || youenduranceTitle.text != "ENDURANCE"  ? d.youendurance : "DEAD"
+                color: d.youendurance > 0 ? "white" : UbuntuColors.red
                 fontSize: "x-large"
                 horizontalAlignment: Text.AlignHCenter
                 anchors.horizontalCenter: parent.horizontalCenter
+                Button {
+                    anchors.left: youenduranceLabel.right
+                    anchors.leftMargin: units.gu(1)
+                    anchors.verticalCenter: youenduranceLabel.verticalCenter
+                    width: units.gu(3)
+                    text: "+"
+                    enabled: !d.done
+                    onClicked: d.youendurance += 1
+                    color: "transparent"
+                }
+                Button {
+                    anchors.right: youenduranceLabel.left
+                    anchors.rightMargin: units.gu(1)
+                    anchors.verticalCenter: youenduranceLabel.verticalCenter
+                    width: units.gu(3)
+                    text: "-"
+                    enabled: !d.done
+                    onClicked: d.youendurance -= 1
+                    color: "transparent"
+                }
             }
             Label {
+                id: youenduranceTitle
                 text: "ENDURANCE"
                 color: "white"
                 horizontalAlignment: Text.AlignHCenter
@@ -111,6 +154,27 @@ Rectangle {
                 horizontalAlignment: Text.AlignHCenter
                 anchors.horizontalCenter: parent.horizontalCenter
             }
+            Item { height: units.gu(3); width: units.gu(1); }
+            Row {
+                CheckBox {
+                    id: youDoubleDamage
+                }
+                Label {
+                    text: "weak (×2 damage)"
+                    color: "white"
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+            Label {
+                text: "(only enable if instructed)"
+                color: "white"
+                font.italic: true
+                fontSize: "small"
+                width: root.width / 2
+                horizontalAlignment: Text.AlignHCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
         }
         Column {
             anchors.left: parent.horizontalCenter
@@ -123,13 +187,14 @@ Rectangle {
             }
             Item { height: units.gu(3); width: units.gu(1); }
             Label {
-                text: d.endurance > 0 ? d.endurance : "DEAD"
+                text: d.endurance > 0 || enduranceTitle.text != "ENDURANCE" ? d.endurance : "DEAD"
                 color: d.endurance > 0 ? "white" : UbuntuColors.red
                 fontSize: "x-large"
                 horizontalAlignment: Text.AlignHCenter
                 anchors.horizontalCenter: parent.horizontalCenter
             }
             Label {
+                id: enduranceTitle
                 text: "ENDURANCE"
                 color: "white"
                 horizontalAlignment: Text.AlignHCenter
@@ -143,26 +208,6 @@ Rectangle {
                 fontSize: "x-large"
                 horizontalAlignment: Text.AlignHCenter
                 anchors.horizontalCenter: parent.horizontalCenter
-                Button {
-                    anchors.left: combatskillLabel.right
-                    anchors.leftMargin: units.gu(1)
-                    anchors.verticalCenter: combatskillLabel.verticalCenter
-                    width: units.gu(3)
-                    text: "+"
-                    enabled: !d.done
-                    onClicked: d.combatskill += 1
-                    color: "transparent"
-                }
-                Button {
-                    anchors.right: combatskillLabel.left
-                    anchors.rightMargin: units.gu(1)
-                    anchors.verticalCenter: combatskillLabel.verticalCenter
-                    width: units.gu(3)
-                    text: "-"
-                    enabled: !d.done
-                    onClicked: d.combatskill -= 1
-                    color: "transparent"
-                }
             }
             Label {
                 text: "COMBAT SKILL"
@@ -176,7 +221,7 @@ Rectangle {
                     id: doubleDamage
                 }
                 Label {
-                    text: "×2 damage"
+                    text: "weak (×2 damage)"
                     color: "white"
                     anchors.verticalCenter: parent.verticalCenter
                 }
@@ -224,9 +269,11 @@ Rectangle {
 
             var damageToYou = Util.getDamageToYou(delta, rand);
             if (damageToYou < 0) {
-                you.endurance = 0;
+                d.youendurance = 0;
             } else {
-                you.endurance = Math.max(you.endurance - damageToYou, 0);
+                if (youDoubleDamage.checked)
+                    damageToYou = damageToYou * 2;
+                d.youendurance = Math.max(d.youendurance - damageToYou, 0);
             }
 
             d.done = true;
@@ -244,16 +291,16 @@ Rectangle {
         anchors.leftMargin: units.gu(0.5)
         enabled: !d.done
         onClicked: {
-            d.round++;
-
             var rand = Util.getRandom();
             var delta = d.youcombatskill - d.combatskill;
 
             var damageToYou = Util.getDamageToYou(delta, rand);
             if (damageToYou < 0) {
-                you.endurance = 0;
+                d.youendurance = 0;
             } else {
-                you.endurance = Math.max(you.endurance - damageToYou, 0);
+                if (youDoubleDamage.checked)
+                    damageToYou = damageToYou * 2
+                d.youendurance = Math.max(d.youendurance - damageToYou, 0);
             }
 
             var damageToEnemy = Util.getDamageToEnemy(delta, rand);
@@ -264,6 +311,9 @@ Rectangle {
                     damageToEnemy = damageToEnemy * 2;
                 d.endurance = Math.max(d.endurance - damageToEnemy, 0);
             }
+
+            if (!d.done)
+                d.round++;
         }
     }
 }
