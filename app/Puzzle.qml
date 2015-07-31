@@ -8,13 +8,12 @@ Rectangle {
     opacity: 0.95
 
     property var you
-    property var answer
+    property string answers
     signal close()
     signal goTo(string page)
 
     QtObject {
         id: d
-        property bool correct
         property bool wrong
     }
 
@@ -53,7 +52,6 @@ Rectangle {
                 horizontalAlignment: TextInput.AlignHCenter
                 font.pixelSize: FontUtils.sizeToPixels("x-large")
                 onTextChanged: {
-                    d.correct = false;
                     d.wrong = false;
                 }
             }
@@ -61,9 +59,13 @@ Rectangle {
             Button {
                 anchors.verticalCenter: parent.verticalCenter
                 text: "Try"
+                color: UbuntuColors.green
                 onClicked:{
-                    if ("sect" + entry.text == root.answer) {
-                        d.correct = true;
+                    var haystack = root.answers + " ";
+                    var needle = "sect" + entry.text + " ";
+                    console.log("MIKE", needle, haystack)
+                    if (haystack.indexOf(needle) >= 0) {
+                        root.goTo("sect" + entry.text);
                     } else {
                         d.wrong = true;
                         entry.forceActiveFocus();
@@ -78,37 +80,21 @@ Rectangle {
             anchors.left: parent.left
             anchors.right: parent.right
             horizontalAlignment: Text.AlignHCenter
-            visible: d.correct || d.wrong
-            text: d.correct ? "Correct!" : "Wrong"
-            color: d.correct ? "white" : UbuntuColors.red
+            visible: d.wrong
+            text: "Wrong"
+            color: UbuntuColors.red
             fontSize: "x-large"
         }
     }
 
     Button {
         id: cancelButton
-        text: "Cancel"
+        text: "Back to Page"
         color: UbuntuColors.lightGrey
-        anchors.left: parent.left
-        anchors.right: parent.horizontalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         anchors.topMargin: units.gu(1)
         anchors.bottomMargin: units.gu(1)
-        anchors.leftMargin: units.gu(1)
-        anchors.rightMargin: units.gu(0.5)
         onClicked: root.close()
-    }
-    Button {
-        text: "Go to Page"
-        color: UbuntuColors.green
-        anchors.right: parent.right
-        anchors.left: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.topMargin: units.gu(1)
-        anchors.bottomMargin: units.gu(1)
-        anchors.rightMargin: units.gu(1)
-        anchors.leftMargin: units.gu(0.5)
-        enabled: d.correct
-        onClicked: root.goTo("sect" + entry.text)
     }
 }

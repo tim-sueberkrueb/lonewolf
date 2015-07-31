@@ -16,27 +16,42 @@ Settings {
 
     property string notes
 
-    property string kaiskill1
-    property string kaiskill2
-    property string kaiskill3
-    property string kaiskill4
-    property string kaiskill5
-    property string kaiskill6
-    property string kaiskill7
-    property string kaiskill8
-    property string kaiskill9
-    property string kaiskill10
+    property bool kai_camouflage
+    property bool kai_hunting
+    property bool kai_sixthsense
+    property bool kai_tracking
+    property bool kai_healing
+    property bool kai_weaponskill
+    property bool kai_mindshield
+    property bool kai_mindblast
+    property bool kai_animalkinship
+    property bool kai_mindovermatter
 
-    property string magnakaiskill1
-    property string magnakaiskill2
-    property string magnakaiskill3
-    property string magnakaiskill4
-    property string magnakaiskill5
-    property string magnakaiskill6
-    property string magnakaiskill7
-    property string magnakaiskill8
-    property string magnakaiskill9
-    property string magnakaiskill10
+    property bool magnakai_weaponmastery
+    property bool magnakai_animalcontrol
+    property bool magnakai_curing
+    property bool magnakai_invisibility
+    property bool magnakai_huntmastery
+    property bool magnakai_pathsmanship
+    property bool magnakai_psisurge
+    property bool magnakai_psiscreen
+    property bool magnakai_nexus
+    property bool magnakai_divination
+
+    property bool grandmaster_grandweaponmastery
+    property bool grandmaster_animalmastery
+    property bool grandmaster_deliverance
+    property bool grandmaster_assimilance
+    property bool grandmaster_grandhuntmastery
+    property bool grandmaster_grandpathsmanship
+    property bool grandmaster_kaisurge
+    property bool grandmaster_kaiscreen
+    property bool grandmaster_grandnexus
+    property bool grandmaster_telegnosis
+    property bool grandmaster_magimagic
+    property bool grandmaster_kaialchemy
+
+    property string weaponskill_weapon
 
     property bool weaponmastery_spear
     property bool weaponmastery_dagger
@@ -49,6 +64,17 @@ Settings {
     property bool weaponmastery_quarterstaff
     property bool weaponmastery_broadsword
 
+    property bool grandweaponmastery_spear
+    property bool grandweaponmastery_dagger
+    property bool grandweaponmastery_mace
+    property bool grandweaponmastery_shortsword
+    property bool grandweaponmastery_warhammer
+    property bool grandweaponmastery_bow
+    property bool grandweaponmastery_axe
+    property bool grandweaponmastery_sword
+    property bool grandweaponmastery_quarterstaff
+    property bool grandweaponmastery_broadsword
+
     property string weapon1
     property string weapon2
 
@@ -60,6 +86,8 @@ Settings {
     property string backpack6
     property string backpack7
     property string backpack8
+    property string backpack9
+    property string backpack10
 
     property string special1
     property string special2
@@ -85,27 +113,42 @@ Settings {
         other.quiver = quiver;
         other.notes = notes;
 
-        other.kaiskill1 = kaiskill1;
-        other.kaiskill2 = kaiskill2;
-        other.kaiskill3 = kaiskill3;
-        other.kaiskill4 = kaiskill4;
-        other.kaiskill5 = kaiskill5;
-        other.kaiskill6 = kaiskill6;
-        other.kaiskill7 = kaiskill7;
-        other.kaiskill8 = kaiskill8;
-        other.kaiskill9 = kaiskill9;
-        other.kaiskill10 = kaiskill10;
+        other.kai_camouflage = kai_camouflage;
+        other.kai_hunting = kai_hunting;
+        other.kai_sixthsense = kai_sixthsense;
+        other.kai_tracking = kai_tracking;
+        other.kai_healing = kai_healing;
+        other.kai_weaponskill = kai_weaponskill;
+        other.kai_mindshield = kai_mindshield;
+        other.kai_mindblast = kai_mindblast;
+        other.kai_animalkinship = kai_animalkinship;
+        other.kai_mindovermatter = kai_mindovermatter;
 
-        other.magnakaiskill1 = magnakaiskill1;
-        other.magnakaiskill2 = magnakaiskill2;
-        other.magnakaiskill3 = magnakaiskill3;
-        other.magnakaiskill4 = magnakaiskill4;
-        other.magnakaiskill5 = magnakaiskill5;
-        other.magnakaiskill6 = magnakaiskill6;
-        other.magnakaiskill7 = magnakaiskill7;
-        other.magnakaiskill8 = magnakaiskill8;
-        other.magnakaiskill9 = magnakaiskill9;
-        other.magnakaiskill10 = magnakaiskill10;
+        other.magnakai_weaponmastery = magnakai_weaponmastery;
+        other.magnakai_animalcontrol = magnakai_animalcontrol;
+        other.magnakai_curing = magnakai_curing;
+        other.magnakai_invisibility = magnakai_invisibility;
+        other.magnakai_huntmastery = magnakai_huntmastery;
+        other.magnakai_pathsmanship = magnakai_pathsmanship;
+        other.magnakai_psisurge = magnakai_psisurge;
+        other.magnakai_psiscreen = magnakai_psiscreen;
+        other.magnakai_nexus = magnakai_nexus;
+        other.magnakai_divination = magnakai_divination;
+
+        other.grandmaster_grandweaponmastery = grandmaster_grandweaponmastery;
+        other.grandmaster_animalmastery = grandmaster_animalmastery;
+        other.grandmaster_deliverance = grandmaster_deliverance;
+        other.grandmaster_assimilance = grandmaster_assimilance;
+        other.grandmaster_grandhuntmastery = grandmaster_grandhuntmastery;
+        other.grandmaster_grandpathsmanship = grandmaster_grandpathsmanship;
+        other.grandmaster_kaisurge = grandmaster_kaisurge;
+        other.grandmaster_kaiscreen = grandmaster_kaiscreen;
+        other.grandmaster_grandnexus = grandmaster_grandnexus;
+        other.grandmaster_telegnosis = grandmaster_telegnosis;
+        other.grandmaster_magimagic = grandmaster_magimagic;
+        other.grandmaster_kaialchemy = grandmaster_kaialchemy;
+
+        other.weaponskill_weapon = weaponskill_weapon;
 
         other.weaponmastery_spear = weaponmastery_spear;
         other.weaponmastery_dagger = weaponmastery_dagger;
@@ -118,6 +161,17 @@ Settings {
         other.weaponmastery_quarterstaff = weaponmastery_quarterstaff;
         other.weaponmastery_broadsword = weaponmastery_broadsword;
 
+        other.grandweaponmastery_spear = grandweaponmastery_spear;
+        other.grandweaponmastery_dagger = grandweaponmastery_dagger;
+        other.grandweaponmastery_mace = grandweaponmastery_mace;
+        other.grandweaponmastery_shortsword = grandweaponmastery_shortsword;
+        other.grandweaponmastery_warhammer = grandweaponmastery_warhammer;
+        other.grandweaponmastery_bow = grandweaponmastery_bow;
+        other.grandweaponmastery_axe = grandweaponmastery_axe;
+        other.grandweaponmastery_sword = grandweaponmastery_sword;
+        other.grandweaponmastery_quarterstaff = grandweaponmastery_quarterstaff;
+        other.grandweaponmastery_broadsword = grandweaponmastery_broadsword;
+
         other.weapon1 = weapon1;
         other.weapon2 = weapon2;
 
@@ -129,6 +183,8 @@ Settings {
         other.backpack6 = backpack6;
         other.backpack7 = backpack7;
         other.backpack8 = backpack8;
+        other.backpack9 = backpack9;
+        other.backpack10 = backpack10;
 
         other.special1 = special1;
         other.special2 = special2;

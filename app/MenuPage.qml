@@ -9,7 +9,7 @@ Page {
     function startBook(book, pageId) {
         gameState.book = book;
         gameState.pageId = pageId;
-        pageStack.push(Qt.resolvedUrl("BookPage.qml"), {you: gameState})
+        goToBookTab(true);
     }
 
     Flickable {
@@ -30,20 +30,19 @@ Page {
             }
 
             Button {
-                text: "Continue"
-                enabled: gameState.book != ""
-                onClicked: startBook(gameState.book, gameState.pageId)
+                text: gameState.book == "" && gameState.pageId == "title" ? "Start Book 1" : "Continue"
+                onClicked: goToBookTab(false)
                 color: UbuntuColors.green
                 anchors.horizontalCenter: parent.horizontalCenter
             }
             Button {
                 text: "Load Quick Save"
-                enabled: quickSaveState.book != ""
+                enabled: quickSaveState.pageId != ""
                 onClicked: {
                     quickSaveState.copyTo(gameState);
-                    startBook(gameState.book, gameState.pageId);
+                    goToBookTab(true);
                 }
-                color: UbuntuColors.green
+                color: UbuntuColors.red
                 anchors.horizontalCenter: parent.horizontalCenter
             }
             Button {
@@ -104,6 +103,46 @@ Page {
             Button {
                 text: "Start The Masters of Darkness (Book 12)"
                 onClicked: startBook("12tmod", "")
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+            Button {
+                text: "Start The Plague Lords of Ruel (Book 13)"
+                onClicked: startBook("13tplor", "")
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+            Button {
+                text: "Start The Captives of Kaag (Book 14)"
+                onClicked: startBook("14tcok", "")
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+            Button {
+                text: "Start The Darke Crusade (Book 15)"
+                onClicked: startBook("15tdc", "")
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+            Button {
+                text: "Start The Legacy of Vashna (Book 16)"
+                onClicked: startBook("16tlov", "")
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+            Button {
+                text: "Start The Deathlord of Ixia (Book 17)"
+                onClicked: startBook("17tdoi", "")
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+            Button {
+                text: "Start Dawn of the Dragons (Book 18)"
+                onClicked: startBook("18dotd", "")
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+            Button {
+                text: "Start Wolf's Bane (Book 19)"
+                onClicked: startBook("19wb", "")
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+            Button {
+                text: "Start The Curse of Naar (Book 20)"
+                onClicked: startBook("20tcon", "")
                 anchors.horizontalCenter: parent.horizontalCenter
             }
         }

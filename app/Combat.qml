@@ -97,7 +97,6 @@ Rectangle {
                     anchors.verticalCenter: youenduranceLabel.verticalCenter
                     width: units.gu(3)
                     text: "+"
-                    enabled: !d.done
                     onClicked: d.youendurance += 1
                     color: "transparent"
                 }
@@ -107,7 +106,6 @@ Rectangle {
                     anchors.verticalCenter: youenduranceLabel.verticalCenter
                     width: units.gu(3)
                     text: "-"
-                    enabled: !d.done
                     onClicked: d.youendurance -= 1
                     color: "transparent"
                 }
@@ -187,11 +185,30 @@ Rectangle {
             }
             Item { height: units.gu(3); width: units.gu(1); }
             Label {
+                id: enduranceLabel
                 text: d.endurance > 0 || enduranceTitle.text != "ENDURANCE" ? d.endurance : "DEAD"
                 color: d.endurance > 0 ? "white" : UbuntuColors.red
                 fontSize: "x-large"
                 horizontalAlignment: Text.AlignHCenter
                 anchors.horizontalCenter: parent.horizontalCenter
+                Button {
+                    anchors.left: enduranceLabel.right
+                    anchors.leftMargin: units.gu(1)
+                    anchors.verticalCenter: enduranceLabel.verticalCenter
+                    width: units.gu(3)
+                    text: "+"
+                    onClicked: d.endurance += 1
+                    color: "transparent"
+                }
+                Button {
+                    anchors.right: enduranceLabel.left
+                    anchors.rightMargin: units.gu(1)
+                    anchors.verticalCenter: enduranceLabel.verticalCenter
+                    width: units.gu(3)
+                    text: "-"
+                    onClicked: d.endurance -= 1
+                    color: "transparent"
+                }
             }
             Label {
                 id: enduranceTitle

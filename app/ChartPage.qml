@@ -10,9 +10,10 @@ Page {
 
     QtObject {
         id: d
-        property bool kai: you.book== "01fftd" ||
+        property bool kai: you.book == "" ||
+                           you.book == "01fftd" ||
                            you.book == "02fotw" ||
-                           you.book== "03tcok" ||
+                           you.book == "03tcok" ||
                            you.book == "04tcod" ||
                            you.book == "05sots"
         property bool magnakai: you.book == "06tkot" ||
@@ -22,6 +23,14 @@ Page {
                                 you.book == "10tdot" ||
                                 you.book == "11tpot" ||
                                 you.book == "12tmod"
+        property bool grandmaster: you.book == "13tplor" ||
+                                   you.book == "14tcok" ||
+                                   you.book == "15tdc" ||
+                                   you.book == "16tlov" ||
+                                   you.book == "17tdoi" ||
+                                   you.book == "18dotd" ||
+                                   you.book == "19wb" ||
+                                   you.book == "20tcon"
     }
 
     Flickable {
@@ -101,7 +110,7 @@ Page {
 
                 Label {
                     text: "Quiver"
-                    visible: d.magnakai
+                    visible: d.magnakai || d.grandmaster
                 }
                 ChartItem {
                     inputMethodHints: Qt.ImhDigitsOnly
@@ -110,9 +119,15 @@ Page {
                     you: root.you
                     prop: "quiver"
                     width: units.gu(6)
-                    visible: d.magnakai
+                    visible: d.magnakai || d.grandmaster
                 }
-                Item {height: 1; width: 1; visible: d.magnakai}
+                Label {
+                    text: "Max 6"
+                    font.italic: true
+                    wrapMode: Text.Wrap
+                    width: units.gu(8)
+                    visible: d.magnakai || d.grandmaster
+                }
 
                 Label {
                     text: "Meals"
@@ -126,7 +141,7 @@ Page {
                     width: units.gu(6)
                 }
                 Label {
-                    text: "-3 endurance if no meals when instructed to eat"
+                    text: "Each fills a backpack slot"
                     font.italic: true
                     wrapMode: Text.Wrap
                     width: units.gu(15)
@@ -163,19 +178,6 @@ Page {
                     width: weapons.itemWidth
                 }
             }
-            Label {
-                text: "If holding a weapon with the appropriate " +
-                      (d.kai ? "Weaponskill: +2CS" : "Weaponmastery: +3CS")
-                font.italic: true
-                wrapMode: Text.Wrap
-                width: flicker.width
-            }
-            Label {
-                text: "If you have no weapon during combat: -4CS"
-                font.italic: true
-                wrapMode: Text.Wrap
-                width: flicker.width
-            }
 
             Item {
                 width: 1
@@ -187,8 +189,8 @@ Page {
             Grid {
                 id: backpack
                 columns: 2
-                rows: 4
-                flow: Grid.TopToBottom
+                rows: 5
+                flow: Grid.LeftToRight
                 spacing: units.gu(1)
                 property real itemWidth: (flicker.width - spacing) / 2
 
@@ -240,12 +242,20 @@ Page {
                     prop: "backpack8"
                     width: backpack.itemWidth
                 }
-            }
-            Label {
-                text: "Can be discarded when not in combat"
-                font.italic: true
-                wrapMode: Text.Wrap
-                width: flicker.width
+                ChartItem {
+                    text: you.backpack9
+                    you: root.you
+                    prop: "backpack9"
+                    width: backpack.itemWidth
+                    visible: d.grandmaster
+                }
+                ChartItem {
+                    text: you.backpack10
+                    you: root.you
+                    prop: "backpack10"
+                    width: backpack.itemWidth
+                    visible: d.grandmaster
+                }
             }
 
             Item {
@@ -355,75 +365,94 @@ Page {
                 property real itemWidth: (flicker.width - spacing) / 2
                 visible: d.kai
 
-                ChartItem {
-                    hasClearButton: false
-                    text: you.kaiskill1
+                ChartCheck {
                     you: root.you
-                    prop: "kaiskill1"
+                    text: "Camouflage"
+                    checked: you.kai_camouflage
+                    prop: "kai_camouflage"
                     width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Hunting"
+                    checked: you.kai_hunting
+                    prop: "kai_hunting"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Sixth Sense"
+                    checked: you.kai_sixthsense
+                    prop: "kai_sixthsense"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Tracking"
+                    checked: you.kai_tracking
+                    prop: "kai_tracking"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Healing"
+                    checked: you.kai_healing
+                    prop: "kai_healing"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Weaponskill"
+                    checked: you.kai_weaponskill
+                    prop: "kai_weaponskill"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Mindshield"
+                    checked: you.kai_mindshield
+                    prop: "kai_mindshield"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Mindblast"
+                    checked: you.kai_mindblast
+                    prop: "kai_mindblast"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Animal Kinship"
+                    checked: you.kai_animalkinship
+                    prop: "kai_animalkinship"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Mind Over Matter"
+                    checked: you.kai_mindovermatter
+                    prop: "kai_mindovermatter"
+                    width: disciplines.itemWidth
+                }
+            }
+
+            Grid {
+                columns: 2
+                rows: 1
+                visible: d.kai
+                spacing: units.gu(1)
+                verticalItemAlignment: Grid.AlignVCenter
+
+                Label {
+                    text: "Weaponskill Weapon:"
                 }
                 ChartItem {
                     hasClearButton: false
-                    text: you.kaiskill2
+                    text: you.weaponskill_weapon
                     you: root.you
-                    prop: "kaiskill2"
-                    width: disciplines.itemWidth
-                }
-                ChartItem {
-                    hasClearButton: false
-                    text: you.kaiskill3
-                    you: root.you
-                    prop: "kaiskill3"
-                    width: disciplines.itemWidth
-                }
-                ChartItem {
-                    hasClearButton: false
-                    text: you.kaiskill4
-                    you: root.you
-                    prop: "kaiskill4"
-                    width: disciplines.itemWidth
-                }
-                ChartItem {
-                    hasClearButton: false
-                    text: you.kaiskill5
-                    you: root.you
-                    prop: "kaiskill5"
-                    width: disciplines.itemWidth
-                }
-                ChartItem {
-                    hasClearButton: false
-                    text: you.kaiskill6
-                    you: root.you
-                    prop: "kaiskill6"
-                    width: disciplines.itemWidth
-                }
-                ChartItem {
-                    hasClearButton: false
-                    text: you.kaiskill7
-                    you: root.you
-                    prop: "kaiskill7"
-                    width: disciplines.itemWidth
-                }
-                ChartItem {
-                    hasClearButton: false
-                    text: you.kaiskill8
-                    you: root.you
-                    prop: "kaiskill8"
-                    width: disciplines.itemWidth
-                }
-                ChartItem {
-                    hasClearButton: false
-                    text: you.kaiskill9
-                    you: root.you
-                    prop: "kaiskill9"
-                    width: disciplines.itemWidth
-                }
-                ChartItem {
-                    hasClearButton: false
-                    text: you.kaiskill10
-                    you: root.you
-                    prop: "kaiskill10"
-                    width: disciplines.itemWidth
+                    prop: "weaponskill_weapon"
+                    width: units.gu(16)
                 }
             }
 
@@ -443,74 +472,74 @@ Page {
                 spacing: units.gu(1)
                 visible: d.magnakai
 
-                ChartItem {
-                    hasClearButton: false
-                    text: you.magnakaiskill1
+                ChartCheck {
                     you: root.you
-                    prop: "magnakaiskill1"
+                    text: "Weaponmastery"
+                    checked: you.magnakai_weaponmastery
+                    prop: "magnakai_weaponmastery"
                     width: disciplines.itemWidth
                 }
-                ChartItem {
-                    hasClearButton: false
-                    text: you.magnakaiskill2
+                ChartCheck {
                     you: root.you
-                    prop: "magnakaiskill2"
+                    text: "Animal Control"
+                    checked: you.magnakai_animalcontrol
+                    prop: "magnakai_animalcontrol"
                     width: disciplines.itemWidth
                 }
-                ChartItem {
-                    hasClearButton: false
-                    text: you.magnakaiskill3
+                ChartCheck {
                     you: root.you
-                    prop: "magnakaiskill3"
+                    text: "Curing"
+                    checked: you.magnakai_curing
+                    prop: "magnakai_curing"
                     width: disciplines.itemWidth
                 }
-                ChartItem {
-                    hasClearButton: false
-                    text: you.magnakaiskill4
+                ChartCheck {
                     you: root.you
-                    prop: "magnakaiskill4"
+                    text: "Invisibility"
+                    checked: you.magnakai_invisibility
+                    prop: "magnakai_invisibility"
                     width: disciplines.itemWidth
                 }
-                ChartItem {
-                    hasClearButton: false
-                    text: you.magnakaiskill5
+                ChartCheck {
                     you: root.you
-                    prop: "magnakaiskill5"
+                    text: "Huntmastery"
+                    checked: you.magnakai_huntmastery
+                    prop: "magnakai_huntmastery"
                     width: disciplines.itemWidth
                 }
-                ChartItem {
-                    hasClearButton: false
-                    text: you.magnakaiskill6
+                ChartCheck {
                     you: root.you
-                    prop: "magnakaiskill6"
+                    text: "Pathsmanship"
+                    checked: you.magnakai_pathsmanship
+                    prop: "magnakai_pathsmanship"
                     width: disciplines.itemWidth
                 }
-                ChartItem {
-                    hasClearButton: false
-                    text: you.magnakaiskill7
+                ChartCheck {
                     you: root.you
-                    prop: "magnakaiskill7"
+                    text: "Psi-surge"
+                    checked: you.magnakai_psisurge
+                    prop: "magnakai_psisurge"
                     width: disciplines.itemWidth
                 }
-                ChartItem {
-                    hasClearButton: false
-                    text: you.magnakaiskill8
+                ChartCheck {
                     you: root.you
-                    prop: "magnakaiskill8"
+                    text: "Psi-screen"
+                    checked: you.magnakai_psiscreen
+                    prop: "magnakai_psiscreen"
                     width: disciplines.itemWidth
                 }
-                ChartItem {
-                    hasClearButton: false
-                    text: you.magnakaiskill9
+                ChartCheck {
                     you: root.you
-                    prop: "magnakaiskill9"
+                    text: "Nexus"
+                    checked: you.magnakai_nexus
+                    prop: "magnakai_nexus"
                     width: disciplines.itemWidth
                 }
-                ChartItem {
-                    hasClearButton: false
-                    text: you.magnakaiskill10
+                ChartCheck {
                     you: root.you
-                    prop: "magnakaiskill10"
+                    text: "Divination"
+                    checked: you.magnakai_divination
+                    prop: "magnakai_divination"
                     width: disciplines.itemWidth
                 }
             }
@@ -599,6 +628,196 @@ Page {
                     text: "Broadsword"
                     checked: you.weaponmastery_broadsword
                     prop: "weaponmastery_broadsword"
+                    width: disciplines.itemWidth
+                }
+            }
+
+            Item {
+                width: 1
+                height: units.gu(1)
+                visible: d.grandmaster
+            }
+            Label {
+                text: "Grand Master Disciplines"
+                visible: d.grandmaster
+            }
+            Grid {
+                columns: 2
+                rows: 6
+                flow: Grid.TopToBottom
+                spacing: units.gu(1)
+                visible: d.grandmaster
+
+                ChartCheck {
+                    you: root.you
+                    text: "G Weaponmastery"
+                    checked: you.grandmaster_grandweaponmastery
+                    prop: "grandmaster_grandweaponmastery"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Animal Mastery"
+                    checked: you.grandmaster_animalmastery
+                    prop: "grandmaster_animalmastery"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Deliverance"
+                    checked: you.grandmaster_deliverance
+                    prop: "grandmaster_deliverance"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Assimilance"
+                    checked: you.grandmaster_assimilance
+                    prop: "grandmaster_assimilance"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "G Huntmastery"
+                    checked: you.grandmaster_grandhuntmastery
+                    prop: "grandmaster_grandhuntmastery"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "G Pathsmanship"
+                    checked: you.grandmaster_grandpathsmanship
+                    prop: "grandmaster_grandpathsmanship"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Kai-surge"
+                    checked: you.grandmaster_kaisurge
+                    prop: "grandmaster_kaisurge"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Kai-screen"
+                    checked: you.grandmaster_kaiscreen
+                    prop: "grandmaster_kaiscreen"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Grand Nexus"
+                    checked: you.grandmaster_grandnexus
+                    prop: "grandmaster_grandnexus"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Telegnosis"
+                    checked: you.grandmaster_telegnosis
+                    prop: "grandmaster_telegnosis"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Magi-magic"
+                    checked: you.grandmaster_magimagic
+                    prop: "grandmaster_magimagic"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Kai-alchemy"
+                    checked: you.grandmaster_kaialchemy
+                    prop: "grandmaster_kaialchemy"
+                    width: disciplines.itemWidth
+                }
+            }
+
+            Item {
+                width: 1
+                height: units.gu(1)
+                visible: d.grandmaster
+            }
+            Label {
+                text: "Grand Weaponmastery Checklist"
+                visible: d.grandmaster
+            }
+            Grid {
+                columns: 2
+                rows: 5
+                flow: Grid.TopToBottom
+                spacing: units.gu(1)
+                visible: d.grandmaster
+
+                ChartCheck {
+                    you: root.you
+                    text: "Dagger"
+                    checked: you.grandweaponmastery_dagger
+                    prop: "grandweaponmastery_dagger"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Mace"
+                    checked: you.grandweaponmastery_mace
+                    prop: "grandweaponmastery_mace"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Warhammer"
+                    checked: you.grandweaponmastery_warhammer
+                    prop: "grandweaponmastery_warhammer"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Axe"
+                    checked: you.grandweaponmastery_axe
+                    prop: "grandweaponmastery_axe"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Quarterstaff"
+                    checked: you.grandweaponmastery_quarterstaff
+                    prop: "grandweaponmastery_quarterstaff"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Spear"
+                    checked: you.grandweaponmastery_spear
+                    prop: "grandweaponmastery_spear"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Short Sword"
+                    checked: you.grandweaponmastery_shortsword
+                    prop: "grandweaponmastery_shortsword"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Bow"
+                    checked: you.grandweaponmastery_bow
+                    prop: "grandweaponmastery_bow"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Sword"
+                    checked: you.grandweaponmastery_sword
+                    prop: "grandweaponmastery_sword"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Broadsword"
+                    checked: you.grandweaponmastery_broadsword
+                    prop: "grandweaponmastery_broadsword"
                     width: disciplines.itemWidth
                 }
             }

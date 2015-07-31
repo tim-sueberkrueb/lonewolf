@@ -30,7 +30,7 @@ Page {
             iconName: "note"
             text: i18n.tr("Action Chart")
             visible: book.progress == 100
-            onTriggered: pageStack.push(Qt.resolvedUrl("ChartPage.qml"), {you: root.you})
+            onTriggered: goToChartTab()
         },
         Action {
             id: quickSave
@@ -47,7 +47,7 @@ Page {
         },
         Action {
             id: mapAction
-            iconName: "webbrowser-app-symbolic"
+            iconName: "location"
             text: i18n.tr("Map")
             visible: book.progress == 100
             onTriggered: pageView.pageId = "map"
@@ -57,7 +57,7 @@ Page {
     Book {
         id: book
         dir: Qt.resolvedUrl(".")
-        filename: you.book
+        filename: you.book ? you.book : "01fftd"
         pageId: pageView.pageId
         onPageIdChanged: {
             if (pageId == "" && pageView.pageId != "")
@@ -100,7 +100,7 @@ Page {
                     Qt.openUrlExternally(model.message.split(',')[1]);
                     model.accept();
                 } else if (model.message.indexOf("puzzle-page,") == 0) {
-                    puzzle.answer = model.message.split(',')[1];
+                    puzzle.answers = model.message.split(',')[1];
                     puzzle.visible = true;
                 } else {
                     pageView.pageId = model.message;
