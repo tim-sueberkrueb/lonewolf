@@ -2,6 +2,7 @@
 #define BOOK_H
 
 #include <libxml/tree.h>
+#include <QColor>
 #include <QObject>
 #include "downloader.h"
 
@@ -20,6 +21,9 @@ class Book : public QObject
     Q_PROPERTY(QString dir READ dir WRITE setDir NOTIFY dirChanged)
     Q_PROPERTY(QString cacheDir READ cacheDir NOTIFY filenameChanged)
 
+    Q_PROPERTY(QColor bgColor READ bgColor WRITE setBgColor NOTIFY bgColorChanged)
+    Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor NOTIFY textColorChanged)
+
 public:
     explicit Book(QObject *parent = 0);
     ~Book();
@@ -32,6 +36,8 @@ Q_SIGNALS:
     void pageIdChanged();
     void progressChanged();
     void dirChanged();
+    void bgColorChanged();
+    void textColorChanged();
 
 protected Q_SLOTS:
     void downloadProgressChanged();
@@ -45,6 +51,12 @@ protected:
 
     QString dir() { return m_dir; }
     void setDir(const QString &dir);
+
+    QColor bgColor() { return m_bgColor; }
+    void setBgColor(const QColor &bgColor);
+
+    QColor textColor() { return m_textColor; }
+    void setTextColor(const QColor &textColor);
 
     QString cacheDir();
 
@@ -76,6 +88,8 @@ protected:
     QString m_pageId;
     xmlDocPtr m_dom;
     QString m_dir;
+    QColor m_bgColor;
+    QColor m_textColor;
     Downloader m_downloader;
 };
 

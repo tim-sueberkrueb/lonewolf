@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import Qt.labs.settings 1.0
 import Ubuntu.Components 1.2
 import Lonewolf 1.0
 
@@ -17,6 +18,24 @@ MainView {
         if (event.matches(StandardKey.Quit)) {
             actionManager.quit();
         }
+    }
+
+    Binding {
+        target: Theme
+        property: "name"
+        value: settings.nightMode ? "Ubuntu.Components.Themes.SuruDark" : "Ubuntu.Components.Themes.Ambiance"
+    }
+
+    Action {
+        id: nightMode
+        iconName: "display-brightness-symbolic"
+        text: settings.nightMode ? "Day Mode" : "Night Mode"
+        onTriggered: settings.nightMode = !settings.nightMode
+    }
+
+    Settings {
+        id: settings
+        property bool nightMode
     }
 
     GameState {

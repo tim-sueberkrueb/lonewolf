@@ -6,6 +6,10 @@ Page {
     id: root
     title: "Lone Wolf"
 
+    head.actions: [
+        nightMode
+    ]
+
     function startBook(book, pageId) {
         gameState.book = book;
         gameState.pageId = pageId;

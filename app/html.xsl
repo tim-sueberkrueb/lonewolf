@@ -12,6 +12,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link type="text/css" href="$DATADIR/main.css" rel="stylesheet"/>
+<style>$STYLE</style>
 </head>
 <xsl:apply-templates/>
 </html>

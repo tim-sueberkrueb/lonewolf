@@ -25,41 +25,53 @@ Page {
     }
 
     head.actions: [
-        Action {
-            id: actionChart
-            iconName: "note"
-            text: i18n.tr("Action Chart")
-            visible: book.progress == 100
-            onTriggered: goToChartTab()
-        },
-        Action {
-            id: quickSave
-            iconName: "save"
-            text: i18n.tr("Quick Save")
-            visible: book.progress == 100
-            enabled: !book.inBackMatter && you.endurance > 0
-            onTriggered: {
-                if (quickSaveState.pageId == "") {
-                    PopupUtils.open(saveDialog);
-                }
-                you.copyTo(quickSaveState);
-            }
-        },
-        Action {
-            id: mapAction
-            iconName: "location"
-            text: i18n.tr("Map")
-            visible: book.progress == 100
-            onTriggered: pageView.pageId = "map"
-        }
+        actionChart, quickSave, mapAction, nightMode
     ]
+
+    Action {
+        id: actionChart
+        iconName: "note"
+        text: i18n.tr("Action Chart")
+        visible: book.progress == 100
+        onTriggered: goToChartTab()
+    }
+
+    Action {
+        id: quickSave
+        iconName: "save"
+        text: i18n.tr("Quick Save")
+        visible: book.progress == 100
+        enabled: !book.inBackMatter && you.endurance > 0
+        onTriggered: {
+            if (quickSaveState.pageId == "") {
+                PopupUtils.open(saveDialog);
+            }
+            you.copyTo(quickSaveState);
+        }
+    }
+
+    Action {
+        id: mapAction
+        iconName: "location"
+        text: i18n.tr("Map")
+        visible: book.progress == 100
+        onTriggered: pageView.pageId = "map"
+    }
 
     Book {
         id: book
         dir: Qt.resolvedUrl(".")
         filename: you.book ? you.book : "01fftd"
         pageId: pageView.pageId
-        onPageIdChanged: {
+
+        // Only respect theme in night mode because in "normal" day mode,
+        // we want our background to blend with illustrations.
+        bgColor: settings.nightMode ? Theme.palette.normal.field : "white"
+        textColor: settings.nightMode ? Theme.palette.normal.fieldText : "black"
+
+        property bool inBackMatter: false
+
+        onPageContentChanged: {
             if (pageId == "" && pageView.pageId != "")
                 return; // on startup we get this fake-out...
             var content = pageContent;
@@ -71,7 +83,6 @@ Page {
             //console.log("MIKE page:", content);
             pageView.loadHtml(content, Qt.resolvedUrl(book.cacheDir) + "/");
         }
-        property bool inBackMatter: false
     }
 
     WebView {
@@ -171,6 +182,7 @@ Page {
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         height: (previous.visible || next.visible) ? units.gu(6) : 0
+        color: mainView.backgroundColor
 
         Button {
             id: previous
