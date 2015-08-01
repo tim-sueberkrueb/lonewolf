@@ -100,6 +100,7 @@ Page {
                 if (model.message == "random") {
                     random.visible = true;
                 } else if (model.message == "action") {
+                    Haptics.play();
                     actionChart.trigger();
                     model.accept();
                 } else if (model.message == "dead") {
@@ -115,6 +116,7 @@ Page {
                     puzzle.answers = model.message.split(',')[1];
                     puzzle.visible = true;
                 } else {
+                    Haptics.play();
                     pageView.pageId = model.message;
                     model.accept();
                 }
