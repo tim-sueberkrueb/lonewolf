@@ -52,7 +52,7 @@
 
 <xsl:template match="illustration">
  <figure>
-  <img onerror="this.src=''">
+  <img width="100%" onerror="this.style.display='none'">
    <xsl:attribute name="src"><xsl:value-of select="instance[@class='html']/@src"/></xsl:attribute>
   </img>
   <figcaption>
