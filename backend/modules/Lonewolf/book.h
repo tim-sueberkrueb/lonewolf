@@ -23,6 +23,7 @@ class Book : public QObject
 
     Q_PROPERTY(QColor bgColor READ bgColor WRITE setBgColor NOTIFY bgColorChanged)
     Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor NOTIFY textColorChanged)
+    Q_PROPERTY(QColor linkColor READ linkColor WRITE setLinkColor NOTIFY linkColorChanged)
 
 public:
     explicit Book(QObject *parent = 0);
@@ -38,6 +39,7 @@ Q_SIGNALS:
     void dirChanged();
     void bgColorChanged();
     void textColorChanged();
+    void linkColorChanged();
 
 protected Q_SLOTS:
     void downloadProgressChanged();
@@ -57,6 +59,9 @@ protected:
 
     QColor textColor() { return m_textColor; }
     void setTextColor(const QColor &textColor);
+
+    QColor linkColor() { return m_linkColor; }
+    void setLinkColor(const QColor &linkColor);
 
     QString cacheDir();
 
@@ -90,6 +95,7 @@ protected:
     QString m_dir;
     QColor m_bgColor;
     QColor m_textColor;
+    QColor m_linkColor;
     Downloader m_downloader;
 };
 

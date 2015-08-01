@@ -291,7 +291,10 @@ QString Book::xmlToHtml(const QString &xml)
     QString style = QString("body { \
         background-color: %1; \
         color: %2; \
-    }").arg(m_bgColor.name(), m_textColor.name());
+    }\
+    a.external { \
+        color: %3; \
+    }").arg(m_bgColor.name(), m_textColor.name(), m_linkColor.name());
     transformed.replace("$STYLE", style);
 
     return transformed;
@@ -319,6 +322,13 @@ void Book::setTextColor(const QColor &textColor)
 {
     m_textColor = textColor;
     textColorChanged();
+    pageIdChanged(); // content changes
+}
+
+void Book::setLinkColor(const QColor &linkColor)
+{
+    m_linkColor = linkColor;
+    linkColorChanged();
     pageIdChanged(); // content changes
 }
 

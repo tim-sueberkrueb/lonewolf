@@ -68,6 +68,7 @@ Page {
         // we want our background to blend with illustrations.
         bgColor: settings.nightMode ? Theme.palette.normal.field : "white"
         textColor: settings.nightMode ? Theme.palette.normal.fieldText : "black"
+        linkColor: settings.nightMode ? Theme.palette.selected.selection : "blue"
 
         property bool inBackMatter: false
 
@@ -181,8 +182,8 @@ Page {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        height: (previous.visible || next.visible) ? units.gu(6) : 0
-        color: mainView.backgroundColor
+        height: (previous.visible || next.visible || licenseButton.visible) ? units.gu(6) : 0
+        color: Theme.palette.normal.background
 
         Button {
             id: previous
@@ -213,10 +214,25 @@ Page {
             visible: book.nextPageId != ""
             onClicked: pageView.pageId = book.nextPageId
         }
+
+        Button {
+            id: licenseButton
+            text: "Accept"
+            color: UbuntuColors.green
+            visible: book.progress < 100
+            anchors.centerIn: parent
+            onClicked: {
+                cancelDownloadButton.visible = true; // can't actually cancel before this (we download xml synchronously)
+                downloadCover.visible = true;
+                pageView.pageId = "";
+                book.downloadImages();
+            }
+        }
     }
 
     Rectangle {
-        color: "white"
+        id: downloadCover
+        color: Theme.palette.normal.background
         anchors.fill: parent
         opacity: book.progress == 100 ? 0 : 1
         Behavior on opacity { UbuntuNumberAnimation {} }
@@ -261,44 +277,6 @@ Page {
             }
         }
 
-        Item {
-            id: licensePage
-            anchors.fill: parent
-            visible: false
-            anchors.margins: units.gu(1)
-            Flickable {
-                id: licenseFlickable
-                anchors.top: parent.top
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottom: licenseButton.top
-                anchors.bottomMargin: units.gu(2)
-                clip: true
-                contentHeight: licenseLabel.height
-                Label {
-                    id: licenseLabel
-                    wrapMode: Text.Wrap
-                    width: parent.width
-                    textFormat: Text.StyledText
-                }
-            }
-            Button {
-                id: licenseButton
-                text: "Accept"
-                color: UbuntuColors.green
-                anchors.bottom: parent.bottom
-                anchors.horizontalCenter: parent.horizontalCenter
-                onClicked: {
-                    pageView.pageId = "";
-                    book.inBackMatter = false;
-                    cancelDownloadButton.visible = true; // can't actually cancel before this (we download xml synchronously)
-                    downloadPage.visible = true;
-                    licensePage.visible = false;
-                    book.downloadImages();
-                }
-            }
-        }
-
         // Download book once we're idle
         Timer {
             interval: 1000
@@ -307,9 +285,8 @@ Page {
                 if (book.progress < 100) {
                     book.downloadBook();
                     pageView.pageId = "license";
-                    licenseLabel.text = book.pageContent;
-                    downloadPage.visible = false;
-                    licensePage.visible = true;
+                    book.inBackMatter = false;
+                    downloadCover.visible = false;
                 }
             }
         }
