@@ -61,9 +61,12 @@
  </figure>
 </xsl:template>
 
-<xsl:template match="section">
+<xsl:template match="/*/section">
  <xsl:apply-templates select="meta/title"/>
  <xsl:apply-templates select="data"/>
+</xsl:template>
+
+<xsl:template match="/section/meta">
 </xsl:template>
 
 <xsl:template match="title">
@@ -74,7 +77,7 @@
  <xsl:apply-templates/>
 </xsl:template>
 
-<xsl:template match="body">
+<xsl:template match="/section">
  <body>
   <xsl:if test=".//deadend">
    <xsl:attribute name="onload">
@@ -83,6 +86,20 @@
   </xsl:if>
   <xsl:apply-templates/>
  </body>
+</xsl:template>
+
+<xsl:template match="bookref">
+ <xsl:choose>
+  <xsl:when test="/section[@id='sect300'] or /section[@id='sect350'] or /section[@id='sect400']">
+   <a class="pagelink">
+    <xsl:attribute name="onclick"><xsl:text>alert('book,</xsl:text><xsl:value-of select="@series"/><xsl:text>,</xsl:text><xsl:value-of select="@book"/><xsl:text>')</xsl:text></xsl:attribute>
+    <xsl:apply-templates />
+   </a>
+  </xsl:when>
+  <xsl:otherwise>
+   <xsl:apply-templates />
+  </xsl:otherwise>
+ </xsl:choose>
 </xsl:template>
 
 <xsl:template match="line">

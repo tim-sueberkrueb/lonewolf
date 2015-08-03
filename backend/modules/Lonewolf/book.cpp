@@ -193,6 +193,8 @@ QString Book::getTitleContent()
 {
     QString text;
 
+    text += "<body>";
+
     xmlNodePtr meta = getElement("meta");
 
     xmlNodePtr blurb = getElementByClass("description", "blurb", meta);
@@ -219,6 +221,8 @@ QString Book::getTitleContent()
     text += (const char *)buf->content;
     xmlBufferFree(buf);
 
+    text += "</body>";
+
     return text;
 }
 
@@ -226,6 +230,20 @@ QString Book::getTitleContent()
 QString Book::getSectionContent(xmlNodePtr section)
 {
     QString text;
+
+    text += "<section id='";
+    xmlChar *id = xmlGetProp(section, (const xmlChar *)"id");
+    text += QString((const char *)id);
+    xmlFree(id);
+    text += "'>";
+
+    xmlNodePtr meta = getElement("meta", section);
+    if (meta != NULL) {
+        xmlBufferPtr buf = xmlBufferCreate();
+        xmlNodeDump(buf, m_dom, meta, 0, 1);
+        text += (const char *)buf->content;
+        xmlBufferFree(buf);
+    }
 
     xmlNodePtr footnotes = getElement("footnotes", section);
     if (footnotes != NULL) {
@@ -256,6 +274,8 @@ QString Book::getSectionContent(xmlNodePtr section)
         cur = cur->next;
     }
 
+    text += "</section>";
+
     return text;
 }
 
@@ -279,7 +299,7 @@ QString Book::getChildContent(xmlNodePtr section)
 QString Book::xmlToHtml(const QString &xml)
 {
     QXmlQuery query(QXmlQuery::XSLT20);
-    query.setFocus("<body>" + xml + "</body>");
+    query.setFocus(xml);
     query.setQuery(QUrl(m_dir + "/html.xsl"));
 
     QString transformed;
