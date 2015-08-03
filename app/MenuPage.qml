@@ -25,10 +25,14 @@ Page {
 
         Column {
             id: column
-            spacing: units.gu(1)
+            spacing: units.gu(2)
 
             Label {
-                text: "Lone Wolf is a role-playing book series from the 80s.  This app lets you play the old adventures, but the text is not updated.  It may refer to things like pencils that assume you are playing with an actual book.  And it relies on the honor system a bit.  Just roll with it."
+                text: "<p>Lone Wolf is a role-playing book series from the 80s.</p><br>" +
+                      "<p>This app lets you play the old adventures, but the text is not updated.  It may refer to things like pencils that assume you are playing with an actual book.  And it relies on the honor system a bit.  Just roll with it.</p><br>" +
+                      "<p>If you have any rules questions or encounter an ambiguity, try the <a href='http://www.projectaon.org/en/ReadersHandbook/Home'>Reader's Handbook</a>.</p>"
+                linkColor: Theme.palette.selected.backgroundText
+                onLinkActivated: Qt.openUrlExternally(link)
                 wrapMode: Text.Wrap
                 width: flicker.width
             }
@@ -49,105 +53,59 @@ Page {
                 color: UbuntuColors.red
                 anchors.horizontalCenter: parent.horizontalCenter
             }
-            Button {
-                text: "Start Flight From the Dark (Book 1)"
-                onClicked: startBook("01fftd", "")
-                anchors.horizontalCenter: parent.horizontalCenter
+
+            ListModel {
+                id: bookModel
+                ListElement { book: "01fftd"; series: "kai" }
+                ListElement { book: "02fotw"; series: "kai" }
+                ListElement { book: "03tcok"; series: "kai" }
+                ListElement { book: "04tcod"; series: "kai" }
+                ListElement { book: "05sots"; series: "kai" }
+                ListElement { book: "06tkot"; series: "magnakai" }
+                ListElement { book: "07cd"; series: "magnakai" }
+                ListElement { book: "08tjoh"; series: "magnakai" }
+                ListElement { book: "09tcof"; series: "magnakai" }
+                ListElement { book: "10tdot"; series: "magnakai" }
+                ListElement { book: "11tpot"; series: "magnakai" }
+                ListElement { book: "12tmod"; series: "magnakai" }
+                ListElement { book: "13tplor"; series: "grandmaster" }
+                ListElement { book: "14tcok"; series: "grandmaster" }
+                ListElement { book: "15tdc"; series: "grandmaster" }
+                ListElement { book: "16tlov"; series: "grandmaster" }
+                ListElement { book: "17tdoi"; series: "grandmaster" }
+                ListElement { book: "18dotd"; series: "grandmaster" }
+                ListElement { book: "19wb"; series: "grandmaster" }
+                ListElement { book: "20tcon"; series: "grandmaster" }
             }
-            Button {
-                text: "Start Fire on the Water (Book 2)"
-                onClicked: startBook("02fotw", "")
-                anchors.horizontalCenter: parent.horizontalCenter
+
+            Item {
+                height: 1
+                width: 1
             }
-            Button {
-                text: "Start The Caverns of Kalte (Book 3)"
-                onClicked: startBook("03tcok", "")
-                anchors.horizontalCenter: parent.horizontalCenter
+            Label {
+                text: "All Books"
+                font.bold: true
+                horizontalAlignment: Text.AlignHCenter
+                width: parent.width
             }
-            Button {
-                text: "Start The Chasm of Doom (Book 4)"
-                onClicked: startBook("04tcod", "")
+            Flow {
+                id: buttonFlow
                 anchors.horizontalCenter: parent.horizontalCenter
-            }
-            Button {
-                text: "Start Shadows on the Sand (Book 5)"
-                onClicked: startBook("05sots", "")
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-            Button {
-                text: "Start The Kingdoms of Terror (Book 6)"
-                onClicked: startBook("06tkot", "")
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-            Button {
-                text: "Start Castle Death (Book 7)"
-                onClicked: startBook("07cd", "")
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-            Button {
-                text: "Start The Jungle of Horrors (Book 8)"
-                onClicked: startBook("08tjoh", "")
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-            Button {
-                text: "Start The Cauldron of Fear (Book 9)"
-                onClicked: startBook("09tcof", "")
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-            Button {
-                text: "Start The Dungeons of Torgar (Book 10)"
-                onClicked: startBook("10tdot", "")
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-            Button {
-                text: "Start The Prisoners of Time (Book 11)"
-                onClicked: startBook("11tpot", "")
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-            Button {
-                text: "Start The Masters of Darkness (Book 12)"
-                onClicked: startBook("12tmod", "")
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-            Button {
-                text: "Start The Plague Lords of Ruel (Book 13)"
-                onClicked: startBook("13tplor", "")
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-            Button {
-                text: "Start The Captives of Kaag (Book 14)"
-                onClicked: startBook("14tcok", "")
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-            Button {
-                text: "Start The Darke Crusade (Book 15)"
-                onClicked: startBook("15tdc", "")
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-            Button {
-                text: "Start The Legacy of Vashna (Book 16)"
-                onClicked: startBook("16tlov", "")
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-            Button {
-                text: "Start The Deathlord of Ixia (Book 17)"
-                onClicked: startBook("17tdoi", "")
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-            Button {
-                text: "Start Dawn of the Dragons (Book 18)"
-                onClicked: startBook("18dotd", "")
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-            Button {
-                text: "Start Wolf's Bane (Book 19)"
-                onClicked: startBook("19wb", "")
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-            Button {
-                text: "Start The Curse of Naar (Book 20)"
-                onClicked: startBook("20tcon", "")
-                anchors.horizontalCenter: parent.horizontalCenter
+                width: flicker.width - marginWidth * 2
+                spacing: units.gu(3)
+                property real buttonWidth: units.gu(6)
+                property real marginWidth: (flicker.width - buttonWidth) % (buttonWidth + spacing) / 2
+                Repeater {
+                    model: bookModel
+                    delegate: Button {
+                        text: index + 1
+                        onClicked: startBook(book, "")
+                        width: buttonFlow.buttonWidth
+                        height: width
+                        color: series == "kai" ? "#203432" :
+                               series == "magnakai" ? "#425654" : "#647865"
+                    }
+                }
             }
         }
     }
