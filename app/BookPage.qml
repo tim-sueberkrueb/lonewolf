@@ -58,6 +58,78 @@ Page {
         onTriggered: pageView.pageId = "map"
     }
 
+    head.contents: Rectangle {
+        color: Theme.palette.normal.background
+        Label {
+            id: headTitle
+            text: root.title
+            fontSize: "x-large"
+            font.weight: Font.Light
+            elide: Text.ElideRight
+            anchors.left: parent.left
+            anchors.right: headEndurance.left
+            anchors.verticalCenter: parent.verticalCenter
+        }
+        Item {
+            id: headEndurance
+            visible: Number(root.title) > 0
+            width: visible ? childrenRect.width : 0
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+
+            Label {
+                id: youenduranceLabel
+                text: you.endurance + " <span style='font-variant: small-caps'>EP</span>"
+                fontSize: "large"
+                textFormat: Text.RichText
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.rightMargin: units.gu(2)
+                anchors.right: parent.right
+                verticalAlignment: Text.AlignVCenter
+                Label {
+                    anchors.left: youenduranceLabel.right
+                    anchors.leftMargin: units.gu(1)
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+                    verticalAlignment: Text.AlignVCenter
+                    text: "+"
+                    width: units.gu(3)
+                    horizontalAlignment: Text.AlignLeft
+                    enabled: you.endurance < you.maxendurance
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            Haptics.play();
+                            you.endurance += 1;
+                        }
+                    }
+                }
+                Label {
+                    anchors.right: youenduranceLabel.left
+                    anchors.rightMargin: units.gu(1)
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+                    verticalAlignment: Text.AlignVCenter
+                    text: "-"
+                    width: units.gu(3)
+                    horizontalAlignment: Text.AlignRight
+                    enabled: you.endurance > 0
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            Haptics.play();
+                            you.endurance -= 1;
+                        }
+                    }
+                }
+            }
+        }
+        height: parent ? parent.height - units.gu(2) : undefined
+        width: parent ? parent.width - units.gu(2) : undefined
+    }
+
     Book {
         id: book
         dir: Qt.resolvedUrl(".")
