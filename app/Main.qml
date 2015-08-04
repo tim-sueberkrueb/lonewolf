@@ -59,7 +59,15 @@ MainView {
 
     function goToChartTab()
     {
-        pageStack.push(actionPage);
+        pageStack.push(chartLoader.item);
+    }
+
+    function loadQuickSave()
+    {
+        quickSaveState.copyTo(gameState);
+        chartLoader.active = false;
+        chartLoader.active = true;
+        goToBookTab(true);
     }
 
     PageStack {
@@ -90,11 +98,13 @@ MainView {
             }
         }
 
-        ChartPage {
-            id: actionPage
-            title: "Action Chart"
-            visible: false
-            you: gameState
+        Loader {
+            id: chartLoader
+            sourceComponent: ChartPage {
+                title: "Action Chart"
+                visible: false
+                you: gameState
+            }
         }
     }
 }

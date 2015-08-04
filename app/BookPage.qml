@@ -89,39 +89,39 @@ Page {
                 anchors.right: parent.right
                 verticalAlignment: Text.AlignVCenter
                 Label {
-                    anchors.left: youenduranceLabel.right
+                    anchors.left: parent.right
                     anchors.leftMargin: units.gu(1)
-                    anchors.top: parent.top
-                    anchors.bottom: parent.bottom
-                    verticalAlignment: Text.AlignVCenter
+                    anchors.verticalCenter: parent.verticalCenter
                     text: "+"
-                    width: units.gu(3)
-                    horizontalAlignment: Text.AlignLeft
-                    enabled: you.endurance < you.maxendurance
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                            Haptics.play();
-                            you.endurance += 1;
-                        }
-                    }
+                    opacity: you.endurance < you.maxendurance ? 1 : 0.5
                 }
                 Label {
-                    anchors.right: youenduranceLabel.left
+                    anchors.right: parent.left
                     anchors.rightMargin: units.gu(1)
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: "-"
+                    opacity: you.endurance > 0 ? 1 : 0.5
+                }
+                MouseArea {
+                    anchors.left: parent.horizontalCenter
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
-                    verticalAlignment: Text.AlignVCenter
-                    text: "-"
-                    width: units.gu(3)
-                    horizontalAlignment: Text.AlignRight
+                    width: parent.width / 2 + units.gu(4)
+                    enabled: you.endurance < you.maxendurance
+                    onClicked: {
+                        Haptics.play();
+                        you.endurance += 1;
+                    }
+                }
+                MouseArea {
+                    anchors.right: parent.horizontalCenter
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+                    width: parent.width / 2 + units.gu(4)
                     enabled: you.endurance > 0
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                            Haptics.play();
-                            you.endurance -= 1;
-                        }
+                    onClicked: {
+                        Haptics.play();
+                        you.endurance -= 1;
                     }
                 }
             }

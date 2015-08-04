@@ -63,7 +63,6 @@ Rectangle {
                 onClicked:{
                     var haystack = root.answers + " ";
                     var needle = "sect" + entry.text + " ";
-                    console.log("MIKE", needle, haystack)
                     if (haystack.indexOf(needle) >= 0) {
                         root.goTo("sect" + entry.text);
                     } else {

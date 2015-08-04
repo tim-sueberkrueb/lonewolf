@@ -8,6 +8,10 @@ Page {
 
     property var you
 
+    head.actions: [
+        nightMode
+    ]
+
     QtObject {
         id: d
         property bool kai: you.book == "" ||

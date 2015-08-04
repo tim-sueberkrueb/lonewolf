@@ -175,7 +175,9 @@ Settings {
         other.weapon1 = weapon1;
         other.weapon2 = weapon2;
 
+        console.log("MIKE backpack1", backpack1, other.backpack1)
         other.backpack1 = backpack1;
+        console.log("MIKE2 backpack1", backpack1, other.backpack1)
         other.backpack2 = backpack2;
         other.backpack3 = backpack3;
         other.backpack4 = backpack4;

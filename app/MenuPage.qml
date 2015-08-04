@@ -46,10 +46,7 @@ Page {
             Button {
                 text: "Load Quick Save"
                 enabled: quickSaveState.pageId != ""
-                onClicked: {
-                    quickSaveState.copyTo(gameState);
-                    goToBookTab(true);
-                }
+                onClicked: loadQuickSave()
                 color: UbuntuColors.red
                 anchors.horizontalCenter: parent.horizontalCenter
             }
