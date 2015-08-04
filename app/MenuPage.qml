@@ -73,6 +73,14 @@ Page {
                 ListElement { book: "18dotd"; series: "grandmaster" }
                 ListElement { book: "19wb"; series: "grandmaster" }
                 ListElement { book: "20tcon"; series: "grandmaster" }
+                ListElement { book: "21votm"; series: "neworder" }
+                ListElement { book: "22tbos"; series: "neworder" }
+                ListElement { book: "23mh"; series: "neworder" }
+                ListElement { book: "24rw"; series: "neworder" }
+                ListElement { book: "25totw"; series: "neworder" }
+                ListElement { book: "26tfobm"; series: "neworder" }
+                ListElement { book: "27v"; series: "neworder" }
+                ListElement { book: "28thos"; series: "neworder" }
             }
 
             Item {
@@ -100,7 +108,8 @@ Page {
                         width: buttonFlow.buttonWidth
                         height: width
                         color: series == "kai" ? "#203432" :
-                               series == "magnakai" ? "#425654" : "#647865"
+                               series == "magnakai" ? "#425654" :
+                               series == "grandmaster" ? "#647865" : "#869a87"
                     }
                 }
             }

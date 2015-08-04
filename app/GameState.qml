@@ -14,7 +14,15 @@ Settings {
     property int meals
     property int quiver
 
+    property int neworder_endurance
+    property int neworder_maxendurance
+    property int neworder_combatskill
+    property int neworder_gold
+    property int neworder_meals
+    property int neworder_quiver
+
     property string notes
+    property string neworder_notes
 
     property bool kai_camouflage
     property bool kai_hunting
@@ -51,7 +59,26 @@ Settings {
     property bool grandmaster_magimagic
     property bool grandmaster_kaialchemy
 
+    property bool neworder_grandweaponmastery
+    property bool neworder_animalmastery
+    property bool neworder_deliverance
+    property bool neworder_assimilance
+    property bool neworder_grandhuntmastery
+    property bool neworder_grandpathsmanship
+    property bool neworder_kaisurge
+    property bool neworder_kaiscreen
+    property bool neworder_grandnexus
+    property bool neworder_telegnosis
+    property bool neworder_magimagic
+    property bool neworder_kaialchemy
+    property bool neworder_astrology
+    property bool neworder_herbmastery
+    property bool neworder_elementalism
+    property bool neworder_bardsmanship
+
     property string weaponskill_weapon
+
+    property string neworder_kaiweapon
 
     property bool weaponmastery_spear
     property bool weaponmastery_dagger
@@ -74,6 +101,17 @@ Settings {
     property bool grandweaponmastery_sword
     property bool grandweaponmastery_quarterstaff
     property bool grandweaponmastery_broadsword
+
+    property bool neworder_grandweaponmastery_spear
+    property bool neworder_grandweaponmastery_dagger
+    property bool neworder_grandweaponmastery_mace
+    property bool neworder_grandweaponmastery_shortsword
+    property bool neworder_grandweaponmastery_warhammer
+    property bool neworder_grandweaponmastery_bow
+    property bool neworder_grandweaponmastery_axe
+    property bool neworder_grandweaponmastery_sword
+    property bool neworder_grandweaponmastery_quarterstaff
+    property bool neworder_grandweaponmastery_broadsword
 
     property string weapon1
     property string weapon2
@@ -102,9 +140,37 @@ Settings {
     property string special11
     property string special12
 
+    property string neworder_weapon1
+    property string neworder_weapon2
+
+    property string neworder_backpack1
+    property string neworder_backpack2
+    property string neworder_backpack3
+    property string neworder_backpack4
+    property string neworder_backpack5
+    property string neworder_backpack6
+    property string neworder_backpack7
+    property string neworder_backpack8
+    property string neworder_backpack9
+    property string neworder_backpack10
+
+    property string neworder_special1
+    property string neworder_special2
+    property string neworder_special3
+    property string neworder_special4
+    property string neworder_special5
+    property string neworder_special6
+    property string neworder_special7
+    property string neworder_special8
+    property string neworder_special9
+    property string neworder_special10
+    property string neworder_special11
+    property string neworder_special12
+
     function copyTo(other) {
         other.book = book;
         other.pageId = pageId;
+
         other.endurance = endurance;
         other.maxendurance = maxendurance;
         other.combatskill = combatskill;
@@ -112,6 +178,14 @@ Settings {
         other.meals = meals;
         other.quiver = quiver;
         other.notes = notes;
+
+        other.neworder_endurance = neworder_endurance;
+        other.neworder_maxendurance = neworder_maxendurance;
+        other.neworder_combatskill = neworder_combatskill;
+        other.neworder_gold = neworder_gold;
+        other.neworder_meals = neworder_meals;
+        other.neworder_quiver = neworder_quiver;
+        other.neworder_notes = neworder_notes;
 
         other.kai_camouflage = kai_camouflage;
         other.kai_hunting = kai_hunting;
@@ -148,6 +222,25 @@ Settings {
         other.grandmaster_magimagic = grandmaster_magimagic;
         other.grandmaster_kaialchemy = grandmaster_kaialchemy;
 
+        other.neworder_grandweaponmastery = neworder_grandweaponmastery;
+        other.neworder_animalmastery = neworder_animalmastery;
+        other.neworder_deliverance = neworder_deliverance;
+        other.neworder_assimilance = neworder_assimilance;
+        other.neworder_grandhuntmastery = neworder_grandhuntmastery;
+        other.neworder_grandpathsmanship = neworder_grandpathsmanship;
+        other.neworder_kaisurge = neworder_kaisurge;
+        other.neworder_kaiscreen = neworder_kaiscreen;
+        other.neworder_grandnexus = neworder_grandnexus;
+        other.neworder_telegnosis = neworder_telegnosis;
+        other.neworder_magimagic = neworder_magimagic;
+        other.neworder_kaialchemy = neworder_kaialchemy;
+        other.neworder_astrology = neworder_astrology;
+        other.neworder_herbmastery = neworder_herbmastery;
+        other.neworder_elementalism = neworder_elementalism;
+        other.neworder_bardsmanship = neworder_bardsmanship;
+
+        other.neworder_kaiweapon = neworder_kaiweapon;
+
         other.weaponskill_weapon = weaponskill_weapon;
 
         other.weaponmastery_spear = weaponmastery_spear;
@@ -172,12 +265,23 @@ Settings {
         other.grandweaponmastery_quarterstaff = grandweaponmastery_quarterstaff;
         other.grandweaponmastery_broadsword = grandweaponmastery_broadsword;
 
+        other.neworder_grandweaponmastery_spear = neworder_grandweaponmastery_spear;
+        other.neworder_grandweaponmastery_dagger = neworder_grandweaponmastery_dagger;
+        other.neworder_grandweaponmastery_mace = neworder_grandweaponmastery_mace;
+        other.neworder_grandweaponmastery_shortsword = neworder_grandweaponmastery_shortsword;
+        other.neworder_grandweaponmastery_warhammer = neworder_grandweaponmastery_warhammer;
+        other.neworder_grandweaponmastery_bow = neworder_grandweaponmastery_bow;
+        other.neworder_grandweaponmastery_axe = neworder_grandweaponmastery_axe;
+        other.neworder_grandweaponmastery_sword = neworder_grandweaponmastery_sword;
+        other.neworder_grandweaponmastery_quarterstaff = neworder_grandweaponmastery_quarterstaff;
+        other.neworder_grandweaponmastery_broadsword = neworder_grandweaponmastery_broadsword;
+
         other.weapon1 = weapon1;
         other.weapon2 = weapon2;
+        other.neworder_weapon1 = neworder_weapon1;
+        other.neworder_weapon2 = neworder_weapon2;
 
-        console.log("MIKE backpack1", backpack1, other.backpack1)
         other.backpack1 = backpack1;
-        console.log("MIKE2 backpack1", backpack1, other.backpack1)
         other.backpack2 = backpack2;
         other.backpack3 = backpack3;
         other.backpack4 = backpack4;
@@ -187,6 +291,16 @@ Settings {
         other.backpack8 = backpack8;
         other.backpack9 = backpack9;
         other.backpack10 = backpack10;
+        other.neworder_backpack1 = neworder_backpack1;
+        other.neworder_backpack2 = neworder_backpack2;
+        other.neworder_backpack3 = neworder_backpack3;
+        other.neworder_backpack4 = neworder_backpack4;
+        other.neworder_backpack5 = neworder_backpack5;
+        other.neworder_backpack6 = neworder_backpack6;
+        other.neworder_backpack7 = neworder_backpack7;
+        other.neworder_backpack8 = neworder_backpack8;
+        other.neworder_backpack9 = neworder_backpack9;
+        other.neworder_backpack10 = neworder_backpack10;
 
         other.special1 = special1;
         other.special2 = special2;
@@ -200,5 +314,17 @@ Settings {
         other.special10 = special10;
         other.special11 = special11;
         other.special12 = special12;
+        other.neworder_special1 = neworder_special1;
+        other.neworder_special2 = neworder_special2;
+        other.neworder_special3 = neworder_special3;
+        other.neworder_special4 = neworder_special4;
+        other.neworder_special5 = neworder_special5;
+        other.neworder_special6 = neworder_special6;
+        other.neworder_special7 = neworder_special7;
+        other.neworder_special8 = neworder_special8;
+        other.neworder_special9 = neworder_special9;
+        other.neworder_special10 = neworder_special10;
+        other.neworder_special11 = neworder_special11;
+        other.neworder_special12 = neworder_special12;
     }
 }

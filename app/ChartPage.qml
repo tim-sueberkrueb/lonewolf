@@ -2,6 +2,8 @@ import QtQuick 2.4
 import Ubuntu.Components 1.2
 import Lonewolf 1.0
 
+// This is not a class I am proud of.  So much weird duplication of code.
+
 Page {
     id: root
     title: "Action Chart"
@@ -35,6 +37,14 @@ Page {
                                    you.book == "18dotd" ||
                                    you.book == "19wb" ||
                                    you.book == "20tcon"
+        property bool neworder: you.book == "21votm" ||
+                                you.book == "22tbos" ||
+                                you.book == "23mh" ||
+                                you.book == "24rw" ||
+                                you.book == "25totw" ||
+                                you.book == "26tfobm" ||
+                                you.book == "27v" ||
+                                you.book == "28thos"
     }
 
     Flickable {
@@ -65,6 +75,16 @@ Page {
                     you: root.you
                     prop: "combatskill"
                     width: units.gu(6)
+                    visible: !d.neworder
+                }
+                ChartItem {
+                    inputMethodHints: Qt.ImhDigitsOnly
+                    hasClearButton: false
+                    text: you.neworder_combatskill
+                    you: root.you
+                    prop: "neworder_combatskill"
+                    width: units.gu(6)
+                    visible: d.neworder
                 }
                 Item {height: 1; width: 1}
 
@@ -78,6 +98,16 @@ Page {
                     you: root.you
                     prop: "endurance"
                     width: combatSkillBox.width
+                    visible: !d.neworder
+                }
+                ChartItem {
+                    inputMethodHints: Qt.ImhDigitsOnly
+                    hasClearButton: false
+                    text: you.neworder_endurance
+                    you: root.you
+                    prop: "neworder_endurance"
+                    width: combatSkillBox.width
+                    visible: d.neworder
                 }
                 Item {height: 1; width: 1}
 
@@ -91,6 +121,16 @@ Page {
                     you: root.you
                     prop: "maxendurance"
                     width: combatSkillBox.width
+                    visible: !d.neworder
+                }
+                ChartItem {
+                    inputMethodHints: Qt.ImhDigitsOnly
+                    hasClearButton: false
+                    text: you.neworder_maxendurance
+                    you: root.you
+                    prop: "neworder_maxendurance"
+                    width: combatSkillBox.width
+                    visible: d.neworder
                 }
                 Item {height: 1; width: 1}
 
@@ -104,6 +144,16 @@ Page {
                     you: root.you
                     prop: "gold"
                     width: units.gu(6)
+                    visible: !d.neworder
+                }
+                ChartItem {
+                    inputMethodHints: Qt.ImhDigitsOnly
+                    hasClearButton: false
+                    text: you.neworder_gold
+                    you: root.you
+                    prop: "neworder_gold"
+                    width: units.gu(6)
+                    visible: d.neworder
                 }
                 Label {
                     text: "Max 50"
@@ -114,7 +164,7 @@ Page {
 
                 Label {
                     text: "Quiver"
-                    visible: d.magnakai || d.grandmaster
+                    visible: d.magnakai || d.grandmaster || d.neworder
                 }
                 ChartItem {
                     inputMethodHints: Qt.ImhDigitsOnly
@@ -125,12 +175,21 @@ Page {
                     width: units.gu(6)
                     visible: d.magnakai || d.grandmaster
                 }
+                ChartItem {
+                    inputMethodHints: Qt.ImhDigitsOnly
+                    hasClearButton: false
+                    text: you.neworder_quiver
+                    you: root.you
+                    prop: "neworder_quiver"
+                    width: units.gu(6)
+                    visible: d.neworder
+                }
                 Label {
                     text: "Max 6"
                     font.italic: true
                     wrapMode: Text.Wrap
                     width: units.gu(8)
-                    visible: d.magnakai || d.grandmaster
+                    visible: d.magnakai || d.grandmaster || d.neworder
                 }
 
                 Label {
@@ -143,6 +202,16 @@ Page {
                     you: root.you
                     prop: "meals"
                     width: units.gu(6)
+                    visible: !d.neworder
+                }
+                ChartItem {
+                    inputMethodHints: Qt.ImhDigitsOnly
+                    hasClearButton: false
+                    text: you.neworder_meals
+                    you: root.you
+                    prop: "neworder_meals"
+                    width: units.gu(6)
+                    visible: d.neworder
                 }
                 Label {
                     text: "Each fills a backpack slot"
@@ -166,6 +235,7 @@ Page {
                 flow: Grid.TopToBottom
                 spacing: units.gu(1)
                 property real itemWidth: (flicker.width - spacing) / 2
+                visible: !d.neworder
 
                 ChartItem {
                     hasClearButton: false
@@ -179,6 +249,29 @@ Page {
                     text: you.weapon2
                     you: root.you
                     prop: "weapon2"
+                    width: weapons.itemWidth
+                }
+            }
+            Grid {
+                id: neworder_weapons
+                columns: 2
+                rows: 1
+                flow: Grid.TopToBottom
+                spacing: units.gu(1)
+                visible: d.neworder
+
+                ChartItem {
+                    hasClearButton: false
+                    text: you.neworder_weapon1
+                    you: root.you
+                    prop: "neworder_weapon1"
+                    width: weapons.itemWidth
+                }
+                ChartItem {
+                    hasClearButton: false
+                    text: you.neworder_weapon2
+                    you: root.you
+                    prop: "neworder_weapon2"
                     width: weapons.itemWidth
                 }
             }
@@ -197,6 +290,7 @@ Page {
                 flow: Grid.LeftToRight
                 spacing: units.gu(1)
                 property real itemWidth: (flicker.width - spacing) / 2
+                visible: !d.neworder
 
                 ChartItem {
                     text: you.backpack1
@@ -261,6 +355,93 @@ Page {
                     visible: d.grandmaster
                 }
             }
+            Grid {
+                id: neworder_backpack
+                columns: 2
+                rows: 5
+                flow: Grid.LeftToRight
+                spacing: units.gu(1)
+                visible: d.neworder
+
+                ChartItem {
+                    text: you.neworder_backpack1
+                    you: root.you
+                    prop: "neworder_backpack1"
+                    width: backpack.itemWidth
+                }
+                ChartItem {
+                    text: you.neworder_backpack2
+                    you: root.you
+                    prop: "neworder_backpack2"
+                    width: backpack.itemWidth
+                }
+                ChartItem {
+                    text: you.neworder_backpack3
+                    you: root.you
+                    prop: "neworder_backpack3"
+                    width: backpack.itemWidth
+                }
+                ChartItem {
+                    text: you.neworder_backpack4
+                    you: root.you
+                    prop: "neworder_backpack4"
+                    width: backpack.itemWidth
+                }
+                ChartItem {
+                    text: you.neworder_backpack5
+                    you: root.you
+                    prop: "neworder_backpack5"
+                    width: backpack.itemWidth
+                }
+                ChartItem {
+                    text: you.neworder_backpack6
+                    you: root.you
+                    prop: "neworder_backpack6"
+                    width: backpack.itemWidth
+                }
+                ChartItem {
+                    text: you.neworder_backpack7
+                    you: root.you
+                    prop: "neworder_backpack7"
+                    width: backpack.itemWidth
+                }
+                ChartItem {
+                    text: you.neworder_backpack8
+                    you: root.you
+                    prop: "neworder_backpack8"
+                    width: backpack.itemWidth
+                }
+                ChartItem {
+                    text: you.neworder_backpack9
+                    you: root.you
+                    prop: "neworder_backpack9"
+                    width: backpack.itemWidth
+                }
+                ChartItem {
+                    text: you.neworder_backpack10
+                    you: root.you
+                    prop: "neworder_backpack10"
+                    width: backpack.itemWidth
+                }
+            }
+
+            Item {
+                width: 1
+                height: units.gu(1)
+                visible: d.neworder
+            }
+            Label {
+                text: "Kai Weapon"
+                visible: d.neworder
+            }
+            ChartItem {
+                hasClearButton: false
+                text: you.neworder_kaiweapon
+                you: root.you
+                prop: "neworder_kaiweapon"
+                width: flicker.width
+                visible: d.neworder
+            }
 
             Item {
                 width: 1
@@ -276,6 +457,7 @@ Page {
                 flow: Grid.TopToBottom
                 spacing: units.gu(1)
                 property real itemWidth: flicker.width
+                visible: !d.neworder
 
                 ChartItem {
                     text: you.special1
@@ -347,6 +529,87 @@ Page {
                     text: you.special12
                     you: root.you
                     prop: "special12"
+                    width: specials.itemWidth
+                }
+            }
+            Grid {
+                id: neworder_specials
+                columns: 1
+                rows: 12
+                flow: Grid.TopToBottom
+                spacing: units.gu(1)
+                visible: d.neworder
+
+                ChartItem {
+                    text: you.neworder_special1
+                    you: root.you
+                    prop: "neworder_special1"
+                    width: specials.itemWidth
+                }
+                ChartItem {
+                    text: you.neworder_special2
+                    you: root.you
+                    prop: "neworder_special2"
+                    width: specials.itemWidth
+                }
+                ChartItem {
+                    text: you.neworder_special3
+                    you: root.you
+                    prop: "neworder_special3"
+                    width: specials.itemWidth
+                }
+                ChartItem {
+                    text: you.neworder_special4
+                    you: root.you
+                    prop: "neworder_special4"
+                    width: specials.itemWidth
+                }
+                ChartItem {
+                    text: you.neworder_special5
+                    you: root.you
+                    prop: "neworder_special5"
+                    width: specials.itemWidth
+                }
+                ChartItem {
+                    text: you.neworder_special6
+                    you: root.you
+                    prop: "neworder_special6"
+                    width: specials.itemWidth
+                }
+                ChartItem {
+                    text: you.neworder_special7
+                    you: root.you
+                    prop: "neworder_special7"
+                    width: specials.itemWidth
+                }
+                ChartItem {
+                    text: you.neworder_special8
+                    you: root.you
+                    prop: "neworder_special8"
+                    width: specials.itemWidth
+                }
+                ChartItem {
+                    text: you.neworder_special9
+                    you: root.you
+                    prop: "neworder_special9"
+                    width: specials.itemWidth
+                }
+                ChartItem {
+                    text: you.neworder_special10
+                    you: root.you
+                    prop: "neworder_special10"
+                    width: specials.itemWidth
+                }
+                ChartItem {
+                    text: you.neworder_special11
+                    you: root.you
+                    prop: "neworder_special11"
+                    width: specials.itemWidth
+                }
+                ChartItem {
+                    text: you.neworder_special12
+                    you: root.you
+                    prop: "neworder_special12"
                     width: specials.itemWidth
                 }
             }
@@ -749,7 +1012,7 @@ Page {
             }
             Grid {
                 columns: 2
-                rows: 5
+                rows: 6
                 flow: Grid.TopToBottom
                 spacing: units.gu(1)
                 visible: d.grandmaster
@@ -829,6 +1092,224 @@ Page {
             Item {
                 width: 1
                 height: units.gu(1)
+                visible: d.neworder
+            }
+            Label {
+                text: "Grand Master Disciplines"
+                visible: d.neworder
+            }
+            Grid {
+                columns: 2
+                rows: 8
+                flow: Grid.TopToBottom
+                spacing: units.gu(1)
+                visible: d.neworder
+
+                ChartCheck {
+                    you: root.you
+                    text: "G Weaponmastery"
+                    checked: you.neworder_grandweaponmastery
+                    prop: "neworder_grandweaponmastery"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Animal Mastery"
+                    checked: you.neworder_animalmastery
+                    prop: "neworder_animalmastery"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Deliverance"
+                    checked: you.neworder_deliverance
+                    prop: "neworder_deliverance"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Assimilance"
+                    checked: you.neworder_assimilance
+                    prop: "neworder_assimilance"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "G Huntmastery"
+                    checked: you.neworder_grandhuntmastery
+                    prop: "neworder_grandhuntmastery"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "G Pathsmanship"
+                    checked: you.neworder_grandpathsmanship
+                    prop: "neworder_grandpathsmanship"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Kai-surge"
+                    checked: you.neworder_kaisurge
+                    prop: "neworder_kaisurge"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Kai-screen"
+                    checked: you.neworder_kaiscreen
+                    prop: "neworder_kaiscreen"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Grand Nexus"
+                    checked: you.neworder_grandnexus
+                    prop: "neworder_grandnexus"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Telegnosis"
+                    checked: you.neworder_telegnosis
+                    prop: "neworder_telegnosis"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Magi-magic"
+                    checked: you.neworder_magimagic
+                    prop: "neworder_magimagic"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Kai-alchemy"
+                    checked: you.neworder_kaialchemy
+                    prop: "neworder_kaialchemy"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Astrology"
+                    checked: you.neworder_astrology
+                    prop: "neworder_astrology"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Herbmastery"
+                    checked: you.neworder_herbmastery
+                    prop: "neworder_herbmastery"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Elementalism"
+                    checked: you.neworder_elementalism
+                    prop: "neworder_elementalism"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Bardsmanship"
+                    checked: you.neworder_bardsmanship
+                    prop: "neworder_bardsmanship"
+                    width: disciplines.itemWidth
+                }
+            }
+
+            Item {
+                width: 1
+                height: units.gu(1)
+                visible: d.neworder
+            }
+            Label {
+                text: "Grand Weaponmastery Checklist"
+                visible: d.neworder
+            }
+            Grid {
+                columns: 2
+                rows: 5
+                flow: Grid.TopToBottom
+                spacing: units.gu(1)
+                visible: d.neworder
+
+                ChartCheck {
+                    you: root.you
+                    text: "Dagger"
+                    checked: you.neworder_grandweaponmastery_dagger
+                    prop: "neworder_grandweaponmastery_dagger"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Mace"
+                    checked: you.neworder_grandweaponmastery_mace
+                    prop: "neworder_grandweaponmastery_mace"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Warhammer"
+                    checked: you.neworder_grandweaponmastery_warhammer
+                    prop: "neworder_grandweaponmastery_warhammer"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Axe"
+                    checked: you.neworder_grandweaponmastery_axe
+                    prop: "neworder_grandweaponmastery_axe"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Quarterstaff"
+                    checked: you.neworder_grandweaponmastery_quarterstaff
+                    prop: "neworder_grandweaponmastery_quarterstaff"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Spear"
+                    checked: you.neworder_grandweaponmastery_spear
+                    prop: "neworder_grandweaponmastery_spear"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Short Sword"
+                    checked: you.neworder_grandweaponmastery_shortsword
+                    prop: "neworder_grandweaponmastery_shortsword"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Bow"
+                    checked: you.neworder_grandweaponmastery_bow
+                    prop: "neworder_grandweaponmastery_bow"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Sword"
+                    checked: you.neworder_grandweaponmastery_sword
+                    prop: "neworder_grandweaponmastery_sword"
+                    width: disciplines.itemWidth
+                }
+                ChartCheck {
+                    you: root.you
+                    text: "Broadsword"
+                    checked: you.neworder_grandweaponmastery_broadsword
+                    prop: "neworder_grandweaponmastery_broadsword"
+                    width: disciplines.itemWidth
+                }
+            }
+
+            Item {
+                width: 1
+                height: units.gu(1)
             }
             Label {
                 text: "Notes"
@@ -838,10 +1319,23 @@ Page {
                 height: units.gu(20)
                 width: parent.width
                 text: you.notes
+                visible: !d.neworder
                 Binding {
                     target: you
                     property: "notes"
                     value: notes.text
+                }
+            }
+            TextArea {
+                id: neworder_notes
+                height: units.gu(20)
+                width: parent.width
+                text: you.neworder_notes
+                visible: d.neworder
+                Binding {
+                    target: you
+                    property: "neworder_notes"
+                    value: neworder_notes.text
                 }
             }
         }
