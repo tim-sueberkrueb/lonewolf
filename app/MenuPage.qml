@@ -26,6 +26,7 @@ Page {
         Column {
             id: column
             spacing: units.gu(2)
+            width: flicker.contentWidth
 
             Label {
                 text: "<p>Lone Wolf is a role-playing book series from the 80s.</p><br>" +
@@ -34,7 +35,7 @@ Page {
                 linkColor: Theme.palette.selected.backgroundText
                 onLinkActivated: Qt.openUrlExternally(link)
                 wrapMode: Text.Wrap
-                width: flicker.width
+                width: parent.width
             }
 
             Button {
@@ -96,10 +97,10 @@ Page {
             Flow {
                 id: buttonFlow
                 anchors.horizontalCenter: parent.horizontalCenter
-                width: flicker.width - marginWidth * 2
+                width: parent.width - marginWidth * 2
                 spacing: units.gu(3)
                 property real buttonWidth: units.gu(6)
-                property real marginWidth: (flicker.width - buttonWidth) % (buttonWidth + spacing) / 2
+                property real marginWidth: (parent.width - buttonWidth) % (buttonWidth + spacing) / 2
                 Repeater {
                     model: bookModel
                     delegate: Button {
@@ -112,6 +113,10 @@ Page {
                                series == "grandmaster" ? "#647865" : "#869a87"
                     }
                 }
+            }
+            Item {
+                height: 1
+                width: 1
             }
         }
     }
