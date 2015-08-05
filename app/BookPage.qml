@@ -188,12 +188,10 @@ Page {
                     puzzle.answers = model.message.split(',')[1];
                     puzzle.visible = true;
                 } else if (model.message.indexOf("book,") == 0) {
-                    if (model.message.split(',')[2] != "21votm") {
-                        Haptics.play();
-                        you.book = model.message.split(',')[2];
-                        pageView.pageId = "";
-                    }
-                    model.accept();
+                    Haptics.play();
+                    you.book = model.message.split(',')[2];
+                    pageView.pageId = "";
+                    goToBookTab(true);
                 } else {
                     Haptics.play();
                     pageView.pageId = model.message;

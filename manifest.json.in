@@ -9,7 +9,7 @@
             "desktop": "lonewolf.desktop"
         }
     },
-    "version": "8",
+    "version": "9",
     "maintainer": "Michael Terry <mterry@ubuntu.com>",
     "framework": "ubuntu-sdk-15.04"
 }
