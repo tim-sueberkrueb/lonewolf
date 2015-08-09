@@ -47,6 +47,9 @@ Rectangle {
                 d.endurance = keyvalue[1];
                 youenduranceTitle.text = "TARGET";
                 d.youendurance = keyvalue[1];
+            } else if (keyvalue[0] == 'duel') {
+                d.combatskill = d.youcombatskill - keyvalue[1];
+                d.endurance = d.youendurance;
             }
         }
     }

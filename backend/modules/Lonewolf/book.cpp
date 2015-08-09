@@ -317,6 +317,15 @@ QString Book::xmlToHtml(const QString &xml)
     }").arg(m_bgColor.name(), m_textColor.name(), m_linkColor.name());
     transformed.replace("$STYLE", style);
 
+    // There is one combat that isn't marked up at all, so we have to manually do it
+    if (m_filename == "19wb" && m_pageId == "sect304") {
+        transformed.replace("<p>The Duel: Lone Wolf vs. Wolf’s Bane</p>",
+                            QString("<p class=\"combat\">") +
+                            "<span class=\"actionlink\" onclick=\"alert('combat,enemy=Wolf’s Bane,duel=-4')\">" +
+                            "The Duel: Lone Wolf vs. Wolf’s Bane" +
+                            "</span></p>");
+    }
+
     return transformed;
 }
 

@@ -1012,7 +1012,7 @@ Page {
             }
             Grid {
                 columns: 2
-                rows: 6
+                rows: 5
                 flow: Grid.TopToBottom
                 spacing: units.gu(1)
                 visible: d.grandmaster
