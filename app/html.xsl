@@ -79,11 +79,6 @@
 
 <xsl:template match="/section">
  <body>
-  <xsl:if test=".//deadend">
-   <xsl:attribute name="onload">
-    <xsl:text>alert('dead')</xsl:text>
-   </xsl:attribute>
-  </xsl:if>
   <xsl:apply-templates/>
  </body>
 </xsl:template>
@@ -180,7 +175,7 @@
 
 <xsl:template match="choice">
  <xsl:if test="//choice[1] = .">
-  <xsl:apply-templates select="/body/footnotes/footnote"/>
+  <xsl:apply-templates select="//footnotes/footnote"/>
  </xsl:if>
  <ul class="choice"><li>
   <xsl:for-each select="* | text()">

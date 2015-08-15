@@ -16,35 +16,11 @@ Page {
 
     QtObject {
         id: d
-        property bool kai: you.book == "" ||
-                           you.book == "01fftd" ||
-                           you.book == "02fotw" ||
-                           you.book == "03tcok" ||
-                           you.book == "04tcod" ||
-                           you.book == "05sots"
-        property bool magnakai: you.book == "06tkot" ||
-                                you.book == "07cd" ||
-                                you.book == "08tjoh" ||
-                                you.book == "09tcof" ||
-                                you.book == "10tdot" ||
-                                you.book == "11tpot" ||
-                                you.book == "12tmod"
-        property bool grandmaster: you.book == "13tplor" ||
-                                   you.book == "14tcok" ||
-                                   you.book == "15tdc" ||
-                                   you.book == "16tlov" ||
-                                   you.book == "17tdoi" ||
-                                   you.book == "18dotd" ||
-                                   you.book == "19wb" ||
-                                   you.book == "20tcon"
-        property bool neworder: you.book == "21votm" ||
-                                you.book == "22tbos" ||
-                                you.book == "23mh" ||
-                                you.book == "24rw" ||
-                                you.book == "25totw" ||
-                                you.book == "26tfobm" ||
-                                you.book == "27v" ||
-                                you.book == "28thos"
+        // deprecated aliases, didn't want to bother searching and replacing
+        readonly property int kai: mainView.inkai
+        readonly property int magnakai: mainView.inmagnakai
+        readonly property int grandmaster: mainView.ingrandmaster
+        readonly property int neworder: mainView.inneworder
     }
 
     Flickable {

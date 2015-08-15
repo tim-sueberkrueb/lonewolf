@@ -10,6 +10,8 @@ Page {
     flickable: null
 
     property var you
+    readonly property int endurance: inneworder ? you.neworder_endurance : you.endurance
+    readonly property int maxendurance: inneworder ? you.neworder_maxendurance : you.maxendurance
 
     Component {
         id: saveDialog
@@ -41,7 +43,7 @@ Page {
         iconName: "save"
         text: i18n.tr("Quick Save")
         visible: book.progress == 100
-        enabled: !book.inBackMatter && you.endurance > 0
+        enabled: !book.inBackMatter && root.endurance > 0
         onTriggered: {
             if (quickSaveState.pageId == "") {
                 PopupUtils.open(saveDialog);
@@ -80,7 +82,7 @@ Page {
 
             Label {
                 id: youenduranceLabel
-                text: you.endurance + " <span style='font-variant: small-caps'>EP</span>"
+                text: root.endurance + " <span style='font-variant: small-caps'>EP</span>"
                 fontSize: "large"
                 textFormat: Text.RichText
                 anchors.top: parent.top
@@ -93,14 +95,14 @@ Page {
                     anchors.leftMargin: units.gu(1)
                     anchors.verticalCenter: parent.verticalCenter
                     text: "+"
-                    opacity: you.endurance < you.maxendurance ? 1 : 0.5
+                    visible: root.endurance < root.maxendurance
                 }
                 Label {
                     anchors.right: parent.left
                     anchors.rightMargin: units.gu(1)
                     anchors.verticalCenter: parent.verticalCenter
                     text: "-"
-                    opacity: you.endurance > 0 ? 1 : 0.5
+                    visible: root.endurance > 0
                 }
                 MouseArea {
                     anchors.left: parent.horizontalCenter
@@ -110,7 +112,11 @@ Page {
                     enabled: you.endurance < you.maxendurance
                     onClicked: {
                         Haptics.play();
-                        you.endurance += 1;
+                        if (inneworder) {
+                            you.neworder_endurance += 1;
+                        } else {
+                            you.endurance += 1;
+                        }
                     }
                 }
                 MouseArea {
@@ -118,10 +124,14 @@ Page {
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
                     width: parent.width / 2 + units.gu(4)
-                    enabled: you.endurance > 0
+                    enabled: root.endurance > 0
                     onClicked: {
                         Haptics.play();
-                        you.endurance -= 1;
+                        if (inneworder) {
+                            you.neworder_endurance -= 1;
+                        } else {
+                            you.endurance -= 1;
+                        }
                     }
                 }
             }
@@ -174,9 +184,6 @@ Page {
                 } else if (model.message == "action") {
                     Haptics.play();
                     actionChart.trigger();
-                    model.accept();
-                } else if (model.message == "dead") {
-                    root.you.endurance = 0;
                     model.accept();
                 } else if (model.message.indexOf("combat,") == 0) {
                     combat.props = model.message;
