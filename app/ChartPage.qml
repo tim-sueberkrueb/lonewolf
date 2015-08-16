@@ -7,6 +7,8 @@ import Lonewolf 1.0
 Page {
     id: root
     title: "Action Chart"
+    flickable: null
+    clip: true
 
     property var you
 
