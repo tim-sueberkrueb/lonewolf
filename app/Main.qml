@@ -108,6 +108,18 @@ MainView {
         }
     }
 
+    readonly property int endurance: inneworder ? gameState.neworder_endurance : gameState.endurance
+    readonly property int maxendurance: inneworder ? gameState.neworder_maxendurance : gameState.maxendurance
+    readonly property int combatskill: inneworder ? gameState.neworder_combatskill : gameState.combatskill
+
+    function adjustEndurance(amount) {
+        if (inneworder) {
+            gameState.neworder_endurance += amount;
+        } else {
+            gameState.endurance += amount;
+        }
+    }
+
     readonly property bool inkai: gameState.book == "" ||
                                   gameState.book == "01fftd" ||
                                   gameState.book == "02fotw" ||

@@ -10,8 +10,6 @@ Page {
     flickable: null
 
     property var you
-    readonly property int endurance: inneworder ? you.neworder_endurance : you.endurance
-    readonly property int maxendurance: inneworder ? you.neworder_maxendurance : you.maxendurance
 
     Component {
         id: saveDialog
@@ -43,7 +41,7 @@ Page {
         iconName: "save"
         text: i18n.tr("Quick Save")
         visible: book.progress == 100
-        enabled: !book.inBackMatter && root.endurance > 0
+        enabled: !book.inBackMatter && mainView.endurance > 0
         onTriggered: {
             if (quickSaveState.pageId == "") {
                 PopupUtils.open(saveDialog);
@@ -82,7 +80,7 @@ Page {
 
             Label {
                 id: youenduranceLabel
-                text: root.endurance + " <span style='font-variant: small-caps'>EP</span>"
+                text: mainView.endurance + " <span style='font-variant: small-caps'>EP</span>"
                 fontSize: "large"
                 textFormat: Text.RichText
                 anchors.top: parent.top
@@ -95,28 +93,24 @@ Page {
                     anchors.leftMargin: units.gu(1)
                     anchors.verticalCenter: parent.verticalCenter
                     text: "+"
-                    visible: root.endurance < root.maxendurance
+                    visible: mainView.endurance < mainView.maxendurance
                 }
                 Label {
                     anchors.right: parent.left
                     anchors.rightMargin: units.gu(1)
                     anchors.verticalCenter: parent.verticalCenter
                     text: "-"
-                    visible: root.endurance > 0
+                    visible: mainView.endurance > 0
                 }
                 MouseArea {
                     anchors.left: parent.horizontalCenter
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
                     width: parent.width / 2 + units.gu(4)
-                    enabled: you.endurance < you.maxendurance
+                    enabled: mainView.endurance < mainView.maxendurance
                     onClicked: {
                         Haptics.play();
-                        if (inneworder) {
-                            you.neworder_endurance += 1;
-                        } else {
-                            you.endurance += 1;
-                        }
+                        adjustEndurance(1);
                     }
                 }
                 MouseArea {
@@ -124,14 +118,10 @@ Page {
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
                     width: parent.width / 2 + units.gu(4)
-                    enabled: root.endurance > 0
+                    enabled: mainView.endurance > 0
                     onClicked: {
                         Haptics.play();
-                        if (inneworder) {
-                            you.neworder_endurance -= 1;
-                        } else {
-                            you.endurance -= 1;
-                        }
+                        adjustEndurance(-1);
                     }
                 }
             }

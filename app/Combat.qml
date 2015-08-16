@@ -25,8 +25,8 @@ Rectangle {
 
     Component.onCompleted: {
         // Make copies
-        d.youendurance = root.you.endurance;
-        d.youcombatskill = root.you.combatskill;
+        d.youendurance = mainView.endurance;
+        d.youcombatskill = mainView.combatskill;
 
         var elements = props.split(',');
         for (var i = 0; i < elements.length; i++) {
@@ -56,7 +56,7 @@ Rectangle {
 
     Binding {
         target: you
-        property: "endurance"
+        property: inneworder ? "neworder_endurance" : "endurance"
         value: d.youendurance
         when: d.enduranceIsYours
     }
