@@ -59,7 +59,7 @@ Page {
     }
 
     head.contents: Rectangle {
-        color: Theme.palette.normal.background
+        color: "transparent"
         Label {
             id: headTitle
             text: root.title
