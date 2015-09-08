@@ -148,12 +148,12 @@ Page {
             if (pageId == "" && pageView.pageId != "")
                 return; // on startup we get this fake-out...
             var content = pageContent;
-            if (pageType == "backmatter") {
+            if (pageType == "backmatter" || pageType == "deadend") {
                 inBackMatter = true;
             } else if (!inBackMatter) {
                 you.pageId = pageId; // save place
             }
-            //console.log("MIKE page:", content);
+            //console.log("DEBUG page:", content);
             pageView.loadHtml(content, Qt.resolvedUrl(book.cacheDir) + "/");
         }
     }

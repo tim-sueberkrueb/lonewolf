@@ -425,7 +425,14 @@ QString Book::pageType()
 {
     if (m_dom == NULL)
         return "";
+
     xmlNodePtr section = getElementById("section", m_pageId);
+
+    xmlNodePtr deadend = getElement("deadend", section);
+    qWarning() << "deadend" << deadend << m_pageId;
+    if (deadend != NULL)
+        return "deadend";
+
     xmlChar *klass= xmlGetProp(section, (const xmlChar *)"class");
     QString type((const char *)klass);
     xmlFree(klass);

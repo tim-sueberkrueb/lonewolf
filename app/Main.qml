@@ -70,10 +70,13 @@ MainView {
         goToBookTab(true);
     }
 
+    Component.onCompleted: {
+        bookLoader.active = true;
+        pageStack.push(tabs);
+    }
+
     PageStack {
         id: pageStack
-
-        Component.onCompleted: push(tabs)
 
         Tabs {
             id: tabs
@@ -91,6 +94,7 @@ MainView {
                 title: "Book"
                 page: Loader {
                     id: bookLoader
+                    active: false
                     sourceComponent: BookPage {
                         you: gameState
                     }
