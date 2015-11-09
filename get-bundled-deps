@@ -1,0 +1,28 @@
+#!/bin/sh
+set -e
+
+ORIGDIR=$(pwd)
+
+if [ -d ${ORIGDIR}/libxml2/include/libxml ]; then
+    exit 0
+fi
+
+WDIR=$(mktemp -d)
+cd ${WDIR}
+
+mkdir -p ${ORIGDIR}/libxml2/include ${ORIGDIR}/libxml2/lib
+
+apt-get download libxml2-dev
+dpkg-deb -x libxml2-dev_*.deb libxml2-dev
+cp -ar libxml2-dev/usr/include/libxml2/libxml ${ORIGDIR}/libxml2/include/
+
+apt-get download libicu-dev
+dpkg-deb -x libicu-dev_*.deb libicu-dev
+cp -ar libicu-dev/usr/include/x86_64-linux-gnu/unicode ${ORIGDIR}/libxml2/include/
+
+# And add a helper link to find system libxml2
+cd ${ORIGDIR}/libxml2/lib/
+ln -sf /usr/lib/$(dpkg-architecture -q DEB_HOST_MULTIARCH)/libxml2.so.2 libxml2.so
+
+cd ${WDIR}/..
+rm -rf ${WDIR}

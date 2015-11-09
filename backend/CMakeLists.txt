@@ -1,6 +1,6 @@
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
-    /usr/include/libxml2
+    ${CMAKE_BINARY_DIR}/libxml2/include
 )
 
 set(
@@ -22,8 +22,11 @@ set_target_properties(Lonewolfbackend PROPERTIES
          LIBRARY_OUTPUT_DIRECTORY Lonewolf)
 
 target_link_libraries(Lonewolfbackend
-    xml2
+    -L${CMAKE_BINARY_DIR}/libxml2/lib
+    -lxml2
 )
+
+add_dependencies(Lonewolfbackend bundle-deps)
 
 qt5_use_modules(Lonewolfbackend Gui Qml Quick XmlPatterns)
 
