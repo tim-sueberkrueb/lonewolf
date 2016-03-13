@@ -85,8 +85,6 @@ downloadOneXmlFile(const QString &filename)
 static xmlParserInputPtr
 loadEntity(const char * URL, const char * ID, xmlParserCtxtPtr context)
 {
-    qWarning() << "MIKE loading" << URL;
-
     if (!URL)
         return NULL;
 

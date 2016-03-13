@@ -87,8 +87,15 @@ Page {
                 id: backAction
                 iconName: "back"
                 text: "Back"
-                onTriggered: pageStack.removePages(root)
                 visible: false
+                onTriggered: {
+                    if (book.inBackMatter) {
+                        pageView.pageId = you.pageId; // go back to saved place
+                        book.inBackMatter = false;
+                    } else {
+                        pageStack.removePages(root);
+                    }
+                }
             }
         ]
         trailingActionBar.actions: [
@@ -174,8 +181,8 @@ Page {
         // Only respect theme in night mode because in "normal" day mode,
         // we want our background to blend with illustrations.
         bgColor: settings.nightMode ? Theme.palette.normal.field : "white"
-        textColor: settings.nightMode ? Theme.palette.normal.fieldText : "black"
-        linkColor: settings.nightMode ? Theme.palette.selected.selection : "blue"
+        textColor: Theme.palette.normal.fieldText
+        linkColor: Theme.palette.selected.selection
 
         property bool inBackMatter: false
 
@@ -304,15 +311,8 @@ Page {
             height: parent.height - units.gu(1)
             width: height
             iconName: "go-previous"
-            visible: book.prevPageId != "" || book.inBackMatter
-            onClicked: {
-                if (book.inBackMatter) {
-                    pageView.pageId = you.pageId; // go back to saved place
-                    book.inBackMatter = false;
-                } else {
-                    pageView.pageId = book.prevPageId;
-                }
-            }
+            visible: book.prevPageId != ""
+            onClicked: pageView.pageId = book.prevPageId;
         }
         Button {
             id: next

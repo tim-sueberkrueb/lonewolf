@@ -73,7 +73,7 @@ MainView {
             }
             PageColumn {
                 minimumWidth: units.gu(40)
-                maximumWidth: units.gu(60)
+                maximumWidth: units.gu(40)
                 preferredWidth: units.gu(40)
             }
         }
