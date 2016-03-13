@@ -2,12 +2,15 @@
 
 #include <QDebug>
 #include <QDir>
+#include <QEventLoop>
 #include <QFile>
 #include <QNetworkAccessManager>
 #include <QStandardPaths>
+#include <QTemporaryDir>
 #include <QTextStream>
 #include <QUrl>
 #include <QXmlQuery>
+#include <libxml/parserInternals.h>
 #include <libxml/tree.h>
 
 Book::Book(QObject *parent) :
@@ -56,6 +59,52 @@ bool Book::isBookDownloaded()
     return QFile::exists(cachePath);
 }
 
+static QString
+downloadOneXmlFile(const QString &filename)
+{
+    QString fullURL = "https://www.projectaon.org/data/trunk/en/xml/" + filename;
+
+    QTemporaryDir tempDir;
+    tempDir.setAutoRemove(false);
+
+    Downloader downloader;
+    downloader.setCacheDir(tempDir.path());
+    downloader.addFile(fullURL);
+
+    QEventLoop loop;
+    QObject::connect(&downloader, &Downloader::progressChanged, [&loop, &downloader]() {
+        if (downloader.progress() == 100) {
+            loop.quit();
+        }
+    });
+    loop.exec();
+
+    return downloader.cacheDir() + "/" + filename;
+}
+
+static xmlParserInputPtr
+loadEntity(const char * URL, const char * ID, xmlParserCtxtPtr context)
+{
+    qWarning() << "MIKE loading" << URL;
+
+    if (!URL)
+        return NULL;
+
+    QString url(URL);
+
+    if (url.startsWith("/") && !url.endsWith(".xml")) {
+        url = url.split("/").last();
+    }
+
+    if (url.startsWith("/")) {
+        return xmlNewInputFromFile(context, url.toUtf8().data());
+    }
+    else {
+        QString filePath = downloadOneXmlFile(url);
+        return xmlNewInputFromFile(context, filePath.toUtf8().data());
+    }
+}
+
 void Book::downloadBook()
 {
     if (isBookDownloaded())
@@ -64,7 +113,8 @@ void Book::downloadBook()
     QDir().mkpath(cacheDir());
 
     if (!m_filename.isEmpty()) {
-        QString filePath = "http://www.projectaon.org/en/xml/" + m_filename + ".xml";
+        QString filePath = downloadOneXmlFile(m_filename + ".xml");
+        xmlSetExternalEntityLoader(loadEntity);
         m_dom = xmlReadFile(filePath.toUtf8(), NULL, XML_PARSE_NOENT);
         if (m_dom == NULL)
             return;
@@ -106,7 +156,7 @@ void Book::downloadIllustration(xmlNodePtr illustration)
     if (!src.isEmpty()) {
         // Download directly from xhtml version of book, because they flatten the crazy
         // hierarchy that is /en/gif/lw and /en/jpeg/lw, etc.
-        QUrl url("http://www.projectaon.org/en/xhtml/lw/" + m_filename + "/" + src);
+        QUrl url("https://www.projectaon.org/en/xhtml/lw/" + m_filename + "/" + src);
         m_downloader.addFile(url);
     }
 
@@ -429,7 +479,7 @@ QString Book::pageType()
     xmlNodePtr section = getElementById("section", m_pageId);
 
     xmlNodePtr deadend = getElement("deadend", section);
-    qWarning() << "deadend" << deadend << m_pageId;
+    //qWarning() << "deadend" << deadend << m_pageId;
     if (deadend != NULL)
         return "deadend";
 

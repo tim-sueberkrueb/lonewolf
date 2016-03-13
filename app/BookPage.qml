@@ -28,21 +28,27 @@ Page {
         you: root.you
     }
 
+    property bool shouldShowChart: mainView.twoColumnView && book.progress == 100
+
     function ensureChartPage() {
-        if (mainView.twoColumnView) {
+        if (shouldShowChart) {
             pageStack.addPageToNextColumn(root, chartPage);
         } else {
             pageStack.removePages(chartPage);
         }
     }
 
-    Connections {
-        target: mainView
-        onTwoColumnViewChanged: ensureChartPage()
-    }
+    onShouldShowChartChanged: ensureChartPage()
 
     Component.onCompleted: {
         ensureChartPage();
+        if (book.progress < 100) {
+            book.downloadBook();
+            pageView.pageId = "license";
+            book.inBackMatter = false;
+            downloadCover.visible = false;
+        }
+        backAction.visible = true;
     }
 
     Action {
@@ -76,6 +82,15 @@ Page {
     }
 
     header: PageHeader {
+        leadingActionBar.actions: [
+            Action {
+                id: backAction
+                iconName: "back"
+                text: "Back"
+                onTriggered: pageStack.removePages(root)
+                visible: false
+            }
+        ]
         trailingActionBar.actions: [
             actionChart, quickSave, mapAction, nightMode
         ]
@@ -319,6 +334,7 @@ Page {
             anchors.centerIn: parent
             onClicked: {
                 cancelDownloadButton.visible = true; // can't actually cancel before this (we download xml synchronously)
+                progressBar.indeterminate = false;
                 downloadCover.visible = true;
                 pageView.pageId = "";
                 book.downloadImages();
@@ -360,6 +376,7 @@ Page {
                 anchors.topMargin: units.gu(1)
                 anchors.left: parent.left
                 anchors.right: parent.right
+                indeterminate: true
             }
             Button {
                 id: cancelDownloadButton
@@ -370,20 +387,6 @@ Page {
                 anchors.topMargin: units.gu(1)
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: pageStack.pop()
-            }
-        }
-
-        // Download book once we're idle
-        Timer {
-            interval: 1000
-            running: true
-            onTriggered: {
-                if (book.progress < 100) {
-                    book.downloadBook();
-                    pageView.pageId = "license";
-                    book.inBackMatter = false;
-                    downloadCover.visible = false;
-                }
             }
         }
     }
