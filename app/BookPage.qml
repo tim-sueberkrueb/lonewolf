@@ -9,6 +9,7 @@ Page {
     flickable: null
 
     property var you
+    //readonly property product: bookProduct()
 
     Component {
         id: saveDialog

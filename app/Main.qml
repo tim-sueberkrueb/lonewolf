@@ -1,4 +1,5 @@
 import QtQuick 2.4
+//import QtPurchasing 1.0
 import Qt.labs.settings 1.0
 import Ubuntu.Components 1.3
 import Lonewolf 1.0
@@ -19,6 +20,17 @@ MainView {
             actionManager.quit();
         }
     }
+
+    /*Store {
+        Product {
+            id: neworderProduct
+            identifier: "neworderSeries"
+            type: Product.Unlockable
+        }
+    }
+    Item {
+        id: store
+    }*/
 
     Binding {
         target: Theme
@@ -133,4 +145,16 @@ MainView {
                                        gameState.book == "26tfobm" ||
                                        gameState.book == "27v" ||
                                        gameState.book == "28thos"
+
+    /*function bookProduct() {
+        if (inmagnakai) {
+            return magnakaiProduct;
+        } else if (ingrandmaster) {
+            return grandmasterProduct;
+        } else if (inneworder) {
+            return neworderProduct;
+        } else {
+            return null;
+        }
+    }*/
 }

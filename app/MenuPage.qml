@@ -34,7 +34,8 @@ Page {
             x: anchors.margins
             y: anchors.margins
             anchors.margins: units.gu(2)
-            width: flicker.contentWidth - anchors.margins * 2
+            width: (flicker.contentWidth > units.gu(60) ? units.gu(60) : flicker.contentWidth) - anchors.margins * 2
+            anchors.horizontalCenter: parent.horizontalCenter
 
             Label {
                 text: "<p>Lone Wolf is a role-playing book series from the 80s.</p><br>" +
@@ -43,8 +44,7 @@ Page {
                 linkColor: Theme.palette.selected.backgroundText
                 onLinkActivated: Qt.openUrlExternally(link)
                 wrapMode: Text.Wrap
-                width: parent.width > units.gu(60) ? units.gu(60) : parent.width
-                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width
             }
 
             Button {
@@ -62,66 +62,92 @@ Page {
             }
 
             ListModel {
-                id: bookModel
-                ListElement { book: "01fftd"; series: "kai" }
-                ListElement { book: "02fotw"; series: "kai" }
-                ListElement { book: "03tcok"; series: "kai" }
-                ListElement { book: "04tcod"; series: "kai" }
-                ListElement { book: "05sots"; series: "kai" }
-                ListElement { book: "06tkot"; series: "magnakai" }
-                ListElement { book: "07cd"; series: "magnakai" }
-                ListElement { book: "08tjoh"; series: "magnakai" }
-                ListElement { book: "09tcof"; series: "magnakai" }
-                ListElement { book: "10tdot"; series: "magnakai" }
-                ListElement { book: "11tpot"; series: "magnakai" }
-                ListElement { book: "12tmod"; series: "magnakai" }
-                ListElement { book: "13tplor"; series: "grandmaster" }
-                ListElement { book: "14tcok"; series: "grandmaster" }
-                ListElement { book: "15tdc"; series: "grandmaster" }
-                ListElement { book: "16tlov"; series: "grandmaster" }
-                ListElement { book: "17tdoi"; series: "grandmaster" }
-                ListElement { book: "18dotd"; series: "grandmaster" }
-                ListElement { book: "19wb"; series: "grandmaster" }
-                ListElement { book: "20tcon"; series: "grandmaster" }
-                ListElement { book: "21votm"; series: "neworder" }
-                ListElement { book: "22tbos"; series: "neworder" }
-                ListElement { book: "23mh"; series: "neworder" }
-                ListElement { book: "24rw"; series: "neworder" }
-                ListElement { book: "25totw"; series: "neworder" }
-                ListElement { book: "26tfobm"; series: "neworder" }
-                ListElement { book: "27v"; series: "neworder" }
-                ListElement { book: "28thos"; series: "neworder" }
+                id: kaiModel
+                ListElement { book: "01fftd" }
+                ListElement { book: "02fotw" }
+                ListElement { book: "03tcok" }
+                ListElement { book: "04tcod" }
+                ListElement { book: "05sots" }
+            }
+            ListModel {
+                id: magnakaiModel
+                ListElement { book: "06tkot" }
+                ListElement { book: "07cd" }
+                ListElement { book: "08tjoh" }
+                ListElement { book: "09tcof" }
+                ListElement { book: "10tdot" }
+                ListElement { book: "11tpot" }
+                ListElement { book: "12tmod" }
+            }
+            ListModel {
+                id: grandmasterModel
+                ListElement { book: "13tplor" }
+                ListElement { book: "14tcok" }
+                ListElement { book: "15tdc" }
+                ListElement { book: "16tlov" }
+                ListElement { book: "17tdoi" }
+                ListElement { book: "18dotd" }
+                ListElement { book: "19wb" }
+                ListElement { book: "20tcon" }
+            }
+            ListModel {
+                id: neworderModel
+                ListElement { book: "21votm" }
+                ListElement { book: "22tbos" }
+                ListElement { book: "23mh" }
+                ListElement { book: "24rw" }
+                ListElement { book: "25totw" }
+                ListElement { book: "26tfobm" }
+                ListElement { book: "27v" }
+                ListElement { book: "28thos" }
             }
 
             Item {
                 height: 1
                 width: 1
             }
-            Label {
-                text: "All Books"
-                font.bold: true
-                horizontalAlignment: Text.AlignHCenter
+            BookList {
+                model: kaiModel
+                title: "Kai Series"
+                description: "Save your country from a looming threat.\nStart here if you've never played before."
+                onStartBook: root.startBook(book, "")
                 width: parent.width
             }
-            Flow {
-                id: buttonFlow
-                anchors.horizontalCenter: parent.horizontalCenter
-                width: parent.width - marginWidth * 2
-                spacing: units.gu(3)
-                property real buttonWidth: units.gu(6)
-                property real marginWidth: (parent.width - buttonWidth) % (buttonWidth + spacing) / 2
-                Repeater {
-                    model: bookModel
-                    delegate: Button {
-                        text: index + 1
-                        onClicked: startBook(book, "")
-                        width: buttonFlow.buttonWidth
-                        height: width
-                        color: series == "kai" ? "#203432" :
-                               series == "magnakai" ? "#425654" :
-                               series == "grandmaster" ? "#647865" : "#869a87"
-                    }
-                }
+            Item {
+                height: 1
+                width: 1
+            }
+            BookList {
+                model: magnakaiModel
+                title: "Magnakai Series"
+                description: "Save the realm from the Darklords by collecting the Lorestones of Varetta."
+                onStartBook: root.startBook(book, "")
+                width: parent.width
+                //product: magnakaiProduct
+            }
+            Item {
+                height: 1
+                width: 1
+            }
+            BookList {
+                model: grandmasterModel
+                title: "Grandmaster Series"
+                description: "Save the world from the Dark God Naar and his minions."
+                onStartBook: root.startBook(book, "")
+                width: parent.width
+                //product: grandmasterProduct
+            }
+            Item {
+                height: 1
+                width: 1
+            }
+            BookList {
+                model: neworderModel
+                title: "New Order Series"
+                description: "Continue thwarting the forces of evil as one of Lone Wolf's disciples."
+                onStartBook: root.startBook(book, "")
+                width: parent.width
+                //product: neworderProduct
             }
             Item {
                 height: 1
