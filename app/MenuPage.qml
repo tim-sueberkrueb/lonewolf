@@ -1,14 +1,17 @@
 import QtQuick 2.4
-import Ubuntu.Components 1.2
+import Ubuntu.Components 1.3
 import Lonewolf 1.0
 
 Page {
     id: root
-    title: "Lone Wolf"
+    flickable: null
 
-    head.actions: [
-        nightMode
-    ]
+    header: PageHeader {
+        title: "Lone Wolf"
+        trailingActionBar.actions: [
+            nightMode
+        ]
+    }
 
     function startBook(book, pageId) {
         gameState.book = book;
@@ -18,15 +21,20 @@ Page {
 
     Flickable {
         id: flicker
-        anchors.fill: parent
-        anchors.margins: units.gu(1)
-        contentHeight: column.height
-        contentWidth: root.width - units.gu(2)
+        anchors.top: header.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        contentHeight: column.height + column.anchors.margins * 2
+        contentWidth: width
 
         Column {
             id: column
             spacing: units.gu(2)
-            width: flicker.contentWidth
+            x: anchors.margins
+            y: anchors.margins
+            anchors.margins: units.gu(2)
+            width: flicker.contentWidth - anchors.margins * 2
 
             Label {
                 text: "<p>Lone Wolf is a role-playing book series from the 80s.</p><br>" +
@@ -35,7 +43,8 @@ Page {
                 linkColor: Theme.palette.selected.backgroundText
                 onLinkActivated: Qt.openUrlExternally(link)
                 wrapMode: Text.Wrap
-                width: parent.width
+                width: parent.width > units.gu(60) ? units.gu(60) : parent.width
+                anchors.horizontalCenter: parent.horizontalCenter
             }
 
             Button {
@@ -119,6 +128,11 @@ Page {
                 width: 1
             }
         }
+    }
+
+    Scrollbar {
+        id: scrollbar
+        flickableItem: flicker
     }
 }
 

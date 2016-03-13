@@ -1,20 +1,22 @@
 import QtQuick 2.4
-import Ubuntu.Components 1.2
+import Ubuntu.Components 1.3
 import Lonewolf 1.0
 
 // This is not a class I am proud of.  So much weird duplication of code.
 
 Page {
     id: root
-    title: "Action Chart"
     flickable: null
     clip: true
 
     property var you
 
-    head.actions: [
-        nightMode
-    ]
+    header: PageHeader {
+        title: "Action Chart"
+        trailingActionBar.actions: mainView.twoColumnView ? [] : [
+            nightMode
+        ]
+    }
 
     QtObject {
         id: d
@@ -27,14 +29,20 @@ Page {
 
     Flickable {
         id: flicker
-        anchors.fill: parent
-        anchors.margins: units.gu(1)
-        contentHeight: col.height
-        contentWidth: root.width - units.gu(2)
+        anchors.top: header.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        contentHeight: col.height + col.anchors.margins * 2
+        contentWidth: width
 
         Column {
             id: col
             spacing: units.gu(1)
+            x: anchors.margins
+            y: anchors.margins
+            anchors.margins: units.gu(2)
+            width: flicker.contentWidth - anchors.margins * 2
 
             Grid {
                 columns: 3
@@ -212,7 +220,7 @@ Page {
                 rows: 1
                 flow: Grid.TopToBottom
                 spacing: units.gu(1)
-                property real itemWidth: (flicker.width - spacing) / 2
+                property real itemWidth: (col.width - spacing) / 2
                 visible: !d.neworder
 
                 ChartItem {
@@ -267,7 +275,7 @@ Page {
                 rows: 5
                 flow: Grid.LeftToRight
                 spacing: units.gu(1)
-                property real itemWidth: (flicker.width - spacing) / 2
+                property real itemWidth: (col.width - spacing) / 2
                 visible: !d.neworder
 
                 ChartItem {
@@ -417,7 +425,7 @@ Page {
                 text: you.neworder_kaiweapon
                 you: root.you
                 prop: "neworder_kaiweapon"
-                width: flicker.width
+                width: col.width
                 visible: d.neworder
             }
 
@@ -434,7 +442,7 @@ Page {
                 rows: 12
                 flow: Grid.TopToBottom
                 spacing: units.gu(1)
-                property real itemWidth: flicker.width
+                property real itemWidth: col.width
                 visible: !d.neworder
 
                 ChartItem {
@@ -607,7 +615,7 @@ Page {
                 rows: 5
                 flow: Grid.TopToBottom
                 spacing: units.gu(1)
-                property real itemWidth: (flicker.width - spacing) / 2
+                property real itemWidth: (col.width - spacing) / 2
                 visible: d.kai
 
                 ChartCheck {
@@ -1317,6 +1325,11 @@ Page {
                 }
             }
         }
+    }
+
+    Scrollbar {
+        id: scrollbar
+        flickableItem: flicker
     }
 }
 

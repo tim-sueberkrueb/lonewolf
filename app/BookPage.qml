@@ -1,12 +1,11 @@
 import QtQuick 2.4
-import Ubuntu.Components 1.2
+import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.0
 import Ubuntu.Web 0.2
 import Lonewolf 1.0
 
 Page {
     id: root
-    title: book.pageTitle
     flickable: null
 
     property var you
@@ -24,16 +23,34 @@ Page {
         }
     }
 
-    head.actions: [
-        actionChart, quickSave, mapAction, nightMode
-    ]
+    ChartPage {
+        id: chartPage
+        you: root.you
+    }
+
+    function ensureChartPage() {
+        if (mainView.twoColumnView) {
+            pageStack.addPageToNextColumn(root, chartPage);
+        } else {
+            pageStack.removePages(chartPage);
+        }
+    }
+
+    Connections {
+        target: mainView
+        onTwoColumnViewChanged: ensureChartPage()
+    }
+
+    Component.onCompleted: {
+        ensureChartPage();
+    }
 
     Action {
         id: actionChart
         iconName: "note"
         text: i18n.tr("Action Chart")
-        visible: book.progress == 100
-        onTriggered: goToChartTab()
+        visible: book.progress == 100 && !mainView.twoColumnView
+        onTriggered: pageStack.addPageToNextColumn(root, chartPage)
     }
 
     Action {
@@ -58,76 +75,79 @@ Page {
         onTriggered: pageView.pageId = "map"
     }
 
-    head.contents: Rectangle {
-        color: "transparent"
-        Label {
-            id: headTitle
-            text: root.title
-            fontSize: "x-large"
-            font.weight: Font.Light
-            elide: Text.ElideRight
-            anchors.left: parent.left
-            anchors.right: headEndurance.left
-            anchors.verticalCenter: parent.verticalCenter
-        }
-        Item {
-            id: headEndurance
-            visible: Number(root.title) > 0
-            width: visible ? childrenRect.width : 0
-            anchors.right: parent.right
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
+    header: PageHeader {
+        trailingActionBar.actions: [
+            actionChart, quickSave, mapAction, nightMode
+        ]
+        trailingActionBar.numberOfSlots: mainView.twoColumnView ? 1 : 2
+        contents: Item {
+            anchors.fill: parent
 
             Label {
-                id: youenduranceLabel
-                text: mainView.endurance + " <span style='font-variant: small-caps'>EP</span>"
+                id: headTitle
+                text: book.pageTitle
                 fontSize: "large"
-                textFormat: Text.RichText
+                font.weight: Font.Light
+                elide: Text.ElideRight
+                anchors.left: parent.left
+                anchors.right: headEndurance.left
+                anchors.verticalCenter: parent.verticalCenter
+            }
+            Item {
+                id: headEndurance
+                visible: Number(headTitle.text) > 0
+                anchors.right: parent.right
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.rightMargin: units.gu(2)
-                anchors.right: parent.right
-                verticalAlignment: Text.AlignVCenter
+
                 Label {
-                    anchors.left: parent.right
-                    anchors.leftMargin: units.gu(1)
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: "+"
-                    visible: mainView.endurance < mainView.maxendurance
-                }
-                Label {
-                    anchors.right: parent.left
-                    anchors.rightMargin: units.gu(1)
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: "-"
-                    visible: mainView.endurance > 0
-                }
-                MouseArea {
-                    anchors.left: parent.horizontalCenter
+                    id: youenduranceLabel
+                    text: mainView.endurance + " <span style='font-variant: small-caps'>EP</span>"
+                    textFormat: Text.RichText
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
-                    width: parent.width / 2 + units.gu(4)
-                    enabled: mainView.endurance < mainView.maxendurance
-                    onClicked: {
-                        Haptics.play();
-                        adjustEndurance(1);
+                    anchors.rightMargin: units.gu(4)
+                    anchors.right: parent.right
+                    verticalAlignment: Text.AlignVCenter
+                    Label {
+                        anchors.left: parent.right
+                        anchors.leftMargin: units.gu(1)
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: "+"
+                        visible: mainView.endurance < mainView.maxendurance
                     }
-                }
-                MouseArea {
-                    anchors.right: parent.horizontalCenter
-                    anchors.top: parent.top
-                    anchors.bottom: parent.bottom
-                    width: parent.width / 2 + units.gu(4)
-                    enabled: mainView.endurance > 0
-                    onClicked: {
-                        Haptics.play();
-                        adjustEndurance(-1);
+                    Label {
+                        anchors.right: parent.left
+                        anchors.rightMargin: units.gu(1)
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: "-"
+                        visible: mainView.endurance > 0
+                    }
+                    MouseArea {
+                        anchors.left: parent.horizontalCenter
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        width: parent.width / 2 + units.gu(4)
+                        enabled: mainView.endurance < mainView.maxendurance && visible
+                        onClicked: {
+                            Haptics.play();
+                            adjustEndurance(1);
+                        }
+                    }
+                    MouseArea {
+                        anchors.right: parent.horizontalCenter
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        width: parent.width / 2 + units.gu(4)
+                        enabled: mainView.endurance > 0 && visible
+                        onClicked: {
+                            Haptics.play();
+                            adjustEndurance(-1);
+                        }
                     }
                 }
             }
         }
-        height: parent ? parent.height - units.gu(2) : undefined
-        width: parent ? parent.width - units.gu(2) : undefined
     }
 
     Book {
@@ -163,7 +183,7 @@ Page {
         property string pageId: you.pageId
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.top: parent.top
+        anchors.top: header.bottom
         anchors.bottom: navigation.top
         alertDialog: Item {
             anchors.fill: parent

@@ -1,6 +1,6 @@
 import QtQuick 2.4
 import Qt.labs.settings 1.0
-import Ubuntu.Components 1.2
+import Ubuntu.Components 1.3
 import Lonewolf 1.0
 
 MainView {
@@ -11,7 +11,7 @@ MainView {
     anchorToKeyboard: true
     focus: true
 
-    width: units.gu(40)
+    width: units.gu(100)
     height: units.gu(60)
 
     Keys.onPressed: {
@@ -48,65 +48,43 @@ MainView {
         id: gameState
     }
 
+    property bool twoColumnView: width > units.gu(80) && !menuPage.visible
+
     function goToBookTab(reset)
     {
-        if (reset) {
-            bookLoader.active = false;
-            bookLoader.active = true;
-        }
-        tabs.selectedTabIndex = 1;
-    }
-
-    function goToChartTab()
-    {
-        pageStack.push(chartLoader.item);
+        pageLayout.addPageToCurrentColumn(pageLayout.primaryPage, bookComponent);
     }
 
     function loadQuickSave()
     {
         quickSaveState.copyTo(gameState);
-        chartLoader.active = false;
-        chartLoader.active = true;
         goToBookTab(true);
     }
 
-    Component.onCompleted: {
-        bookLoader.active = true;
-        pageStack.push(tabs);
-    }
+    AdaptivePageLayout {
+        id: pageLayout
+        anchors.fill: parent
+        primaryPage: menuPage
 
-    PageStack {
-        id: pageStack
-
-        Tabs {
-            id: tabs
-
-            StateSaver.properties: "selectedTabIndex"
-
-            Tab {
-                title: "Main Menu"
-                page: Loader {
-                    sourceComponent: MenuPage {
-                    }
-                }
+        layouts: PageColumnsLayout {
+            when: twoColumnView
+            PageColumn {
+                fillWidth: true
             }
-            Tab {
-                title: "Book"
-                page: Loader {
-                    id: bookLoader
-                    active: false
-                    sourceComponent: BookPage {
-                        you: gameState
-                    }
-                }
+            PageColumn {
+                minimumWidth: units.gu(40)
+                maximumWidth: units.gu(60)
+                preferredWidth: units.gu(40)
             }
         }
 
-        Loader {
-            id: chartLoader
-            sourceComponent: ChartPage {
-                title: "Action Chart"
-                visible: false
+        MenuPage {
+            id: menuPage
+        }
+
+        Component {
+            id: bookComponent
+            BookPage {
                 you: gameState
             }
         }

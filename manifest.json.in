@@ -11,5 +11,5 @@
     },
     "version": "15",
     "maintainer": "Michael Terry <mterry@ubuntu.com>",
-    "framework": "ubuntu-sdk-15.04"
+    "framework": "ubuntu-sdk-15.04.4"
 }
