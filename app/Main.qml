@@ -50,15 +50,17 @@ MainView {
 
     property bool twoColumnView: width > units.gu(80) && !menuPage.visible
 
-    function goToBookTab(reset)
+    function goToBookTab()
     {
+        pageLayout.primaryPage.enabled = false;
+        pageLayout.removePages(pageLayout.primaryPage);
         pageLayout.addPageToCurrentColumn(pageLayout.primaryPage, bookComponent);
     }
 
     function loadQuickSave()
     {
         quickSaveState.copyTo(gameState);
-        goToBookTab(true);
+        goToBookTab();
     }
 
     AdaptivePageLayout {

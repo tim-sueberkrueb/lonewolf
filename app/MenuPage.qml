@@ -16,7 +16,7 @@ Page {
     function startBook(book, pageId) {
         gameState.book = book;
         gameState.pageId = pageId;
-        goToBookTab(true);
+        goToBookTab();
     }
 
     Flickable {
@@ -49,7 +49,7 @@ Page {
 
             Button {
                 text: gameState.book == "" && gameState.pageId == "title" ? "Start Book 1" : "Continue"
-                onClicked: goToBookTab(false)
+                onClicked: goToBookTab()
                 color: UbuntuColors.green
                 anchors.horizontalCenter: parent.horizontalCenter
             }

@@ -93,6 +93,7 @@ Page {
                         pageView.pageId = you.pageId; // go back to saved place
                         book.inBackMatter = false;
                     } else {
+                        pageStack.primaryPage.enabled = true;
                         pageStack.removePages(root);
                     }
                 }
@@ -112,6 +113,7 @@ Page {
                 font.weight: Font.Light
                 elide: Text.ElideRight
                 anchors.left: parent.left
+                anchors.leftMargin: units.gu(1)
                 anchors.right: headEndurance.left
                 anchors.verticalCenter: parent.verticalCenter
             }
@@ -190,7 +192,7 @@ Page {
             if (pageId == "" && pageView.pageId != "")
                 return; // on startup we get this fake-out...
             var content = pageContent;
-            if (pageType == "backmatter" || pageType == "deadend") {
+            if (pageId != "title" && (pageType == "backmatter" || pageType == "deadend")) {
                 inBackMatter = true;
             } else if (!inBackMatter) {
                 you.pageId = pageId; // save place
@@ -230,7 +232,7 @@ Page {
                     Haptics.play();
                     you.book = model.message.split(',')[2];
                     pageView.pageId = "";
-                    goToBookTab(true);
+                    goToBookTab();
                 } else {
                     Haptics.play();
                     pageView.pageId = model.message;
