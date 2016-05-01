@@ -82,6 +82,13 @@ Page {
         onTriggered: pageView.pageId = "map"
     }
 
+    Action {
+        id: nightModeAction
+        iconName: "display-brightness-symbolic"
+        text: nightModeText
+        onTriggered: triggerNightMode(root)
+    }
+
     header: PageHeader {
         leadingActionBar.actions: [
             Action {
@@ -94,14 +101,13 @@ Page {
                         pageView.pageId = you.pageId; // go back to saved place
                         book.inBackMatter = false;
                     } else {
-                        pageStack.primaryPage.enabled = true;
-                        pageStack.removePages(root);
+                        popBookTab();
                     }
                 }
             }
         ]
         trailingActionBar.actions: [
-            actionChart, quickSave, mapAction, nightMode
+            actionChart, quickSave, mapAction, nightModeAction
         ]
         trailingActionBar.numberOfSlots: mainView.twoColumnView ? 1 : 2
         contents: Item {
@@ -183,7 +189,7 @@ Page {
 
         // Only respect theme in night mode because in "normal" day mode,
         // we want our background to blend with illustrations.
-        bgColor: settings.nightMode ? Theme.palette.normal.field : "white"
+        bgColor: mainView.nightModeEnabled ? Theme.palette.normal.field : "white"
         textColor: Theme.palette.normal.fieldText
         linkColor: Theme.palette.selected.selection
 

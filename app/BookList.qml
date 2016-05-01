@@ -20,7 +20,7 @@ Item {
 
         Item {
             width: parent.width
-            height: Math.max(title.height, buyButton.height)
+            height: title.height //Math.max(title.height, buyButton.height)
             Label {
                 id: title
                 text: root.title
@@ -28,10 +28,10 @@ Item {
                 font.bold: true
                 anchors.left: parent.left
                 anchors.bottom: parent.bottom
-                anchors.right: buyButton.left
+                anchors.right: parent.right //buyButton.left
                 verticalAlignment: Text.AlignBottom
             }
-            Button {
+            /*Button {
                 id: buyButton
                 visible: root.product && !root.product.bought
                 enabled: !root.buying
@@ -39,7 +39,7 @@ Item {
                 color: UbuntuColors.orange
                 anchors.right: parent.right
                 anchors.top: parent.top
-            }
+            }*/
         }
         Label {
             text: root.description

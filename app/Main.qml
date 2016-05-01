@@ -1,5 +1,5 @@
 import QtQuick 2.4
-//import QtPurchasing 1.0
+import QtPurchasing 1.0
 import Qt.labs.settings 1.0
 import Ubuntu.Components 1.3
 import Lonewolf 1.0
@@ -21,33 +21,60 @@ MainView {
         }
     }
 
-    /*Store {
+    Store {
+        id: store
         Product {
-            id: neworderProduct
-            identifier: "neworderSeries"
+            id: donationProduct
+            identifier: "donation"
             type: Product.Unlockable
+
+            property bool purchasing: false
+
+            onPurchaseSucceeded: {
+                settings.donated = true;
+                transaction.finalize();
+                purchasing = false;
+            }
+
+            onPurchaseFailed: {
+                transaction.finalize();
+                purchasing = false;
+            }
+
+            onPurchaseRestored: {
+                settings.donated = true;
+                transaction.finalize();
+            }
         }
     }
-    Item {
-        id: store
-    }*/
+
+    property bool nightModeEnabled: settings.donated && settings.nightMode
 
     Binding {
         target: Theme
         property: "name"
-        value: settings.nightMode ? "Ubuntu.Components.Themes.SuruDark" : "Ubuntu.Components.Themes.Ambiance"
+        value: nightModeEnabled ? "Ubuntu.Components.Themes.SuruDark" : "Ubuntu.Components.Themes.Ambiance"
     }
 
-    Action {
-        id: nightMode
-        iconName: "display-brightness-symbolic"
-        text: settings.nightMode ? "Day Mode" : "Night Mode"
-        onTriggered: settings.nightMode = !settings.nightMode
+    property string nightModeText: nightModeEnabled ? "Day Mode" : "Night Mode"
+    function triggerNightMode(page)
+    {
+        if (settings.donated) {
+            settings.nightMode = !settings.nightMode;
+        } else {
+            pageLayout.addPageToCurrentColumn(page, donateComponent);
+        }
+    }
+
+    Component {
+        id: donateComponent
+        DonatePage{}
     }
 
     Settings {
         id: settings
         property bool nightMode
+        property bool donated
     }
 
     GameState {
@@ -67,6 +94,12 @@ MainView {
         pageLayout.primaryPage.enabled = false;
         pageLayout.removePages(pageLayout.primaryPage);
         pageLayout.addPageToCurrentColumn(pageLayout.primaryPage, bookComponent);
+    }
+
+    function popBookTab()
+    {
+        pageLayout.primaryPage.enabled = true;
+        pageLayout.removePages(pageLayout.primaryPage);
     }
 
     function loadQuickSave()
@@ -145,16 +178,4 @@ MainView {
                                        gameState.book == "26tfobm" ||
                                        gameState.book == "27v" ||
                                        gameState.book == "28thos"
-
-    /*function bookProduct() {
-        if (inmagnakai) {
-            return magnakaiProduct;
-        } else if (ingrandmaster) {
-            return grandmasterProduct;
-        } else if (inneworder) {
-            return neworderProduct;
-        } else {
-            return null;
-        }
-    }*/
 }

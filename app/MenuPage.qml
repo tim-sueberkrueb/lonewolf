@@ -9,7 +9,11 @@ Page {
     header: PageHeader {
         title: "Lone Wolf"
         trailingActionBar.actions: [
-            nightMode
+            Action {
+                iconName: "display-brightness-symbolic"
+                text: nightModeText
+                onTriggered: triggerNightMode(root)
+            }
         ]
     }
 
@@ -48,7 +52,7 @@ Page {
             }
 
             Button {
-                text: gameState.book == "" && gameState.pageId == "title" ? "Start Book 1" : "Continue"
+                text: gameState.book == "" && gameState.pageId == "" ? "Start Book 1" : "Continue"
                 onClicked: goToBookTab()
                 color: UbuntuColors.green
                 anchors.horizontalCenter: parent.horizontalCenter

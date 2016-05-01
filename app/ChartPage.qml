@@ -13,8 +13,13 @@ Page {
 
     header: PageHeader {
         title: "Action Chart"
-        trailingActionBar.actions: mainView.twoColumnView ? [] : [
-            nightMode
+        trailingActionBar.actions: [
+            Action {
+                iconName: "display-brightness-symbolic"
+                text: nightModeText
+                onTriggered: triggerNightMode(root)
+                visible: mainView.twoColumnView
+            }
         ]
     }
 
