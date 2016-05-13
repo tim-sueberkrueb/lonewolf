@@ -40,6 +40,7 @@ Page {
     }
 
     onShouldShowChartChanged: ensureChartPage()
+    onVisibleChanged: if (visible) ensureChartPage()
 
     Component.onCompleted: {
         ensureChartPage();
@@ -84,7 +85,7 @@ Page {
 
     Action {
         id: nightModeAction
-        iconName: "display-brightness-symbolic"
+        iconName: nightModeIcon
         text: nightModeText
         onTriggered: triggerNightMode(root)
     }

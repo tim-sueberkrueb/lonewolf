@@ -56,6 +56,7 @@ MainView {
         value: nightModeEnabled ? "Ubuntu.Components.Themes.SuruDark" : "Ubuntu.Components.Themes.Ambiance"
     }
 
+    property string nightModeIcon: nightModeEnabled ? "display-brightness-symbolic" : "night-mode"
     property string nightModeText: nightModeEnabled ? "Day Mode" : "Night Mode"
     function triggerNightMode(page)
     {
@@ -66,9 +67,13 @@ MainView {
         }
     }
 
+    property bool donatePageShowing: false
     Component {
         id: donateComponent
-        DonatePage{}
+        DonatePage {
+            Component.onCompleted: donatePageShowing = true
+            Component.onDestruction: donatePageShowing = false
+        }
     }
 
     Settings {
@@ -87,7 +92,7 @@ MainView {
         id: gameState
     }
 
-    property bool twoColumnView: width > units.gu(80) && !menuPage.visible
+    property bool twoColumnView: width > units.gu(80) && !menuPage.visible && !donatePageShowing
 
     function goToBookTab()
     {

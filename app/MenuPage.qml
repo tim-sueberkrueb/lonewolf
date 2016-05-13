@@ -10,7 +10,7 @@ Page {
         title: "Lone Wolf"
         trailingActionBar.actions: [
             Action {
-                iconName: "display-brightness-symbolic"
+                iconName: nightModeIcon
                 text: nightModeText
                 onTriggered: triggerNightMode(root)
             }

@@ -15,10 +15,10 @@ Page {
         title: "Action Chart"
         trailingActionBar.actions: [
             Action {
-                iconName: "display-brightness-symbolic"
+                iconName: nightModeIcon
                 text: nightModeText
                 onTriggered: triggerNightMode(root)
-                visible: mainView.twoColumnView
+                visible: !mainView.twoColumnView
             }
         ]
     }
