@@ -90,7 +90,7 @@ Rectangle {
             Label {
                 id: youenduranceLabel
                 text: d.youendurance > 0 || youenduranceTitle.text != "ENDURANCE"  ? d.youendurance : "DEAD"
-                color: d.youendurance > 0 ? "white" : UbuntuColors.red
+                color: d.youendurance > 0 ? "white" : theme.palette.normal.negative
                 fontSize: "x-large"
                 horizontalAlignment: Text.AlignHCenter
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -190,7 +190,7 @@ Rectangle {
             Label {
                 id: enduranceLabel
                 text: d.endurance > 0 || enduranceTitle.text != "ENDURANCE" ? d.endurance : "DEAD"
-                color: d.endurance > 0 ? "white" : UbuntuColors.red
+                color: d.endurance > 0 ? "white" : theme.palette.normal.negative
                 fontSize: "x-large"
                 horizontalAlignment: Text.AlignHCenter
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -274,7 +274,7 @@ Rectangle {
     Button {
         id: fleeButton
         text: "Evade"
-        color: UbuntuColors.red
+        color: theme.palette.normal.negative
         anchors.left: parent.left
         anchors.right: parent.horizontalCenter
         anchors.bottom: parent.bottom
@@ -301,7 +301,7 @@ Rectangle {
     }
     Button {
         text: "Fight"
-        color: UbuntuColors.green
+        color: theme.palette.normal.positive
         anchors.right: parent.right
         anchors.left: parent.horizontalCenter
         anchors.bottom: parent.bottom

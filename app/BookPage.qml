@@ -338,7 +338,7 @@ Page {
         Button {
             id: licenseButton
             text: "Accept"
-            color: UbuntuColors.green
+            color: theme.palette.normal.positive
             visible: book.progress < 100
             anchors.centerIn: parent
             onClicked: {
@@ -391,7 +391,7 @@ Page {
                 id: cancelDownloadButton
                 text: "Cancel"
                 visible: false
-                color: UbuntuColors.red
+                color: theme.palette.normal.negative
                 anchors.top: progressBar.bottom
                 anchors.topMargin: units.gu(1)
                 anchors.horizontalCenter: parent.horizontalCenter

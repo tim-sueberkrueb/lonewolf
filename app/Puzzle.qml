@@ -59,7 +59,7 @@ Rectangle {
             Button {
                 anchors.verticalCenter: parent.verticalCenter
                 text: "Try"
-                color: UbuntuColors.green
+                color: theme.palette.normal.positive
                 onClicked:{
                     var haystack = root.answers + " ";
                     var needle = "sect" + entry.text + " ";
@@ -81,7 +81,7 @@ Rectangle {
             horizontalAlignment: Text.AlignHCenter
             visible: d.wrong
             text: "Wrong"
-            color: UbuntuColors.red
+            color: theme.palette.normal.negative
             fontSize: "x-large"
         }
     }

@@ -36,7 +36,7 @@ Item {
                 visible: root.product && !root.product.bought
                 enabled: !root.buying
                 text: "$2.99"
-                color: UbuntuColors.orange
+                color: theme.palette.normal.positive
                 anchors.right: parent.right
                 anchors.top: parent.top
             }*/

@@ -38,7 +38,7 @@ Page {
             Button {
                 enabled: !settings.donated && !donationProduct.purchasing && donationProduct.status === Product.Registered
                 text: settings.donated ? "Thank you!" : "Donate " + donationProduct.price
-                color: UbuntuColors.orange
+                color: theme.palette.normal.positive
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
                     donationProduct.purchasing = true;

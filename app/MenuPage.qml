@@ -54,14 +54,14 @@ Page {
             Button {
                 text: gameState.book == "" && gameState.pageId == "" ? "Start Book 1" : "Continue"
                 onClicked: goToBookTab()
-                color: UbuntuColors.green
+                color: theme.palette.normal.positive
                 anchors.horizontalCenter: parent.horizontalCenter
             }
             Button {
                 text: "Load Quick Save"
                 enabled: quickSaveState.pageId != ""
                 onClicked: loadQuickSave()
-                color: UbuntuColors.red
+                color: theme.palette.normal.negative
                 anchors.horizontalCenter: parent.horizontalCenter
             }
 
