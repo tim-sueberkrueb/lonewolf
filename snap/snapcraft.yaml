@@ -8,7 +8,7 @@ description: |
   
   Lone Wolf is a role-playing book series from the 80s. This app lets you play the old adventures on your device.
   
-  Code: https://gitlab.com/mikix/lonewolf
+  Code: https://launchpad.net/lonewolf
   Books: https://www.projectaon.org/
 grade: stable
 confinement: strict
