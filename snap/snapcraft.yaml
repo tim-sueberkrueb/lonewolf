@@ -32,6 +32,7 @@ parts:
     build-packages:
       - libqt5xmlpatterns5-dev
       - libxml2-dev
+      - pkg-config
       - qtdeclarative5-dev
     build-attributes:
       - no-system-libraries
