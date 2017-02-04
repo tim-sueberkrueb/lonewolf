@@ -31,6 +31,7 @@ parts:
     source: .
     build-packages:
       - libxml2-dev
+      - qtdeclarative5-dev
     build-attributes:
       - no-system-libraries
 
