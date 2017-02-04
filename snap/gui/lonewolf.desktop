@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Lone Wolf
+Exec=lonewolf
+Icon=${SNAP}/meta/gui/icon.png
+Type=Application
+Version=1.1
+StartupNotify=true
+StartupWMClass=lonewolf.mterry
+Categories=Game;RolePlaying;
+X-Ubuntu-Touch=true

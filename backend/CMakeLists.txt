@@ -1,42 +1,27 @@
 include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_BINARY_DIR}/libxml2/include
+    ${LIBXML_INCLUDE_DIRS}
 )
 
-set(
-    Lonewolfbackend_SRCS
-    modules/Lonewolf/backend.cpp
-    modules/Lonewolf/book.cpp
-    modules/Lonewolf/downloader.cpp
-    modules/Lonewolf/util.cpp
+link_libraries(
+    ${LIBXML_LDFLAGS}
 )
-
-# Make the unit test files visible on qtcreator
-add_custom_target(Lonewolfbackend_UNITTEST_QML_FILES ALL SOURCES "tests/unit/tst_mytype.qml")
 
 add_library(Lonewolfbackend MODULE
-    ${Lonewolfbackend_SRCS}
+    backend.cpp
+    book.cpp
+    downloader.cpp
+    util.cpp
 )
-
-set_target_properties(Lonewolfbackend PROPERTIES
-         LIBRARY_OUTPUT_DIRECTORY Lonewolf)
-
-target_link_libraries(Lonewolfbackend
-    -L${CMAKE_BINARY_DIR}/libxml2/lib
-    -lxml2
-)
-
-add_dependencies(Lonewolfbackend bundle-deps)
 
 qt5_use_modules(Lonewolfbackend Gui Qml Quick XmlPatterns)
 
-# Copy qmldir file to build dir for running in QtCreator
-add_custom_target(Lonewolfbackend-qmldir ALL
-    COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/modules/Lonewolf/qmldir ${CMAKE_CURRENT_BINARY_DIR}/Lonewolf
-    DEPENDS ${QMLFILES}
+# Install plugin file
+
+execute_process(
+    COMMAND dpkg-architecture -qDEB_HOST_MULTIARCH
+    OUTPUT_VARIABLE ARCH_TRIPLET
+    OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-# Install plugin file
-install(TARGETS Lonewolfbackend DESTINATION ${QT_IMPORTS_DIR}/Lonewolf/)
-install(FILES   modules/Lonewolf/qmldir DESTINATION ${QT_IMPORTS_DIR}/Lonewolf/)
-
+install(TARGETS Lonewolfbackend DESTINATION lib/${ARCH_TRIPLET}/Lonewolf/)
+install(FILES qmldir DESTINATION lib/${ARCH_TRIPLET}/Lonewolf/)

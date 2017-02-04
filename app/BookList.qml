@@ -7,7 +7,6 @@ Item {
     property var model
     property string title
     property string description
-    property var product: null
     property bool buying
     signal startBook(string book)
 
@@ -31,15 +30,6 @@ Item {
                 anchors.right: parent.right //buyButton.left
                 verticalAlignment: Text.AlignBottom
             }
-            /*Button {
-                id: buyButton
-                visible: root.product && !root.product.bought
-                enabled: !root.buying
-                text: "$2.99"
-                color: theme.palette.normal.positive
-                anchors.right: parent.right
-                anchors.top: parent.top
-            }*/
         }
         Label {
             text: root.description
@@ -56,13 +46,11 @@ Item {
             Repeater {
                 model: root.model
                 delegate: Button {
-                    iconName: (root.product && !root.product.bought) ? "locked" : ""
-                    text: (root.product && !root.product.bought) ? "" : index + 1
+                    text: index + 1
                     onClicked: root.startBook(book)
                     width: buttonFlow.buttonWidth
                     height: width
                     color: "#203432"
-                    //enabled: !root.product || root.product.bought
                 }
             }
         }

@@ -1,11 +1,11 @@
-#ifndef DOWNLOADER_H
-#define DOWNLOADER_H
+#pragma once
 
-#include <QDir>
 #include <QNetworkAccessManager>
-#include <QNetworkReply>
 #include <QObject>
 #include <QUrl>
+#include <QVector>
+
+class QNetworkReply;
 
 class Downloader : public QObject
 {
@@ -31,7 +31,6 @@ Q_SIGNALS:
     void cacheDirChanged();
 
 protected Q_SLOTS:
-    void fileProgress(qint64 bytes, qint64 total);
     void fileFinished();
 
 protected:
@@ -40,8 +39,6 @@ protected:
     class FileData {
     public:
         QNetworkReply *reply;
-        qint64 received;
-        qint64 total;
     };
 
     QString m_cacheDir;
@@ -49,5 +46,3 @@ protected:
     QVector<FileData> m_replies;
     QNetworkAccessManager m_manager;
 };
-
-#endif // DOWNLOADER_H

@@ -5,7 +5,6 @@
 #include "book.h"
 #include "util.h"
 
-
 static QObject *utilInstance(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine);

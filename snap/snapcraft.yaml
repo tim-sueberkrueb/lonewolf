@@ -1,0 +1,39 @@
+# -*- Mode: yaml; indent-tabs-mode: nil; tab-width: 2 -*-
+
+name: lonewolf
+version: 19
+summary: A role-playing choose-your-own-adventure game
+description: |
+  You are the sole survivor of a devastating attack on the monastery where you were learning the skills of the Kai Lords. You swear vengeance on the Darklords for the massacre of the Kai warriors, and with a sudden flash of insight you know what you must do. You must set off on a perilous journey to the capital city to warn the King of the terrible threat that faces his people: For you are now the last of the Kai. You are now Lone Wolf.
+  
+  Lone Wolf is a role-playing book series from the 80s. This app lets you play the old adventures on your device.
+  
+  Code: https://gitlab.com/mikix/lonewolf
+  Books: https://www.projectaon.org/
+grade: stable
+confinement: strict
+
+plugs:
+  browser-support:
+  mir:
+  network:
+  platform:
+    interface: content
+    content: ubuntu-app-platform1
+    default-provider: ubuntu-app-platform
+    target: ubuntu-app-platform
+  unity7:
+
+parts:
+  lonewolf:
+    after: [desktop-ubuntu-app-platform]
+    plugin: cmake
+    source: .
+    build-packages:
+      - libxml2-dev
+    build-attributes:
+      - no-system-libraries
+
+apps:
+  lonewolf:
+    command: env OXIDE_NO_SANDBOX=1 desktop-launch qmlscene "$SNAP/Main.qml"

@@ -1,6 +1,8 @@
 #include "downloader.h"
 
 #include <math.h>
+#include <QFile>
+#include <QNetworkReply>
 #include <QNetworkRequest>
 
 Downloader::Downloader(QObject *parent) :
@@ -24,8 +26,9 @@ void Downloader::cancel()
 {
     for (int i = 0; i < m_replies.length(); i++) {
         FileData &data = m_replies[i];
-        if (data.reply)
+        if (data.reply) {
             data.reply->deleteLater();
+        }
     }
     m_replies.clear();
     m_progress = 0;
@@ -40,25 +43,15 @@ void Downloader::setDone()
 
 void Downloader::addFile(const QUrl &url)
 {
+    // We don't use QNetworkAccessManager because that tries to access
+    // NetworkManager, which confinement doesn't allow.  We don't use the
+    // ubuntu-download-manager service because there is no current snap for
+    // it, at the time fo this writing.
+
     Downloader::FileData data;
     data.reply = m_manager.get(QNetworkRequest(url));
-    data.received = 0;
-    data.total = 0;
     m_replies.append(data);
-    connect(data.reply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(fileProgress(qint64, qint64)));
     connect(data.reply, SIGNAL(finished()), this, SLOT(fileFinished()));
-    calculateProgress();
-}
-
-void Downloader::fileProgress(qint64 bytes, qint64 total)
-{
-    for (int i = 0; i < m_replies.length(); i++) {
-        FileData &data = m_replies[i];
-        if (data.reply == sender()) {
-            data.received = bytes;
-            data.total = total;
-        }
-    }
     calculateProgress();
 }
 
@@ -75,7 +68,6 @@ void Downloader::fileFinished()
 
             data.reply->deleteLater();
             data.reply = 0;
-            data.received = data.total;
         }
     }
     calculateProgress();

@@ -1,5 +1,4 @@
-#ifndef UTIL_H
-#define UTIL_H
+#pragma once
 
 #include <QObject>
 
@@ -15,6 +14,3 @@ public:
     Q_INVOKABLE int getDamageToEnemy(int delta, int rand);
     Q_INVOKABLE int getDamageToYou(int delta, int rand);
 };
-
-#endif // UTIL_H
-

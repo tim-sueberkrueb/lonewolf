@@ -1,8 +1,7 @@
-#ifndef BACKEND_PLUGIN_H
-#define BACKEND_PLUGIN_H
+#pragma once
 
-#include <QtQml/QQmlEngine>
-#include <QtQml/QQmlExtensionPlugin>
+#include <QQmlEngine>
+#include <QQmlExtensionPlugin>
 
 class BackendPlugin : public QQmlExtensionPlugin
 {
@@ -13,7 +12,3 @@ public:
     void registerTypes(const char *uri);
     void initializeEngine(QQmlEngine *engine, const char *uri);
 };
-
-#endif // BACKEND_PLUGIN_H
-
-

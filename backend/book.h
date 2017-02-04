@@ -1,5 +1,4 @@
-#ifndef BOOK_H
-#define BOOK_H
+#pragma once
 
 #include <libxml/tree.h>
 #include <QColor>
@@ -98,6 +97,3 @@ protected:
     QColor m_linkColor;
     Downloader m_downloader;
 };
-
-#endif // BOOK_H
-

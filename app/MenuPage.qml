@@ -44,7 +44,7 @@ Page {
             Label {
                 text: "<p>Lone Wolf is a role-playing book series from the 80s.</p><br>" +
                       "<p>This app lets you play the old adventures, but the text is not updated.  It may refer to things like pencils that assume you are playing with an actual book.  And it relies on the honor system a bit.  Just roll with it.</p><br>" +
-                      "<p>If you have any rules questions or encounter an ambiguity, try the <a href='http://www.projectaon.org/en/ReadersHandbook/Home'>Reader's Handbook</a>.</p>"
+                      "<p>If you have any rules questions or encounter an ambiguity, try the <a href='https://www.projectaon.org/en/ReadersHandbook/Home'>Reader's Handbook</a>.</p>"
                 linkColor: Theme.palette.selected.backgroundText
                 onLinkActivated: Qt.openUrlExternally(link)
                 wrapMode: Text.Wrap
@@ -127,7 +127,6 @@ Page {
                 description: "Save the realm from the Darklords by collecting the Lorestones of Varetta."
                 onStartBook: root.startBook(book, "")
                 width: parent.width
-                //product: magnakaiProduct
             }
             Item {
                 height: 1
@@ -139,7 +138,6 @@ Page {
                 description: "Save the world from the Dark God Naar and his minions."
                 onStartBook: root.startBook(book, "")
                 width: parent.width
-                //product: grandmasterProduct
             }
             Item {
                 height: 1
@@ -151,7 +149,6 @@ Page {
                 description: "Continue thwarting the forces of evil as one of Lone Wolf's disciples."
                 onStartBook: root.startBook(book, "")
                 width: parent.width
-                //product: neworderProduct
             }
             Item {
                 height: 1
