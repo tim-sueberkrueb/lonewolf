@@ -36,6 +36,8 @@ parts:
       - qtdeclarative5-dev
     build-attributes:
       - no-system-libraries
+    install: |
+      mkdir -p $SNAPCRAFT_PART_INSTALL/ubuntu-app-platform
 
 apps:
   lonewolf:
