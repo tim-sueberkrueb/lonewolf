@@ -30,6 +30,7 @@ parts:
     plugin: cmake
     source: .
     build-packages:
+      - libqt5xmlpatterns5-dev
       - libxml2-dev
       - qtdeclarative5-dev
     build-attributes:
