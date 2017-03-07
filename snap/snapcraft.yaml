@@ -47,6 +47,4 @@ parts:
 
 apps:
   lonewolf:
-    command: desktop-launch qmlscene "$SNAP/Main.qml"
-    environment:
-      OXIDE_NO_SANDBOX: 1
+    command: env OXIDE_NO_SANDBOX=1 desktop-launch qmlscene "$SNAP/Main.qml"
