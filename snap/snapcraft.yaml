@@ -28,6 +28,7 @@ plugs:
     default-provider: ubuntu-app-platform
     target: ubuntu-app-platform
   unity7:
+  unity8:
 
 parts:
   lonewolf:
