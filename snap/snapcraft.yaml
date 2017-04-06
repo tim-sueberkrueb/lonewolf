@@ -38,6 +38,14 @@ parts:
       - no-system-libraries
     install: |
       mkdir -p $SNAPCRAFT_PART_INSTALL/ubuntu-app-platform
+  # Guh, u-a-p no longer ships mirclient, and we don't want to bother depending
+  # on mir-libs.  Especially since we don't even declare we are mir-capable.
+  mir:
+    plugin: nil
+    stage-packages:
+      - libmirclient9
+    prime:
+      - usr/lib/*/libmir*
 
 apps:
   lonewolf:
