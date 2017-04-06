@@ -15,12 +15,6 @@ confinement: strict
 
 plugs:
   browser-support:
-  mir:
-  mir-libs:
-    interface: content
-    content: mir0
-    default-provider: mir-libs
-    target: mir-libs
   network:
   platform:
     interface: content
@@ -28,6 +22,7 @@ plugs:
     default-provider: ubuntu-app-platform
     target: ubuntu-app-platform
   unity7:
+  x11:
 
 parts:
   lonewolf:
@@ -42,7 +37,6 @@ parts:
     build-attributes:
       - no-system-libraries
     install: |
-      mkdir -p $SNAPCRAFT_PART_INSTALL/mir-libs
       mkdir -p $SNAPCRAFT_PART_INSTALL/ubuntu-app-platform
 
 apps:
