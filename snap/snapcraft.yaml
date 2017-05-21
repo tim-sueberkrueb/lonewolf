@@ -16,17 +16,12 @@ confinement: strict
 plugs:
   browser-support:
   network:
-  platform:
-    interface: content
-    content: ubuntu-app-platform1
-    default-provider: ubuntu-app-platform
-    target: ubuntu-app-platform
   unity7:
   x11:
 
 parts:
   lonewolf:
-    after: [desktop-ubuntu-app-platform]
+    after: [desktop-qt5]
     plugin: cmake
     source: .
     build-packages:
@@ -34,18 +29,13 @@ parts:
       - libxml2-dev
       - pkg-config
       - qtdeclarative5-dev
-    build-attributes:
-      - no-system-libraries
-    install: |
-      mkdir -p $SNAPCRAFT_PART_INSTALL/ubuntu-app-platform
-  # Guh, u-a-p no longer ships mirclient, and we don't want to bother depending
-  # on mir-libs.  Especially since we don't even declare we are mir-capable.
-  mir:
+  runtime:
     plugin: nil
     stage-packages:
-      - libmirclient9
-    prime:
-      - usr/lib/*/libmir*
+      - qmlscene
+      - qml-module-qt-labs-settings
+      - qml-module-ubuntu-components
+      - qml-module-ubuntu-web
 
 apps:
   lonewolf:
