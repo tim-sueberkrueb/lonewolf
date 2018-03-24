@@ -27,7 +27,7 @@ set(QT_IMPORTS_DIR "lib/${ARCH_TRIPLET}")
 option(INSTALL_TESTS "Install the tests on make install" on)
 
 set(APP_NAME          "Lone Wolf")
-set(APP_ID            "lonewolf.mterry")
+set(APP_ID            "lonewolf.timsueberkrueb")
 set(LONEWOLF_DIR "share/qml/lonewolf")
 set(MAIN_QML          "Main.qml")
 set(ICON              "graphics/lonewolf.png")
