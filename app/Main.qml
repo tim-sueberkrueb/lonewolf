@@ -1,5 +1,4 @@
 import QtQuick 2.4
-import QtPurchasing 1.0
 import Qt.labs.settings 1.0
 import Ubuntu.Components 1.3
 import Lonewolf 1.0
@@ -21,34 +20,7 @@ MainView {
         }
     }
 
-    Store {
-        id: store
-        Product {
-            id: donationProduct
-            identifier: "donation"
-            type: Product.Unlockable
-
-            property bool purchasing: false
-
-            onPurchaseSucceeded: {
-                settings.donated = true;
-                transaction.finalize();
-                purchasing = false;
-            }
-
-            onPurchaseFailed: {
-                transaction.finalize();
-                purchasing = false;
-            }
-
-            onPurchaseRestored: {
-                settings.donated = true;
-                transaction.finalize();
-            }
-        }
-    }
-
-    property bool nightModeEnabled: settings.donated && settings.nightMode
+    property bool nightModeEnabled: settings.nightMode
 
     Binding {
         target: Theme
@@ -58,28 +30,14 @@ MainView {
 
     property string nightModeIcon: nightModeEnabled ? "display-brightness-symbolic" : "night-mode"
     property string nightModeText: nightModeEnabled ? "Day Mode" : "Night Mode"
-    function triggerNightMode(page)
-    {
-        if (settings.donated) {
-            settings.nightMode = !settings.nightMode;
-        } else {
-            pageLayout.addPageToCurrentColumn(page, donateComponent);
-        }
-    }
 
-    property bool donatePageShowing: false
-    Component {
-        id: donateComponent
-        DonatePage {
-            Component.onCompleted: donatePageShowing = true
-            Component.onDestruction: donatePageShowing = false
-        }
+    function triggerNightMode(page) {
+        settings.nightMode = !settings.nightMode;
     }
 
     Settings {
         id: settings
         property bool nightMode
-        property bool donated
     }
 
     GameState {
@@ -92,7 +50,7 @@ MainView {
         id: gameState
     }
 
-    property bool twoColumnView: width > units.gu(80) && !menuPage.visible && !donatePageShowing
+    property bool twoColumnView: width > units.gu(80) && !menuPage.visible
 
     function goToBookTab()
     {
