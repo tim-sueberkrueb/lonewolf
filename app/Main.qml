@@ -6,7 +6,7 @@ import Lonewolf 1.0
 MainView {
     id: mainView
     objectName: "mainView"
-    applicationName: "lonewolf.mterry"
+    applicationName: "lonewolf.timsueberkrueb"
     automaticOrientation: true
     anchorToKeyboard: true
     focus: true
