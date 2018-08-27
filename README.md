@@ -1,9 +1,9 @@
 # Lone Wolf
 
 [![License](https://img.shields.io/badge/license-GPLv3.0-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
-[![GitHub release](https://img.shields.io/github/release/tim-sueberkrueb/lonewolf.svg)](https://github.com/tim-sueberkrueb/lonewolf/releases)
-[![GitHub issues](https://img.shields.io/github/issues/tim-sueberkrueb/lonewolf.svg)](https://github.com/tim-sueberkrueb/lonewolf/issues)
-[![Maintained](https://img.shields.io/maintenance/yes/2018.svg)](https://github.com/tim-sueberkrueb/lonewolf/commits/develop)
+[![GitHub release](https://img.shields.io/github/release/timsueberkrueb/lonewolf.svg)](https://github.com/timsueberkrueb/lonewolf/releases)
+[![GitHub issues](https://img.shields.io/github/issues/timsueberkrueb/lonewolf.svg)](https://github.com/timsueberkrueb/lonewolf/issues)
+[![Maintained](https://img.shields.io/maintenance/yes/2018.svg)](https://github.com/timsueberkrueb/lonewolf/commits/develop)
 
 Lone Wolf is a role-playing book series from the 80s.
 
